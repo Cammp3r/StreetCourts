@@ -1,25 +1,10 @@
 import React from 'react';
 import './App.css';
 import { useState, useEffect } from 'react';
-import { randomNumberGenerator, runIteratorWithTimeout } from './utils/generators.js';
 
 
 function App() {
- const [peopleCount, setPeopleCount] = useState(12); // Твоя частина
-
-  useEffect(() => {
-    // Створюємо екземпляр генератора
-    const numGen = randomNumberGenerator();
-    // Запускаємо на 60 секунд, оновлюємо кожні 2 секунди
-    const stopNum = runIteratorWithTimeout(numGen, 60, (val) => {
-      setPeopleCount(val);
-    }, 2000);
-
-
-    return () => {
-      stopNum();
-    };
-  }, []);
+ 
 
   return (
     <div className="app">
@@ -57,9 +42,8 @@ function App() {
                 <div className="court-address">вул. Політехнічна, 14</div>
                 {/* Індикатор завантаженості */}
                 <div className="live-indicator">
-                  {/* Логіка: якщо більше 15 людей - точка червона, інакше зелена */}
-                  <span className={`dot ${peopleCount > 15 ? 'busy' : 'free'}`}></span>
-                  Зараз: {peopleCount} людей ({peopleCount > 15 ? 'Тісно' : 'Вільно'})
+                  <span className="dot free"></span>
+                  Зараз: Вільне поле
                 </div>
               </div>
             </div>
