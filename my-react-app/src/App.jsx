@@ -1,14 +1,31 @@
 import React from 'react';
 import './App.css';
 import { useState, useEffect } from 'react';
-
+import { arrayCycler, runEngine } from './utils/generators';
 
 function App() {
- 
+ const [activeUser, setActiveUser] = useState('Завантаження...');
+const [borderColor, setBorderColor] = useState('#333');
+
+useEffect(() => {
+  // 1. ГЕНЕРАТОР ІМЕН
+  const realDBUsers = ['Макс', 'Олег', 'Андрій', 'Саша']; 
+  const nameGen = arrayCycler(realDBUsers);
+
+  //Зробити ефект пульсації кольору рамки (UI Effect)
+
+  // 3. ЗАПУСК (Iterator with Timeout/Interval)
+  const stopNames = runEngine(nameGen, setActiveUser, 2000); // Міняємо ім'я кожні 2 сек
+
+  return () => {
+    stopNames();
+  };
+}, []);
 
   return (
+    
     <div className="app">
-      {/* --- 1. Навігація --- */}
+      {/* --- Навігація --- */}
       <nav className="navbar">
         <div className="logo">StreetCourts</div>
         <div className="nav-menu">
@@ -16,8 +33,13 @@ function App() {
           <a href="#">Мій профіль</a>
         </div>
       </nav>
+    {/*live рамка тих хто чекіниться*/}
+      <div style={{ border: `2px solid ${borderColor}`, padding: '10px', borderRadius: '8px', transition: '0.5s' }}>
+        <p style={{ color: '#aaa', fontSize: '12px' }}>Останній чекін:</p>
+        <h3 style={{ margin: 0 }}>🏀 {activeUser}</h3>
+      </div>
 
-      {/* --- 2. Головний контейнер --- */}
+      {/* --- Головний контейнер --- */}
       <div className="main-container">
         
         {/* --- A. Лівий сайдбар (Список) --- */}
@@ -66,20 +88,21 @@ function App() {
 
         {/* --- B. Права частина (Карта) --- */}
         <div className="map-container">
-          {/* Фейкові маркери, розставлені абсолютно на фоні-карті */}
+          {/* Маркери, розставлені абсолютно на фоні-карті */}
           <div className="map-marker marker-basket">🏀</div>
           <div className="map-marker marker-foot">⚽</div>
 
-          {/* --- C. Детальна панель вибраного майданчика (Overlay) --- */}
+          {/* --- Детальна панель вибраного майданчика (Overlay) --- */}
           {/* Ця панель з'являється поверх карти, коли вибрано майданчик */}
           <div className="court-detail-panel">
+            
             <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=500&q=80" alt="Detail" className="detail-header-img" />
             
             <div className="detail-content">
               <h1>Поляна КПІ</h1>
               <p style={{color: 'var(--text-secondary)', marginBottom: '20px'}}>🏀 Вуличний баскетбол • Асфальт • Є освітлення</p>
 
-              {/* ГОЛОВНА ФІШКА: Віджет часу і людей */}
+              {/* Віджет часу і людей */}
               <div className="checkin-widget">
                 <div className="widget-title">
                   <span>Планування гри</span>
