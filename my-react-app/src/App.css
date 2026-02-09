@@ -1,42 +1,306 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* --- Глобальні змінні та скидання стилів --- */
+:root {
+  --bg-main: #121212; /* Основний фон */
+  --bg-secondary: #1e1e1e; /* Фон карток і сайдбарів */
+  --bg-tertiary: #2c2c2c; /* Фон полів вводу */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --accent-orange: #ff6b00; /* Баскет */
+  --accent-green: #00d26a; /* Футбол */
+  --accent-yellow: #ffd300; /* Волейбол */
+  --accent-blue: #3b82f6; /* Інтерфейсні елементи */
+  --danger: #ef4444;
+  --success: #22c55e;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+/* Вантажимо шрифт */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* --- Компоненти інтерфейсу --- */
+
+/* 1. Навігація (Navbar) */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--accent-orange), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-menu a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  margin-left: 2rem;
+  font-weight: 600;
+  transition: color 0.2s;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav-menu a:hover, .nav-menu a.active {
+  color: var(--text-primary);
 }
 
-.card {
-  padding: 2em;
+/* 2. Головний контейнер */
+.main-container {
+  display: flex;
+  height: calc(100vh - 65px); /* Висота екрану мінус навбар */
+  overflow: hidden;
 }
 
-.read-the-docs {
-  color: #888;
+/* 3. Сайдбар зі списком (Ліва частина) */
+.sidebar {
+  width: 400px;
+  background-color: var(--bg-secondary);
+  overflow-y: auto;
+  border-right: 1px solid #333;
+  display: flex;
+  flex-direction: column;
 }
+
+.sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+/* Фільтри */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #444;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.filter-btn.active-basketball { background: var(--accent-orange); color: black; border:none;}
+.filter-btn.active-football { background: var(--accent-green); color: black; border:none;}
+
+/* Список карток у сайдбарі */
+.courts-list {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.court-card-mini {
+  display: flex;
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+  border: 1px solid transparent;
+}
+
+.court-card-mini:hover {
+  border-color: var(--text-secondary);
+  transform: translateX(5px);
+}
+
+.court-card-mini.selected {
+  border-color: var(--accent-orange); /* Приклад для баскетболу */
+}
+
+.mini-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.mini-info {
+  padding: 12px;
+  flex-grow: 1;
+}
+
+.court-type-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: inline-block;
+}
+.badge-basket { color: var(--accent-orange); }
+.badge-foot { color: var(--accent-green); }
+
+.court-name { font-weight: 700; margin-bottom: 4px; }
+.court-address { font-size: 0.85rem; color: var(--text-secondary); }
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px;}
+.dot.busy { background-color: var(--danger); box-shadow: 0 0 8px var(--danger);}
+.dot.medium { background-color: var(--accent-yellow); }
+.dot.free { background-color: var(--success); }
+
+
+/* 4. Карта (Права частина) */
+.map-container {
+  flex-grow: 1;
+  position: relative;
+  background-color: #1a1a1a; /* Заглушка кольору карти */
+  background-image: url('https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/14/9737/5985.png'); /* Приклад темної карти */
+  background-size: cover;
+  background-position: center;
+}
+
+/* Фейкові маркери на карті */
+.map-marker {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border: 3px solid var(--bg-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.map-marker:hover { transform: scale(1.2); }
+.marker-basket { background-color: var(--accent-orange); top: 40%; left: 50%; }
+.marker-foot { background-color: var(--accent-green); top: 60%; left: 30%; }
+
+/* 5. Overlay */
+.court-detail-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 380px;
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  overflow: hidden;
+  border: 1px solid #333;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.detail-header-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.detail-content {
+  padding: 20px;
+}
+
+/* Віджет "Хто грає" */
+.checkin-widget {
+  background-color: var(--bg-tertiary);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  border: 1px solid #333;
+}
+
+.widget-title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.status-bar-large {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+  border-radius: 8px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.time-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.time-chip {
+  padding: 8px 12px;
+  background-color: var(--bg-main);
+  border-radius: 8px;
+  border: 1px solid #444;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.time-chip.selected {
+  border-color: var(--accent-blue);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.btn-checkin {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--accent-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Секція відгуків */
+.reviews-section {
+  margin-top: 30px;
+}
+.review-card {
+  background-color: var(--bg-tertiary);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.stars { color: var(--accent-yellow); }
+.review-text { font-size: 0.9rem; color: var(--text-secondary); }
