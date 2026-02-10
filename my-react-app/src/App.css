@@ -1,14 +1,16 @@
-/* --- Глобальні змінні та скидання стилів --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+/* глобальні змінні та скидання стилів */
 :root {
-  --bg-main: #121212; /* Основний фон */
-  --bg-secondary: #1e1e1e; /* Фон карток і сайдбарів */
-  --bg-tertiary: #2c2c2c; /* Фон полів вводу */
+  --bg-main: #121212; /* основний фон */
+  --bg-secondary: #1e1e1e; /* фон карток і сайдбарів */
+  --bg-tertiary: #2c2c2c; /* фон полів вводу */
   --text-primary: #ffffff;
   --text-secondary: #a0a0a0;
-  --accent-orange: #ff6b00; /* Баскет */
-  --accent-green: #00d26a; /* Футбол */
-  --accent-yellow: #ffd300; /* Волейбол */
-  --accent-blue: #3b82f6; /* Інтерфейсні елементи */
+  --accent-orange: #ff6b00; /* баскет */
+  --accent-green: #00d26a; /* футбол */
+  --accent-yellow: #ffd300; /* волейбол */
+  --accent-blue: #3b82f6; /* інтерфейсні елементи */
   --danger: #ef4444;
   --success: #22c55e;
 }
@@ -26,12 +28,9 @@ body {
   line-height: 1.5;
 }
 
-/* Вантажимо шрифт */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+/* компоненти інтерфейсу */
 
-/* --- Компоненти інтерфейсу --- */
-
-/* 1. Навігація (Navbar) */
+/* навігація */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -65,14 +64,14 @@ body {
   color: var(--text-primary);
 }
 
-/* 2. Головний контейнер */
+/* головний контейнер */
 .main-container {
   display: flex;
-  height: calc(100vh - 65px); /* Висота екрану мінус навбар */
+  height: calc(100vh - 65px); /* висота екрану мінус навбар */
   overflow: hidden;
 }
 
-/* 3. Сайдбар зі списком (Ліва частина) */
+/* сайдбар зі списком */
 .sidebar {
   width: 400px;
   background-color: var(--bg-secondary);
@@ -87,7 +86,7 @@ body {
   border-bottom: 1px solid #333;
 }
 
-/* Фільтри */
+/* фільтри */
 .filters {
   display: flex;
   gap: 10px;
@@ -108,7 +107,7 @@ body {
 .filter-btn.active-basketball { background: var(--accent-orange); color: black; border:none;}
 .filter-btn.active-football { background: var(--accent-green); color: black; border:none;}
 
-/* Список карток у сайдбарі */
+/* список карток у сайдбарі */
 .courts-list {
   padding: 1rem;
   flex-grow: 1;
@@ -131,7 +130,7 @@ body {
 }
 
 .court-card-mini.selected {
-  border-color: var(--accent-orange); /* Приклад для баскетболу */
+  border-color: var(--accent-orange); /* приклад для баскетболу */
 }
 
 .mini-img {
@@ -171,17 +170,17 @@ body {
 .dot.free { background-color: var(--success); }
 
 
-/* 4. Карта (Права частина) */
+/* карта */
 .map-container {
   flex-grow: 1;
   position: relative;
-  background-color: #1a1a1a; /* Заглушка кольору карти */
-  background-image: url('https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/14/9737/5985.png'); /* Приклад темної карти */
+  background-color: #1a1a1a; /* заглушка кольору карти */
+  background-image: url('https://cartodb-basemaps-a.global.ssl.fastly.net/dark_all/14/9737/5985.png'); /* приклад темної карти */
   background-size: cover;
   background-position: center;
 }
 
-/* Фейкові маркери на карті */
+/* фейкові маркери на карті */
 .map-marker {
   position: absolute;
   width: 40px;
@@ -200,7 +199,7 @@ body {
 .marker-basket { background-color: var(--accent-orange); top: 40%; left: 50%; }
 .marker-foot { background-color: var(--accent-green); top: 60%; left: 30%; }
 
-/* 5. Overlay */
+/* overlay */
 .court-detail-panel {
   position: absolute;
   top: 20px;
@@ -225,7 +224,7 @@ body {
   padding: 20px;
 }
 
-/* Віджет "Хто грає" */
+/* віджет хто грає */
 .checkin-widget {
   background-color: var(--bg-tertiary);
   padding: 20px;
@@ -286,7 +285,7 @@ body {
   cursor: pointer;
 }
 
-/* Секція відгуків */
+/* секція відгуків */
 .reviews-section {
   margin-top: 30px;
 }
