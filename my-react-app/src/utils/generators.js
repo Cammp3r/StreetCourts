@@ -1,4 +1,4 @@
-// Для стрічки імен (Прийматиме реальний масив з БД пізніше)
+// для стрічки імен, прийматиме реальний масив з бд пізніше
 export function* arrayCycler(array) {
   let index = 0;
   while (true) {
@@ -7,9 +7,9 @@ export function* arrayCycler(array) {
   }
 }
 
-// Зробити генератор кольорів для рамки
+// зробити генератор кольорів для рамки
 
-//Тайм-аут функція (двигун)
+// тайм аут функція двигун
 export function runEngine(iterator, callback, interval) {
   const timer = setInterval(() => {
     const next = iterator.next();
