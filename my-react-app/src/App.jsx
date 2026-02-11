@@ -1,7 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { arrayCycler, runEngine } from './utils/generators';
-
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
@@ -10,8 +9,8 @@ import { MapView } from './components/MapView';
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
 
 function App() {
- const [activeUser, setActiveUser] = useState('Завантаження...');
-const [borderColor, setBorderColor] = useState('#333');
+const [activeUser, setActiveUser] = useState('Завантаження...');
+const borderColor = useState('#333');
 
 useEffect(() => {
   // генератор імен
@@ -19,11 +18,10 @@ useEffect(() => {
 
   // зробити ефект пульсації кольору рамки
 
-  // запуск
-  const stopNames = runEngine(nameGen, setActiveUser, 2000); // міняємо ім'я кожні 2 сек
+  const names = runEngine(nameGen, setActiveUser, 2000); // міняємо ім'я кожні 2 сек
 
   return () => {
-    stopNames();
+    names();
   };
 }, []);
 
