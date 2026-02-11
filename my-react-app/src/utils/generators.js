@@ -1,9 +1,9 @@
 // для стрічки імен, прийматиме реальний масив з бд пізніше
 export function* arrayCycler(array) {
-  let index = 0;
+  let i = 0;
   while (true) {
-    yield array[index % array.length];
-    index++;
+    yield array[i % array.length];
+    i++;
   }
 }
 
@@ -15,5 +15,6 @@ export function runEngine(iterator, callback, interval) {
     const next = iterator.next();
     callback(next.value);
   }, interval);
+  
   return () => clearInterval(timer);
 }
