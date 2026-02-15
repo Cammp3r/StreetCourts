@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { arrayCycler, runEngine } from './utils/generators';
+import { arrayCycler, colorCycle, runEngine } from './utils/generators';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
@@ -8,9 +8,18 @@ import { MapView } from './components/MapView';
 
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
 
-function App() {
-const [activeUser, setActiveUser] = useState('Завантаження...');
-const borderColor = useState('#333');
+function App() { 
+const [borderColor, setBorderColor] = useState("#333");
+
+useEffect(() => {
+  const colorGen = colorCycle(["red", "green", "blue"]);
+  const stopColors = runEngine(colorGen, setBorderColor, 500 ); 
+
+  return () => {
+    stopColors(); // на всякий випадок очищаємо при анмаунті
+  };
+}, []);
+ const [activeUser, setActiveUser] = useState('Завантаження...');
 
 useEffect(() => {
   // генератор імен
