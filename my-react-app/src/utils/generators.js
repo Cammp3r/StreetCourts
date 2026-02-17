@@ -35,3 +35,44 @@ export function runEngine(iterator, callback, interval) {
 
   return () => clearInterval(timer);
 }
+///----------------------------------------------------------//
+export function* courtRecommender(courts) {
+  if (!Array.isArray(courts) || courts.length === 0) {
+   
+    while (true) {
+      yield null;
+    }
+  }
+
+  let index = 0;
+  while (true) {
+    yield courts[index % courts.length];
+    index += 1;
+  }
+}
+
+// 2) Timeout Iterator Function
+
+export function consumeIteratorWithTimeout(iterator, timeoutSec, onValue, intervalMs = 1000) {
+  const startTime = Date.now();
+
+  const timer = setInterval(() => {
+    const elapsedMs = Date.now() - startTime;
+    if (elapsedMs >= timeoutSec * 1000) {
+      clearInterval(timer);
+      return;
+    }
+
+    const { value, done } = iterator.next();
+    if (done) {
+      clearInterval(timer);
+      return;
+    }
+
+    if (typeof onValue === 'function') {
+      onValue(value);
+    }
+  }, intervalMs);
+
+  return () => clearInterval(timer);
+}
