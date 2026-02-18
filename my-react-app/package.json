@@ -2,6 +2,8 @@
   "name": "my-react-app",
   "private": true,
   "version": "0.0.0",
+  "license": "MIT",
+  "author": "geoge",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,7 +15,8 @@
     "leaflet": "^1.9.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "streetcourts-lib": "file:../streetcourts-lib"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

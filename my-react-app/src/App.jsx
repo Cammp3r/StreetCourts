@@ -1,23 +1,28 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import { arrayCycler, colorCycle, runEngine, courtRecommender, consumeIteratorWithTimeout } from './utils/generators';
+import {
+  arrayCycler,
+  colorCycle,
+  runEngine,
+  courtRecommender,
+  consumeIteratorWithTimeout,
+} from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
-
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
 
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
-const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
+const [recommendedCourt, setRecommendedCourt] = useState(null);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
   const stopColors = runEngine(colorGen, setBorderColor, 500 ); 
 
   return () => {
-    stopColors(); // на всякий випадок очищаємо при анмаунті
+    stopColors();
   };
 }, []);
  const [activeUser, setActiveUser] = useState('Завантаження...');
@@ -32,6 +37,19 @@ useEffect(() => {
   return () => {
     names();
   };
+}, []);
+
+useEffect(() => {
+  // demo: показує використання consumeIteratorWithTimeout (без змін UI)
+  const demoGen = arrayCycler(['demo-A', 'demo-B', 'demo-C']);
+  const stop = consumeIteratorWithTimeout(
+    demoGen,
+    3,
+    (value) => console.log('[streetcourts-lib demo]', value),
+    500
+  );
+
+  return () => stop();
 }, []);
 
 
