@@ -2,11 +2,10 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import {
   arrayCycler,
-  colorCycle,
   runEngine,
-  courtRecommender,
-  consumeIteratorWithTimeout,
+
 } from 'streetcourts-lib';
+import { colorCycle, courtRecommender, consumeIteratorWithTimeout } from "./utils/generators";
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
@@ -39,6 +38,7 @@ useEffect(() => {
   };
 }, []);
 
+
 useEffect(() => {
   // demo: показує використання consumeIteratorWithTimeout (без змін UI)
   const demoGen = arrayCycler(['demo-A', 'demo-B', 'demo-C']);
@@ -54,6 +54,7 @@ useEffect(() => {
 
 
 useEffect(() => {
+  
   const courtsGen = courtRecommender(COURTS); // нескінченний генератор майданчиків
 
   // раз на 5 секунд беремо наступну площадку — без таймауту, працює постійно
@@ -69,6 +70,7 @@ useEffect(() => {
   return (
     
     <div className="app">
+    
       {/* навігація */}
       <Navbar />
 
