@@ -1,7 +1,7 @@
 {
   "name": "my-react-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.2.1",
   "license": "MIT",
   "author": "geoge",
   "type": "module",
@@ -11,11 +11,16 @@
     "lint": "eslint .",
     "preview": "vite preview"
   },
+  "bugs": {
+    "url": "https://github.com/Cammp3r/StreetCourts/issues"
+  },
+  "homepage": "https://github.com/Cammp3r/StreetCourts/tree/master/my-react-app#readme",
   "dependencies": {
     "leaflet": "^1.9.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-leaflet": "^5.0.0",
+    "react-router-dom": "^7.13.0",
     "streetcourts-lib": "file:../streetcourts-lib"
   },
   "devDependencies": {
