@@ -1,11 +1,11 @@
 // для стрічки імен, прийматиме реальний масив з бд пізніше
 
 // універсальний генератор, який циклічно перебирає будь-який масив (нескінченний генератор)
-export function* arrayCycler(array, step = 1) {
+export function* arrayCycler(array) {
   let i = 0;
   while (true) {
     yield array[i % array.length];
-    i += step;
+    i += 1;
   }
 }
 
