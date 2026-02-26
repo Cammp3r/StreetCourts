@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react';
 import {
   arrayCycler,
   runEngine,
+  colorCycle
 
 } from 'streetcourts-lib';
-import { colorCycle, courtRecommender, consumeIteratorWithTimeout } from "./utils/generators";
+import { courtRecommender } from "./utils/generators";
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
@@ -36,20 +37,6 @@ useEffect(() => {
   return () => {
     names();
   };
-}, []);
-
-
-useEffect(() => {
-  // demo: показує використання consumeIteratorWithTimeout (без змін UI)
-  const demoGen = arrayCycler(['demo-A', 'demo-B', 'demo-C']);
-  const stop = consumeIteratorWithTimeout(
-    demoGen,
-    3,
-    (value) => console.log('[streetcourts-lib demo]', value),
-    500
-  );
-
-  return () => stop();
 }, []);
 
 
