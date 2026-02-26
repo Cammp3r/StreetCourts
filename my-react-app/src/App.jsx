@@ -1,28 +1,23 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import {
-  arrayCycler,
-  runEngine,
-  colorCycle
-
-} from 'streetcourts-lib';
-import { courtRecommender } from "./utils/generators";
+import { arrayCycler, runEngine, colorCycle, courtRecommender } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
+
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
 
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
-const [recommendedCourt, setRecommendedCourt] = useState(null);
+const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
   const stopColors = runEngine(colorGen, setBorderColor, 500 ); 
 
   return () => {
-    stopColors();
+    stopColors(); // на всякий випадок очищаємо при анмаунті
   };
 }, []);
  const [activeUser, setActiveUser] = useState('Завантаження...');
@@ -41,7 +36,6 @@ useEffect(() => {
 
 
 useEffect(() => {
-  
   const courtsGen = courtRecommender(COURTS); // нескінченний генератор майданчиків
 
   // раз на 5 секунд беремо наступну площадку — без таймауту, працює постійно
@@ -50,14 +44,12 @@ useEffect(() => {
   }, 5000);
 
   return () => {
-    stopRecommend();
-  };
+    stopRecommend();  };
 }, []);
 
   return (
     
     <div className="app">
-    
       {/* навігація */}
       <Navbar />
 
