@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 export function CourtCardMini({ court }) {
   return (
-    <div className={`court-card-mini${court.selected ? ' selected' : ''}`}>
+    <Link to={`/courts/${court.id}`} className={`court-card-mini${court.selected ? ' selected' : ''}`}>
       <img src={court.image} alt="Court" className="mini-img" />
       <div className="mini-info">
         <span className={court.badgeClassName}>{court.typeLabel}</span>
@@ -11,6 +13,6 @@ export function CourtCardMini({ court }) {
           {court.statusText}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

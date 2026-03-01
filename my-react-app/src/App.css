@@ -130,6 +130,8 @@ body {
   cursor: pointer;
   transition: transform 0.2s, border-color 0.2s;
   border: 1px solid transparent;
+  text-decoration: none;
+  color: inherit;
 }
 
 .court-card-mini:hover {
@@ -256,6 +258,153 @@ body {
   border-radius: 12px;
   margin: 20px 0;
   border: 1px solid #333;
+}
+
+/* сторінка майданчика */
+.court-page {
+  padding: 1.5rem 2rem 0;
+}
+
+.court-page-inner {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.court-page-header {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.court-page-img {
+  width: 260px;
+  height: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid #333;
+}
+
+.court-page-header-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.court-page-type {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.25rem;
+}
+
+.court-page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.court-page-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+.court-page-status {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+}
+
+.court-comments-section {
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid #333;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.court-section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.court-comment-form {
+  margin-bottom: 1.25rem;
+}
+
+.court-comment-row {
+  margin-bottom: 0.75rem;
+}
+
+.court-input,
+.court-textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #444;
+  padding: 0.6rem 0.8rem;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.court-textarea {
+  resize: vertical;
+}
+
+.court-comment-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.court-submit-btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--accent-blue);
+  color: black;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.court-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.court-empty {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.court-comment-card {
+  background-color: var(--bg-tertiary);
+  border-radius: 12px;
+  border: 1px solid #333;
+  padding: 0.9rem 1rem;
+}
+
+.court-comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.court-comment-author {
+  font-weight: 600;
+}
+
+.court-comment-date {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.court-comment-text {
+  font-size: 0.95rem;
 }
 
 .widget-title {
