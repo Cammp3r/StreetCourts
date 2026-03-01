@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import { useMemo, useState, useEffect } from 'react';
+import { displayFriendsWithRotation } from '../utils/generators';
+import { FRIENDS } from '../data/mockData';
 
 
 const DEFAULT_USER = {
@@ -47,6 +49,8 @@ const DEFAULT_USER = {
 export function UserProfilePage({ user }) {
   const resolvedUser = useMemo(() => user ?? DEFAULT_USER, [user]);
 
+  const [currentFriend, setCurrentFriend] = useState(FRIENDS[0] || null);
+
   const initials = useMemo(() => {
     const parts = String(resolvedUser.name ?? '')
       .trim()
@@ -56,6 +60,21 @@ export function UserProfilePage({ user }) {
     const second = parts[1]?.[0] ?? '';
     return (first + second).toUpperCase();
   }, [resolvedUser.name]);
+
+  // запускаємо генератор для ротації друзів
+  useEffect(() => {
+    const stopRotation = displayFriendsWithRotation(
+      FRIENDS,
+      (friend) => {
+        setCurrentFriend(friend);
+      },
+      3000 // 3 секунди інтервал між друзями
+    );
+
+    return () => {
+      stopRotation(); // очищуємо таймер при розмонтуванні
+    };
+  }, []);
 
   return (
     <div className="app">
@@ -121,6 +140,28 @@ export function UserProfilePage({ user }) {
                   </article>
                 ))}
               </div>
+            </section>
+
+            <section className="profile-section">
+              <div className="profile-section-title">Друзі онлайн</div>
+
+              {currentFriend ? (
+                <div className="profile-cards">
+                  <article className="profile-card" key={currentFriend.id}>
+                    <div className="profile-card-row">
+                      <div>
+                        <div className="profile-card-title">
+                          {currentFriend.sport} {currentFriend.name}
+                        </div>
+                        <div className="profile-card-subtitle">{currentFriend.handle}</div>
+                        <div className="profile-card-text">{currentFriend.status}</div>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              ) : (
+                <p>Немає друзів онлайн</p>
+              )}
             </section>
 
             <section className="profile-section">
