@@ -16,8 +16,10 @@ export function Navbar() {
       </nav>
 
       <Routes>
+        <Route path="/" element={<></>} />
         <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/courts/:courtId" element={<CourtPage />} />
+        <Route path="*" element={<></>} />
       </Routes>
     </div>
   );
