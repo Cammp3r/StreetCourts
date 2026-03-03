@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
+import { isCommentLongEnough, memoize } from '../utils/commentValidation';
+
+const memoizedIsCommentLongEnough = memoize(isCommentLongEnough, { limit: 5 });
 
 function loadComments(courtId) {
   if (!courtId) return [];
@@ -57,7 +60,7 @@ export function CourtPage() {
     const trimmedText = text.trim();
     const trimmedAuthor = author.trim();
 
-    if (!trimmedText) return;
+    if (!memoizedIsCommentLongEnough(trimmedText)) return;
 
     const newComment = {
       id: Date.now(),
