@@ -1,16 +1,27 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { arrayCycler, runEngine, colorCycle, courtRecommender } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
-
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
+import { task4 } from './utils/biDirectionalPriorityQueue';
+
+
 
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
+const runTask4 = useRef(false);
+
+
+ useEffect(() => {
+    if (runTask4.current) return;
+    runTask4.current = true;
+
+    task4();
+  }, []);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
@@ -49,9 +60,12 @@ useEffect(() => {
 
   return (
     
+    
     <div className="app">
       {/* навігація */}
       <Navbar />
+
+      
 
       {/* live рамка тих хто чекіниться */}
       <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
