@@ -51,28 +51,4 @@ export function* courtRecommender(courts) {
   }
 }
 
-//-------------------------------------------
-// friendsRotator — циклює через список друзів нескінченно
-// корисно для ротаційного відображення друзів на сторінці профілю
-export function* friendsRotator(friends = []) {
-  if (!Array.isArray(friends) || friends.length === 0) {
-    while (true) {
-      yield null;
-    }
-  }
-  let index = 0;
-  while (true) {
-    yield friends[index % friends.length];
-    index += 1;
-  }
-}
 
-// friendsDisplay — комбінує генератор та runEngine для відображення друзів
-// friends      - масив об'єктів друзів
-// onFriendShow - callback, викликається для кожного друга
-// intervalMs   - інтервал у мс між друзями (за замовчуванням 3000 мс = 3 сек)
-// повертає функцію для зупинки анімації
-export function displayFriendsWithRotation(friends, onFriendShow, intervalMs = 3000) {
-  const friendsGen = friendsRotator(friends);
-  return runEngine(friendsGen, onFriendShow, intervalMs);
-}
