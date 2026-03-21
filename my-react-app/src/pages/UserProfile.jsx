@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { displayFriendsWithRotation } from '../utils/generators';
+import { displayFriendsWithRotation, friendsRotator } from 'streetcourts-lib';
 import { FRIENDS } from '../data/mockData';
 
 
