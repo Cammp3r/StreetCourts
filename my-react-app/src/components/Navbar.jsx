@@ -6,7 +6,7 @@ export function Navbar() {
   return (
     <div>
       <nav className="navbar">
-        <div className="logo">StreetCourts</div>
+        <div className="logo"><Link to="/">StreetCourts</Link></div>
         <div className="nav-menu">
           <Link to="/" className="active">
             Карта
