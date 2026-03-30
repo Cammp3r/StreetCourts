@@ -1,3 +1,5 @@
+import KYIV_COURTS_DB from './courts.kyiv.osm.json';
+
 export const REAL_DB_USERS = ['Макс', 'Олег', 'Андрій', 'Саша'];
 
 export const FRIENDS = [
@@ -44,30 +46,7 @@ export const FRIENDS = [
 ];
 
 export const COURTS = [
-  {
-    id: 'kpi',
-    typeLabel: 'Баскетбол',
-    badgeClassName: 'court-type-badge badge-basket',
-    name: 'Поляна КПІ',
-    address: 'вул. Політехнічна, 14',
-    image:
-      'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80',
-    statusDotClassName: 'dot free',
-    statusText: 'Зараз: Вільне поле',
-    selected: true,
-  },
-  {
-    id: 'xpark',
-    typeLabel: 'Футбол',
-    badgeClassName: 'court-type-badge badge-foot',
-    name: 'X-Park Arena',
-    address: 'Парк Муромець',
-    image:
-      'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=200&q=80',
-    statusDotClassName: 'dot free',
-    statusText: 'Зараз: Вільне поле',
-    selected: false,
-  },
+  ...(Array.isArray(KYIV_COURTS_DB?.courts) ? KYIV_COURTS_DB.courts : []),
 ];
 
 export const COURT_DETAIL = {
