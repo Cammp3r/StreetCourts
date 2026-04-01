@@ -2,6 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
 import { isCommentLongEnough, memoize } from '../utils/commentValidation';
+import {
+  getCourtImage,
+  getCourtStatusDotClassName,
+  getCourtStatusText,
+  getCourtTypeLabel,
+} from '../utils/courtPresentation';
 
 const memoizedIsCommentLongEnough = memoize(isCommentLongEnough, { limit: 5 });
 
@@ -37,6 +43,11 @@ export function CourtPage() {
   const [comments, setComments] = useState(() => loadComments(courtId));
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
+
+  const image = getCourtImage(court);
+  const typeLabel = getCourtTypeLabel(court);
+  const statusDotClassName = getCourtStatusDotClassName(court);
+  const statusText = getCourtStatusText(court);
 
   useEffect(() => {
     setComments(loadComments(courtId));
@@ -81,14 +92,14 @@ export function CourtPage() {
     <div className="court-page">
       <div className="court-page-inner">
         <header className="court-page-header">
-          <img src={court.image} alt={court.name} className="court-page-img" />
+          <img src={image} alt={court.name} className="court-page-img" />
           <div className="court-page-header-info">
-            <div className="court-page-type">{court.typeLabel}</div>
+            <div className="court-page-type">{typeLabel}</div>
             <h1 className="court-page-title">{court.name}</h1>
             <p className="court-page-subtitle">{court.address}</p>
             <div className="court-page-status">
-              <span className={court.statusDotClassName}></span>
-              <span>{court.statusText}</span>
+              <span className={statusDotClassName}></span>
+              <span>{statusText}</span>
             </div>
           </div>
         </header>
