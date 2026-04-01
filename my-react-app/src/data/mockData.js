@@ -45,9 +45,12 @@ export const FRIENDS = [
   },
 ];
 
-export const COURTS = [
-  ...(Array.isArray(KYIV_COURTS_DB?.courts) ? KYIV_COURTS_DB.courts : []),
-];
+const KYIV_RAW_COURTS = Array.isArray(KYIV_COURTS_DB?.courts) ? KYIV_COURTS_DB.courts : [];
+
+export const COURTS = KYIV_RAW_COURTS.map((court, index) => ({
+  ...court,
+  selected: typeof court?.selected === 'boolean' ? court.selected : index === 0,
+}));
 
 export const COURT_DETAIL = {
   title: 'Поляна КПІ',

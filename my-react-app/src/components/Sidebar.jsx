@@ -8,11 +8,11 @@ function filterCourtsBySport(courts, sport) {
   if (sport === 'all') return courts;
 
   if (sport === 'basketball') {
-    return courts.filter((court) => court.typeLabel === 'Баскетбол');
+    return courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
   }
 
   if (sport === 'football') {
-    return courts.filter((court) => court.typeLabel === 'Футбол');
+    return courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
   }
 
   // інші фільтри поки не реалізовані
