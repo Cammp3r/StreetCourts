@@ -1,16 +1,29 @@
 import { Link } from "react-router-dom";
+import {
+  getCourtBadgeClassName,
+  getCourtImage,
+  getCourtStatusDotClassName,
+  getCourtStatusText,
+  getCourtTypeLabel,
+} from "../utils/courtPresentation";
 
 export function CourtCardMini({ court }) {
+  const image = getCourtImage(court);
+  const typeLabel = getCourtTypeLabel(court);
+  const badgeClassName = getCourtBadgeClassName(court);
+  const statusDotClassName = getCourtStatusDotClassName(court);
+  const statusText = getCourtStatusText(court);
+
   return (
     <Link to={`/courts/${court.id}`} className={`court-card-mini${court.selected ? ' selected' : ''}`}>
-      <img src={court.image} alt="Court" className="mini-img" />
+      <img src={image} alt={court?.name || 'Court'} className="mini-img" />
       <div className="mini-info">
-        <span className={court.badgeClassName}>{court.typeLabel}</span>
+        <span className={badgeClassName}>{typeLabel}</span>
         <div className="court-name">{court.name}</div>
         <div className="court-address">{court.address}</div>
         <div className="live-indicator">
-          <span className={court.statusDotClassName}></span>
-          {court.statusText}
+          <span className={statusDotClassName}></span>
+          {statusText}
         </div>
       </div>
     </Link>

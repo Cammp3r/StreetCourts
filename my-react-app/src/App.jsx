@@ -7,6 +7,7 @@ import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
 import { task4 } from './utils/biDirectionalPriorityQueue';
+import { getCourtStatusText } from './utils/courtPresentation';
 
 
 
@@ -86,7 +87,7 @@ useEffect(() => {
           </div>
           <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{recommendedCourt.name}</div>
           <div style={{ fontSize: '13px', color: '#bbb' }}>{recommendedCourt.address}</div>
-          <div style={{ fontSize: '12px', marginTop: '4px', color: '#aaa' }}>{recommendedCourt.statusText}</div>
+          <div style={{ fontSize: '12px', marginTop: '4px', color: '#aaa' }}>{getCourtStatusText(recommendedCourt)}</div>
         </div>
       )}
 

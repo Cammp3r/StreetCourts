@@ -13,7 +13,7 @@ function RecenterOnPosition({ position, zoom }) {
   return null;
 }
 
-export function MapView({ detail }) {
+export function MapView() {
   const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); // Kyiv
   const [userPosition, setUserPosition] = useState(null);
 
