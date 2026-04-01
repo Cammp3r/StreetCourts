@@ -1,26 +1,5 @@
-#!/usr/bin/env node
-/*
-Fetch street basketball courts in Kyiv from OpenStreetMap via Overpass API.
-
-Why this source:
-- OpenStreetMap is free/open data and has good coverage for sports facilities.
-- Overpass API lets us query for objects tagged with sport=basketball.
-
-Usage:
-  node scripts/fetch-osm-basketball-courts-kyiv.mjs
-  node scripts/fetch-osm-basketball-courts-kyiv.mjs --out src/data/courts.kyiv.osm.json --limit 150
-  node scripts/fetch-osm-basketball-courts-kyiv.mjs --bbox "50.30,30.30,50.55,30.75" --out src/data/courts.kyiv.osm.json
-
-Output:
-- Writes a JSON file compatible with the app's `COURTS` model.
-
-License:
-- Data © OpenStreetMap contributors, ODbL 1.0
-*/
-
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import https from 'node:https';
 
 const KYIV_BBOX = {
   // south, west, north, east
@@ -36,15 +15,14 @@ const OVERPASS_ENDPOINTS = [
   'https://overpass.nchc.org.tw/api/interpreter',
 ];
 
-class HttpError extends Error {
-  constructor({ url, statusCode, body }) {
-    super(`HTTP ${statusCode} for ${url}${body ? `\n${body}` : ''}`);
-    this.name = 'HttpError';
-    this.url = url;
-    this.statusCode = statusCode;
-    this.body = body;
-  }
-}
+const DEFAULTS = {
+  typeLabel: 'Баскетбол',
+  badgeClassName: 'court-type-badge badge-basket',
+  image:
+    'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80',
+  statusDotClassName: 'dot free',
+  statusText: 'Зараз: Невідомо (OSM)',
+};
 
 function parseArgs(argv) {
   const args = {};
@@ -85,46 +63,10 @@ function buildUserAgent() {
   return 'StreetCourts/0.2 (https://github.com/Cammp3r/StreetCourts)';
 }
 
-function requestJson(url, { method = 'GET', headers = {}, body } = {}) {
-  return new Promise((resolve, reject) => {
-    const request = https.request(
-      url,
-      {
-        method,
-        headers,
-      },
-      (res) => {
-        let data = '';
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
-        res.on('end', () => {
-          if (res.statusCode && res.statusCode >= 200 && res.statusCode < 300) {
-            try {
-              resolve(JSON.parse(data));
-            } catch (e) {
-              reject(new Error(`Failed to parse JSON from ${url}: ${String(e)}`));
-            }
-            return;
-          }
-          reject(new HttpError({ url, statusCode: res.statusCode ?? 0, body: data }));
-        });
-      }
-    );
-
-    request.on('error', reject);
-    if (body) request.write(body);
-    request.end();
-  });
-}
-
 function buildOverpassQuery({ south, west, north, east }) {
   const bbox = `${south},${west},${north},${east}`;
 
-  // NOTE: keep it strict to outdoor basketball courts: leisure=pitch + sport=basketball
-  // This is lighter than querying all sport=basketball objects.
-  // `out tags center qt;` gives centers for ways/relations and uses quick timestamps.
+  // keep it strict to outdoor basketball courts
   return `
 [out:json][timeout:90];
 (
@@ -138,42 +80,40 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function isRetryableOverpassError(err) {
-  if (err?.name !== 'HttpError') return false;
-  const code = err.statusCode;
+function isRetryableStatus(code) {
   return code === 429 || code === 502 || code === 503 || code === 504;
 }
 
-async function fetchFromOverpass(endpoint, bbox) {
-  const query = buildOverpassQuery(bbox);
-  const body = new URLSearchParams({ data: query }).toString();
-
-  return await requestJson(endpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-      'User-Agent': buildUserAgent(),
-    },
-    body,
-  });
-}
-
 async function fetchFromAnyOverpass(bbox, { endpoints = OVERPASS_ENDPOINTS, retriesPerEndpoint = 2 } = {}) {
+  const query = buildOverpassQuery(bbox);
   let lastErr;
 
   for (const endpoint of endpoints) {
     for (let attempt = 0; attempt <= retriesPerEndpoint; attempt += 1) {
       try {
-        if (attempt > 0) {
-          // simple backoff: 1s, 2s, 3s...
-          await sleep(1000 * (attempt + 1));
-        }
-        return await fetchFromOverpass(endpoint, bbox);
-      } catch (err) {
-        lastErr = err;
-        if (!isRetryableOverpassError(err)) {
+        if (attempt > 0) await sleep(1000 * (attempt + 1));
+
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+            'User-Agent': buildUserAgent(),
+          },
+          body: new URLSearchParams({ data: query }),
+        });
+
+        if (!res.ok) {
+          const text = await res.text().catch(() => '');
+          const err = new Error(`HTTP ${res.status} for ${endpoint}${text ? `\n${text}` : ''}`);
+          err.statusCode = res.status;
           throw err;
         }
+
+        return await res.json();
+      } catch (err) {
+        lastErr = err;
+        const statusCode = err?.statusCode;
+        if (!isRetryableStatus(statusCode)) throw err;
       }
     }
   }
@@ -211,7 +151,7 @@ function buildAddress(tags) {
   return parts.join(' • ') || 'Київ (адреса невідома)';
 }
 
-function normalizeToAppCourt(element) {
+function normalizeToCourt(element) {
   const pos = pickLatLon(element);
   if (!pos) return null;
 
@@ -219,24 +159,9 @@ function normalizeToAppCourt(element) {
 
   return {
     id: `osm-${element.type}-${element.id}`,
-
-    // meta
-    source: 'osm',
-    osmType: element.type,
-    osmId: element.id,
-
-    // UI fields
-    typeLabel: 'Баскетбол',
-    badgeClassName: 'court-type-badge badge-basket',
+    sport: 'basketball',
     name: pickName(tags),
     address: buildAddress(tags),
-    image:
-      'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80',
-    statusDotClassName: 'dot free',
-    statusText: 'Зараз: Невідомо (OSM)',
-    selected: false,
-
-    // geo
     lat: pos.lat,
     lon: pos.lon,
   };
@@ -275,29 +200,20 @@ async function main() {
   }
 
   const bbox = typeof args.bbox === 'string' ? parseBbox(args.bbox) : KYIV_BBOX;
-
   const overpass = await fetchFromAnyOverpass(bbox);
   const elements = Array.isArray(overpass?.elements) ? overpass.elements : [];
 
-  let courts = sortCourts(dedupeById(elements.map(normalizeToAppCourt)));
+  let courts = sortCourts(dedupeById(elements.map(normalizeToCourt)));
   if (limit !== undefined) courts = courts.slice(0, limit);
-  if (courts.length > 0) courts[0].selected = true;
 
   const payload = {
-    city: 'Kyiv',
-    country: 'UA',
-    source: 'OpenStreetMap via Overpass API',
-    license: 'ODbL-1.0',
     generatedAt: new Date().toISOString(),
     bbox,
-    count: courts.length,
+    defaults: DEFAULTS,
     courts,
   };
 
-  const resolvedOut = path.isAbsolute(outPath)
-    ? outPath
-    : path.resolve(process.cwd(), outPath);
-
+  const resolvedOut = path.isAbsolute(outPath) ? outPath : path.resolve(process.cwd(), outPath);
   await fs.mkdir(path.dirname(resolvedOut), { recursive: true });
   await fs.writeFile(resolvedOut, JSON.stringify(payload, null, 2), 'utf8');
 
