@@ -2,21 +2,22 @@ import { useMemo, useState } from 'react';
 import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
 
-// Чиста функція для фільтрації майданчиків за видом спорту
+// Чиста функція для фільтрації майданчиків за видом спорту та наявністю адреси
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
-  if (sport === 'all') return courts;
-
-  if (sport === 'basketball') {
-    return courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
+  
+  let filtered = courts;
+  
+  if (sport !== 'all') {
+    if (sport === 'basketball') {
+      filtered = courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
+    } else if (sport === 'football') {
+      filtered = courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
+    }
   }
 
-  if (sport === 'football') {
-    return courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
-  }
-
-  // інші фільтри поки не реалізовані
-  return courts;
+  // фільтруємо площадки без адреси
+  return filtered.filter((court) => court?.address && court.address !== 'Київ (адреса невідома)');
 }
 
 // Мемоізована версія з обмеженим розміром кэшу
