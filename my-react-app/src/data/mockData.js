@@ -50,6 +50,7 @@ const KYIV_RAW_COURTS = Array.isArray(KYIV_COURTS_DB?.courts) ? KYIV_COURTS_DB.c
 export const COURTS = KYIV_RAW_COURTS.map((court, index) => ({
   ...court,
   selected: typeof court?.selected === 'boolean' ? court.selected : index === 0,
+  popularity: Math.floor(Math.random() * 100) + 1,
 }));
 
 export const COURT_DETAIL = {
