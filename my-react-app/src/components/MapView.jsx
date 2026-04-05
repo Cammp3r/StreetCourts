@@ -14,7 +14,7 @@ function RecenterOnPosition({ position, zoom }) {
 }
 
 export function MapView() {
-  const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); // Kyiv
+  const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); //Kiyv
   const [userPosition, setUserPosition] = useState(null);
 
   useEffect(() => {
@@ -25,7 +25,6 @@ export function MapView() {
         setUserPosition([pos.coords.latitude, pos.coords.longitude]);
       },
       () => {
-        // Якщо доступ заборонений/помилка — лишаємо fallbackCenter
       },
       {
         enableHighAccuracy: true,
