@@ -2,7 +2,6 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const KYIV_BBOX = {
-  // south, west, north, east
   south: 50.30,
   west: 30.30,
   north: 50.55,
@@ -66,7 +65,6 @@ function buildUserAgent() {
 function buildOverpassQuery({ south, west, north, east }) {
   const bbox = `${south},${west},${north},${east}`;
 
-  // keep it strict to outdoor basketball courts
   return `
 [out:json][timeout:90];
 (
@@ -138,7 +136,6 @@ function pickName(tags) {
 
 function buildAddress(tags) {
   if (!tags) return 'Київ (адреса невідома)';
-
   const street = tags['addr:street'];
   const house = tags['addr:housenumber'];
   const city = tags['addr:city'];
@@ -148,20 +145,83 @@ function buildAddress(tags) {
   if (streetPart) parts.push(streetPart);
   if (city) parts.push(city);
 
-  return parts.join(' • ') || 'Київ (адреса невідома)';
+  const osm_addr = parts.join(' • ');
+  if (osm_addr && osm_addr !== '') return osm_addr;
+
+  const name = tags['name'] || tags['name:uk'];
+  if (name && name !== '') return name;
+
+  return 'Київ (адреса невідома)';
 }
 
-function normalizeToCourt(element) {
+async function getAddressFromNominatim(lat, lon) {
+  try {
+    await sleep(100);
+
+    const url = new URL('https://nominatim.openstreetmap.org/reverse');
+    url.searchParams.set('lat', lat);
+    url.searchParams.set('lon', lon);
+    url.searchParams.set('zoom', 18);
+    url.searchParams.set('format', 'json');
+    url.searchParams.set('addressdetails', 1);
+    url.searchParams.set('accept-language', 'uk');
+
+    const res = await fetch(url.toString(), {
+      headers: {
+        'User-Agent': buildUserAgent(),
+      },
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    if (!data?.address) return null;
+
+    const addr = data.address;
+
+    const parts = [];
+
+    if (addr.road || addr.street) {
+      const road = addr.road || addr.street;
+      const house = addr.house_number || '';
+      if (house) parts.push(road + ', ' + house);
+      else parts.push(road);
+    }
+
+    if (addr.neighbourhood || addr.suburb) {
+      parts.push(addr.neighbourhood || addr.suburb);
+    }
+
+    if (addr.city || addr.town || addr.village) {
+      parts.push(addr.city || addr.town || addr.village);
+    }
+
+    return parts.length > 0 ? parts.join(' • ') : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+async function normalizeToCourt(element) {
   const pos = pickLatLon(element);
   if (!pos) return null;
 
   const tags = element.tags ?? {};
 
+  let address = buildAddress(tags);
+
+  if (address === 'Київ (адреса невідома)') {
+    const nominatimAddr = await getAddressFromNominatim(pos.lat, pos.lon);
+    if (nominatimAddr) {
+      address = nominatimAddr;
+    }
+  }
+
   return {
     id: `osm-${element.type}-${element.id}`,
     sport: 'basketball',
     name: pickName(tags),
-    address: buildAddress(tags),
+    address,
     lat: pos.lat,
     lon: pos.lon,
   };
@@ -179,16 +239,6 @@ function dedupeById(items) {
   return out;
 }
 
-function sortCourts(courts) {
-  return [...courts].sort((a, b) => {
-    const an = String(a.name ?? '');
-    const bn = String(b.name ?? '');
-    const cmp = an.localeCompare(bn, 'uk');
-    if (cmp !== 0) return cmp;
-    return String(a.id).localeCompare(String(b.id));
-  });
-}
-
 async function main() {
   const args = parseArgs(process.argv.slice(2));
 
@@ -203,7 +253,8 @@ async function main() {
   const overpass = await fetchFromAnyOverpass(bbox);
   const elements = Array.isArray(overpass?.elements) ? overpass.elements : [];
 
-  let courts = sortCourts(dedupeById(elements.map(normalizeToCourt)));
+  const courtsWithNulls = await Promise.all(elements.map(normalizeToCourt));
+  let courts = dedupeById(courtsWithNulls);
   if (limit !== undefined) courts = courts.slice(0, limit);
 
   const payload = {
