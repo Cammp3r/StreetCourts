@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
 
-// Чиста функція для фільтрації майданчиків за видом спорту та наявністю адреси
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
   
@@ -16,11 +15,9 @@ function filterCourtsBySport(courts, sport) {
     }
   }
 
-  // фільтруємо площадки без адреси
   return filtered.filter((court) => court?.address && court.address !== 'Київ (адреса невідома)');
 }
 
-// Мемоізована версія з обмеженим розміром кэшу
 const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
   maxSize: 10,
 });
