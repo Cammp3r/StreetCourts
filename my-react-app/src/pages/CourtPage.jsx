@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
-import { isCommentLongEnough, memoize } from '../utils/commentValidation';
+import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
 import {
   getCourtImage,
   getCourtStatusDotClassName,
@@ -9,7 +9,7 @@ import {
   getCourtTypeLabel,
 } from '../utils/courtPresentation';
 
-const memoizedIsCommentLongEnough = memoize(isCommentLongEnough, { limit: 5 });
+
 
 function loadComments(courtId) {
   if (!courtId) return [];
