@@ -61,18 +61,17 @@ export function UserProfilePage({ user }) {
     return (first + second).toUpperCase();
   }, [resolvedUser.name]);
 
-  // запускаємо генератор для ротації друзів
   useEffect(() => {
     const stopRotation = displayFriendsWithRotation(
       FRIENDS,
       (friend) => {
         setCurrentFriend(friend);
       },
-      3000 // 3 секунди інтервал між друзями
+      3000
     );
 
     return () => {
-      stopRotation(); // очищуємо таймер при розмонтуванні
+      stopRotation();
     };
   }, []);
 

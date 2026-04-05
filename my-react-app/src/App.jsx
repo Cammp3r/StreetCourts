@@ -1,12 +1,12 @@
 import './App.css';
 import { useState, useEffect, useRef } from 'react';
-import { arrayCycler, runEngine, colorCycle, courtRecommender } from 'streetcourts-lib';
+import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
-import { task4 } from './utils/biDirectionalPriorityQueue';
+import { BiDirectionalPriorityQueue, task4 } from './utils/biDirectionalPriorityQueue';
 import { getCourtStatusText } from './utils/courtPresentation';
 
 
@@ -39,7 +39,7 @@ useEffect(() => {
   const nameGen = arrayCycler(REAL_DB_USERS);
 
 
-  const names = runEngine(nameGen, setActiveUser, 2000); // міняємо ім'я кожні 2 сек
+  const names = runEngine(nameGen, setActiveUser, 2000);
 
   return () => {
     names();
@@ -48,30 +48,55 @@ useEffect(() => {
 
 
 useEffect(() => {
-  const courtsGen = courtRecommender(COURTS); // нескінченний генератор майданчиків
+  if (COURTS.length === 0) return;
 
-  // раз на 5 секунд беремо наступну площадку — без таймауту, працює постійно
+  const courtsWithAddress = COURTS.filter(
+    (court) => court?.address && court.address !== 'Київ (адреса невідома)'
+  );
+
+  if (courtsWithAddress.length === 0) return;
+
+  const priorityQueue = new BiDirectionalPriorityQueue();
+  
+  courtsWithAddress.forEach((court) => {
+    priorityQueue.enqueue(court, court.popularity || 50);
+  });
+
+  function* recommendationGenerator() {
+    while (true) {
+      const highest = priorityQueue.dequeue('highest');
+      if (highest) {
+        yield highest;
+        priorityQueue.enqueue(highest, highest.popularity || 50);
+      }
+      
+      const lowest = priorityQueue.dequeue('lowest');
+      if (lowest) {
+        yield lowest;
+        priorityQueue.enqueue(lowest, lowest.popularity || 50);
+      }
+    }
+  }
+
+  const courtsGen = recommendationGenerator();
+  
   const stopRecommend = runEngine(courtsGen, (court) => {
     if (court) setRecommendedCourt(court);
   }, 5000);
 
   return () => {
-    stopRecommend();  };
+    stopRecommend();
+  };
 }, []);
 
   return (
     
     
     <div className="app">
-      {/* навігація */}
       <Navbar />
 
-      
-
-      {/* live рамка тих хто чекіниться */}
       <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
 
-      {/* рекомендована площадка, що змінюється раз на 5 секунд */}
       {recommendedCourt && (
         <div style={{
           marginTop: '10px',
@@ -91,13 +116,10 @@ useEffect(() => {
         </div>
       )}
 
-      {/* головний контейнер */}
       <div className="main-container">
-        
-        {/* лівий сайдбар */}
+
         <Sidebar courts={COURTS} />
 
-        {/* права частина карта */}
         <MapView detail={COURT_DETAIL} />
 
       </div>
