@@ -1,12 +1,12 @@
 import './App.css';
 import { useState, useEffect, useRef } from 'react';
-import { arrayCycler, runEngine, colorCycle, courtRecommender } from 'streetcourts-lib';
+import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
-import { task4 } from './utils/biDirectionalPriorityQueue';
+import { BiDirectionalPriorityQueue, task4 } from './utils/biDirectionalPriorityQueue';
 import { getCourtStatusText } from './utils/courtPresentation';
 
 
@@ -48,15 +48,50 @@ useEffect(() => {
 
 
 useEffect(() => {
-  const courtsGen = courtRecommender(COURTS); // нескінченний генератор майданчиків
+  if (COURTS.length === 0) return;
 
-  // раз на 5 секунд беремо наступну площадку — без таймауту, працює постійно
+  // Фільтруємо тільки площадки з реальною адресою
+  const courtsWithAddress = COURTS.filter(
+    (court) => court?.address && court.address !== 'Київ (адреса невідома)'
+  );
+
+  if (courtsWithAddress.length === 0) return;
+
+  const priorityQueue = new BiDirectionalPriorityQueue();
+  
+  courtsWithAddress.forEach((court) => {
+    priorityQueue.enqueue(court, court.popularity || 50);
+  });
+
+  function* recommendationGenerator() {
+    while (true) {
+      // Витягуємо найпопулярніше
+      const highest = priorityQueue.dequeue('highest');
+      if (highest) {
+        yield highest;
+        // Добавляємо назад для наступного циклу
+        priorityQueue.enqueue(highest, highest.popularity || 50);
+      }
+      
+      // Витягуємо найменш популярне
+      const lowest = priorityQueue.dequeue('lowest');
+      if (lowest) {
+        yield lowest;
+        // Добавляємо назад для наступного циклу
+        priorityQueue.enqueue(lowest, lowest.popularity || 50);
+      }
+    }
+  }
+
+  const courtsGen = recommendationGenerator();
+  
   const stopRecommend = runEngine(courtsGen, (court) => {
     if (court) setRecommendedCourt(court);
   }, 5000);
 
   return () => {
-    stopRecommend();  };
+    stopRecommend();
+  };
 }, []);
 
   return (
