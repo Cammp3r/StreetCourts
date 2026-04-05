@@ -28,7 +28,6 @@ function saveComments(courtId, comments) {
   try {
     localStorage.setItem(`court_comments_${courtId}`, JSON.stringify(comments));
   } catch {
-    // ignore
   }
 }
 

@@ -39,7 +39,7 @@ useEffect(() => {
   const nameGen = arrayCycler(REAL_DB_USERS);
 
 
-  const names = runEngine(nameGen, setActiveUser, 2000); // міняємо ім'я кожні 2 сек
+  const names = runEngine(nameGen, setActiveUser, 2000);
 
   return () => {
     names();
@@ -50,7 +50,6 @@ useEffect(() => {
 useEffect(() => {
   if (COURTS.length === 0) return;
 
-  // Фільтруємо тільки площадки з реальною адресою
   const courtsWithAddress = COURTS.filter(
     (court) => court?.address && court.address !== 'Київ (адреса невідома)'
   );
@@ -65,19 +64,15 @@ useEffect(() => {
 
   function* recommendationGenerator() {
     while (true) {
-      // Витягуємо найпопулярніше
       const highest = priorityQueue.dequeue('highest');
       if (highest) {
         yield highest;
-        // Добавляємо назад для наступного циклу
         priorityQueue.enqueue(highest, highest.popularity || 50);
       }
       
-      // Витягуємо найменш популярне
       const lowest = priorityQueue.dequeue('lowest');
       if (lowest) {
         yield lowest;
-        // Добавляємо назад для наступного циклу
         priorityQueue.enqueue(lowest, lowest.popularity || 50);
       }
     }
@@ -98,15 +93,10 @@ useEffect(() => {
     
     
     <div className="app">
-      {/* навігація */}
       <Navbar />
 
-      
-
-      {/* live рамка тих хто чекіниться */}
       <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
 
-      {/* рекомендована площадка, що змінюється раз на 5 секунд */}
       {recommendedCourt && (
         <div style={{
           marginTop: '10px',
@@ -126,13 +116,10 @@ useEffect(() => {
         </div>
       )}
 
-      {/* головний контейнер */}
       <div className="main-container">
-        
-        {/* лівий сайдбар */}
+
         <Sidebar courts={COURTS} />
 
-        {/* права частина карта */}
         <MapView detail={COURT_DETAIL} />
 
       </div>
