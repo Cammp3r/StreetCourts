@@ -1,4 +1,4 @@
-export function task4() {class BiDirectionalPriorityQueue {
+export class BiDirectionalPriorityQueue {
     constructor() {
         this.queue = []
         this.order = 0;
@@ -65,10 +65,9 @@ export function task4() {class BiDirectionalPriorityQueue {
      toArray() {
     return this.queue.map((el) => ({ item: el.item, priority: el.priority }));
   }
-
-
 }
 
+export function task4() {
 const q = new BiDirectionalPriorityQueue()
 
 q.enqueue("Іван", 3);
