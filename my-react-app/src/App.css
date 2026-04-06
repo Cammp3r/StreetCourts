@@ -645,3 +645,33 @@ body {
 
 .profile-tag.tag-basket { color: var(--accent-orange); }
 .profile-tag.tag-foot { color: var(--accent-green); }
+
+/* сортування */
+.sort-filters {
+  display: flex;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.sort-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #444;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+  font-size: 0.9rem;
+}
+
+.sort-btn:hover {
+  color: var(--text-primary);
+  border-color: #666;
+}
+
+.sort-btn.active-sort {
+  background: var(--accent-blue);
+  color: black;
+  border: none;
+}
