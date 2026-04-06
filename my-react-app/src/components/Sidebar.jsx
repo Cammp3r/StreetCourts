@@ -26,8 +26,8 @@ const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
 export function Sidebar({ courts }) {
   const [activeSport, setActiveSport] = useState('basketball');
   const [courtsWithPopularity, setCourtsWithPopularity] = useState([]);
+  const [sortBy, setSortBy] = useState('default');
 
-  // Добавляємо популярність при завантаженні
   useEffect(() => {
     const loadPopularity = async () => {
       const courtsWithPop = await addPopularityToCourtsBatch(courts);
@@ -39,9 +39,23 @@ export function Sidebar({ courts }) {
     }
   }, [courts]);
 
+  const sortCourts = (courtsToSort) => {
+    if (sortBy === 'popularity') {
+      return [...courtsToSort].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    }
+    if (sortBy === 'alphabet') {
+      return [...courtsToSort].sort((a, b) => {
+        const nameA = (a.address || '').trim().toLowerCase();
+        const nameB = (b.address || '').trim().toLowerCase();
+        return nameA.localeCompare(nameB, 'uk');
+      });
+    }
+    return courtsToSort;
+  };
+
   const visibleCourts = useMemo(
-    () => memoizedFilterCourtsBySport(courtsWithPopularity, activeSport),
-    [courtsWithPopularity, activeSport]
+    () => sortCourts(memoizedFilterCourtsBySport(courtsWithPopularity, activeSport)),
+    [courtsWithPopularity, activeSport, sortBy]
   );
 
   return (
@@ -66,6 +80,27 @@ export function Sidebar({ courts }) {
             onClick={() => setActiveSport('all')}
           >
             🏐 Волей
+          </button>
+        </div>
+
+        <div className="sort-filters">
+          <button
+            className={`sort-btn ${sortBy === 'default' ? 'active-sort' : ''}`}
+            onClick={() => setSortBy('default')}
+          >
+            За замовчуванням
+          </button>
+          <button
+            className={`sort-btn ${sortBy === 'popularity' ? 'active-sort' : ''}`}
+            onClick={() => setSortBy('popularity')}
+          >
+            📊 Популярність
+          </button>
+          <button
+            className={`sort-btn ${sortBy === 'alphabet' ? 'active-sort' : ''}`}
+            onClick={() => setSortBy('alphabet')}
+          >
+            🔤 Алфавіт
           </button>
         </div>
       </div>
