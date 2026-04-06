@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
-import { addPopularityToCourtsBatch } from '../utils/asyncFn';
+import { addPopularityToCourtsBatch } from '../utils/asyncFilter';
 
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
