@@ -21,6 +21,11 @@ export function CourtCardMini({ court }) {
         <span className={badgeClassName}>{typeLabel}</span>
         <div className="court-name">{court.name}</div>
         <div className="court-address">{court.address}</div>
+        {court.popularity && (
+          <div style={{ fontSize: '12px', color: '#868e96', marginBottom: '4px' }}>
+            Популярність: {court.popularity}%
+          </div>
+        )}
         <div className="live-indicator">
           <span className={statusDotClassName}></span>
           {statusText}
