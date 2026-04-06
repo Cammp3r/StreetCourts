@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
+import { addPopularityToCourtsBatch } from '../utils/asyncFn';
 
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
@@ -24,10 +25,23 @@ const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
 
 export function Sidebar({ courts }) {
   const [activeSport, setActiveSport] = useState('basketball');
+  const [courtsWithPopularity, setCourtsWithPopularity] = useState([]);
+
+  // Добавляємо популярність при завантаженні
+  useEffect(() => {
+    const loadPopularity = async () => {
+      const courtsWithPop = await addPopularityToCourtsBatch(courts);
+      setCourtsWithPopularity(courtsWithPop);
+    };
+    
+    if (courts.length > 0) {
+      loadPopularity();
+    }
+  }, [courts]);
 
   const visibleCourts = useMemo(
-    () => memoizedFilterCourtsBySport(courts, activeSport),
-    [courts, activeSport]
+    () => memoizedFilterCourtsBySport(courtsWithPopularity, activeSport),
+    [courtsWithPopularity, activeSport]
   );
 
   return (
