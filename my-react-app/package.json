@@ -8,8 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
-    "fetch:courts:kyiv": "node scripts/fetch-osm-basketball-courts-kyiv.mjs --out src/data/courts.kyiv.osm.json --limit 200",
+    "lint": "eslint .",    "fetch:courts:kyiv": "node scripts/fetch-osm-basketball-courts-kyiv.mjs --out src/data/courts.kyiv.osm.json --limit 200",
     "preview": "vite preview"
   },
   "bugs": {
