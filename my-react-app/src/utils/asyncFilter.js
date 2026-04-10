@@ -8,6 +8,20 @@ function createAbortError() {
   }
 }
 
+function isAbortError(error) {
+  return error?.name === 'AbortError';
+}
+
+function toCourtsArray(courts) {
+  return Array.isArray(courts) ? courts : [];
+}
+
+function toPositiveInt(value, fallback) {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
+  return parsed;
+}
+
 function throwIfAborted(signal) {
   if (signal?.aborted) {
     throw createAbortError();
@@ -59,21 +73,28 @@ async function maybeYield(iteration, options = {}) {
 
 async function addPopularityToCourtsBatch(courts, batchSize = 5, options = {}) {
   const { signal } = options;
+  const courtsArray = toCourtsArray(courts);
+  const safeBatchSize = toPositiveInt(batchSize, 5);
   const results = [];
 
-  for (let i = 0; i < courts.length; i += batchSize) {
+  for (let i = 0; i < courtsArray.length; i += safeBatchSize) {
     throwIfAborted(signal);
-    await maybeYield(Math.floor(i / batchSize) + 1, options);
+    await maybeYield(Math.floor(i / safeBatchSize) + 1, options);
 
-    const batch = courts.slice(i, i + batchSize);
+    const batch = courtsArray.slice(i, i + safeBatchSize);
     const batchResults = [];
 
     for (const court of batch) {
       throwIfAborted(signal);
-      batchResults.push({
-        ...court,
-        popularity: Math.floor(Math.random() * 100) + 1,
-      });
+      const popularity = Math.floor(Math.random() * 100) + 1;
+      if (court && typeof court === 'object') {
+        batchResults.push({
+          ...court,
+          popularity,
+        });
+      } else {
+        batchResults.push({ value: court, popularity });
+      }
     }
 
     results.push(...batchResults);
@@ -94,9 +115,16 @@ function matchesSearchQuery(normalizedAddress, normalizedQuery) {
 async function checkStreetMatch(court, searchQuery, options = {}) {
   const { signal } = options;
   throwIfAborted(signal);
-  const normalizedAddress = normalizeAddress(court.address);
-  const normalizedQuery = normalizeAddress(searchQuery);
-  return matchesSearchQuery(normalizedAddress, normalizedQuery);
+  try {
+    if (!court || typeof court !== 'object') return false;
+    if (!court.address) return false;
+    const normalizedAddress = normalizeAddress(court.address);
+    const normalizedQuery = normalizeAddress(searchQuery);
+    return matchesSearchQuery(normalizedAddress, normalizedQuery);
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return false;
+  }
 }
 
 // ---- фільтрування по вулиці на базі промісів ----
@@ -104,31 +132,44 @@ async function filterStreetByQuery(courts, searchQuery, options = {}) {
   const { signal } = options;
   throwIfAborted(signal);
 
+  const courtsArray = toCourtsArray(courts);
+
   const matches = [];
   let index = 0;
-  for (const court of courts) {
-    index += 1;
-    throwIfAborted(signal);
-    await maybeYield(index, options);
-    matches.push(await checkStreetMatch(court, searchQuery, { signal }));
-  }
+  try {
+    for (const court of courtsArray) {
+      index += 1;
+      throwIfAborted(signal);
+      await maybeYield(index, options);
+      matches.push(await checkStreetMatch(court, searchQuery, { signal }));
+    }
 
-  throwIfAborted(signal);
-  return courts.filter((_, index) => matches[index]);
+    throwIfAborted(signal);
+    return courtsArray.filter((_, index) => matches[index]);
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return courtsArray;
+  }
 }
 
 async function filterAlphabetically(courts, searchQuery, options = {}) {
-  const start = Date.now();
-  const filtered = await filterStreetByQuery(courts, searchQuery, options);
+  const courtsArray = toCourtsArray(courts);
+  try {
+    const start = Date.now();
+    const filtered = await filterStreetByQuery(courtsArray, searchQuery, options);
 
-  const minDurationMs = options?.minDurationMs ?? 0;
-  if (minDurationMs > 0) {
-    const elapsed = Date.now() - start;
-    const remaining = Math.max(0, minDurationMs - elapsed);
-    await abortableDelay(remaining, options);
+    const minDurationMs = options?.minDurationMs ?? 0;
+    if (minDurationMs > 0) {
+      const elapsed = Date.now() - start;
+      const remaining = Math.max(0, minDurationMs - elapsed);
+      await abortableDelay(remaining, options);
+    }
+
+    return filtered;
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return courtsArray;
   }
-
-  return filtered;
 }
 
 function isValidThreshold(threshold) {
@@ -144,36 +185,30 @@ function meetsPopularityThreshold(court, threshold) {
   return (court.popularity || 0) >= threshold;
 }
 
-function filterPopularityByThreshold(courts, threshold) {
-  const callback = (court) => meetsPopularityThreshold(court, threshold);
-  return courts.filter(callback);
-}
-
 async function filterPopularityByThresholdAsync(courts, threshold, options = {}) {
   const { signal } = options;
   throwIfAborted(signal);
 
+  const courtsArray = toCourtsArray(courts);
+
   const result = [];
   let index = 0;
-  for (const court of courts) {
-    index += 1;
-    throwIfAborted(signal);
-    await maybeYield(index, options);
-    if (meetsPopularityThreshold(court, threshold)) {
-      result.push(court);
+  try {
+    for (const court of courtsArray) {
+      index += 1;
+      throwIfAborted(signal);
+      await maybeYield(index, options);
+      if (meetsPopularityThreshold(court, threshold)) {
+        result.push(court);
+      }
     }
-  }
 
-  throwIfAborted(signal);
-  return result;
-}
-
-function filterPopularityQuery(courts, threshold) {
-  if (!isValidThreshold(threshold)) {
-    return courts;
+    throwIfAborted(signal);
+    return result;
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return courtsArray;
   }
-  const parsedThreshold = parseInt(threshold, 10);
-  return filterPopularityByThreshold(courts, parsedThreshold);
 }
 
 async function filterPopularityQueryAsync(courts, threshold, options = {}) {
@@ -181,18 +216,24 @@ async function filterPopularityQueryAsync(courts, threshold, options = {}) {
     return courts;
   }
 
-  const start = Date.now();
-  const parsedThreshold = parseInt(threshold, 10);
-  const filtered = await filterPopularityByThresholdAsync(courts, parsedThreshold, options);
+  const courtsArray = toCourtsArray(courts);
+  try {
+    const start = Date.now();
+    const parsedThreshold = parseInt(threshold, 10);
+    const filtered = await filterPopularityByThresholdAsync(courtsArray, parsedThreshold, options);
 
-  const minDurationMs = options?.minDurationMs ?? 0;
-  if (minDurationMs > 0) {
-    const elapsed = Date.now() - start;
-    const remaining = Math.max(0, minDurationMs - elapsed);
-    await abortableDelay(remaining, options);
+    const minDurationMs = options?.minDurationMs ?? 0;
+    if (minDurationMs > 0) {
+      const elapsed = Date.now() - start;
+      const remaining = Math.max(0, minDurationMs - elapsed);
+      await abortableDelay(remaining, options);
+    }
+
+    return filtered;
+  } catch (error) {
+    if (isAbortError(error)) throw error;
+    return courtsArray;
   }
-
-  return filtered;
 }
 
-export { filterAlphabetically, addPopularityToCourtsBatch, normalizeAddress, matchesSearchQuery, checkStreetMatch, filterStreetByQuery, isValidThreshold, meetsPopularityThreshold, filterPopularityByThreshold, filterPopularityQuery, filterPopularityByThresholdAsync, filterPopularityQueryAsync };
+export { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync };
