@@ -1,12 +1,12 @@
 import './App.css';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
 import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
-import { BiDirectionalPriorityQueue, task4 } from './utils/biDirectionalPriorityQueue';
+import { PriorityQueue } from './utils/priorityQueue';
 import { getCourtStatusText } from './utils/courtPresentation';
 
 
@@ -14,22 +14,13 @@ import { getCourtStatusText } from './utils/courtPresentation';
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
-const runTask4 = useRef(false);
-
-
- useEffect(() => {
-    if (runTask4.current) return;
-    runTask4.current = true;
-
-    task4();
-  }, []);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
   const stopColors = runEngine(colorGen, setBorderColor, 500 ); 
 
   return () => {
-    stopColors(); // на всякий випадок очищаємо при анмаунті
+    stopColors();
   };
 }, []);
  const [activeUser, setActiveUser] = useState('Завантаження...');
@@ -56,25 +47,25 @@ useEffect(() => {
 
   if (courtsWithAddress.length === 0) return;
 
-  const priorityQueue = new BiDirectionalPriorityQueue();
-  
-  courtsWithAddress.forEach((court) => {
-    priorityQueue.enqueue(court, court.popularity || 50);
-  });
+  const buildQueue = () => {
+    const q = new PriorityQueue();
+    courtsWithAddress.forEach((court) => {
+      q.enqueue(court, court.popularity || 50);
+    });
+    return q;
+  };
+
+  let priorityQueue = buildQueue();
 
   function* recommendationGenerator() {
     while (true) {
-      const highest = priorityQueue.dequeue('highest');
-      if (highest) {
-        yield highest;
-        priorityQueue.enqueue(highest, highest.popularity || 50);
+      const next = priorityQueue.dequeue();
+      if (!next) {
+        priorityQueue = buildQueue();
+        continue;
       }
-      
-      const lowest = priorityQueue.dequeue('lowest');
-      if (lowest) {
-        yield lowest;
-        priorityQueue.enqueue(lowest, lowest.popularity || 50);
-      }
+
+      yield next;
     }
   }
 
