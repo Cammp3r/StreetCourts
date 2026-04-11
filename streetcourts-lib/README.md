@@ -45,25 +45,16 @@ const stop = runEngine(colorCycle(["red", "green"]), (color) => {
 setTimeout(stop, 2000);
 ```
 
-### `courtRecommender(courts)`
+### `displayFriendsWithRotation(friends, onFriendShow, intervalMs)`
 
 ```js
-import { courtRecommender } from "streetcourts-lib";
+import { displayFriendsWithRotation } from "streetcourts-lib";
 
-const gen = courtRecommender([{ name: "Court A" }, { name: "Court B" }]);
-console.log(gen.next().value.name); // "Court A"
-```
+const stop = displayFriendsWithRotation(
+  [{ name: "Oleg" }, { name: "Andrii" }],
+  (friend) => console.log("now showing:", friend?.name),
+  1000
+);
 
-### `consumeIteratorWithTimeout(iterator, timeoutSec, onValue, intervalMs)`
-
-```js
-import { arrayCycler, consumeIteratorWithTimeout } from "streetcourts-lib";
-
-const gen = arrayCycler(["A", "B", "C"]);
-const stop = consumeIteratorWithTimeout(gen, 3, (value) => {
-  console.log("value:", value);
-}, 500);
-
-// optional early stop
-setTimeout(stop, 1500);
+setTimeout(stop, 2500);
 ```
