@@ -24,21 +24,11 @@ export class PriorityQueue {
         }, 0)
     }
 
-    peek() {
-        const idx = this.getIndex()
-        if (idx === -1) return null
-        return this.queue[idx].item
-    }
-
     dequeue() {
         const idx = this.getIndex()
         if (idx === -1) return null
         const [removed] = this.queue.splice(idx, 1)
         return removed.item
-    }
-
-    toArray() {
-        return this.queue.map((el) => ({ item: el.item, priority: el.priority }));
     }
 }
 

@@ -5,7 +5,7 @@ import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
-import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
+import { COURTS, REAL_DB_USERS } from './data/mockData';
 import { PriorityQueue } from './utils/priorityQueue';
 import { getCourtStatusText } from './utils/courtPresentation';
 
@@ -111,7 +111,7 @@ useEffect(() => {
 
         <Sidebar courts={COURTS} />
 
-        <MapView detail={COURT_DETAIL} />
+        <MapView />
 
       </div>
     </div>
