@@ -1,6 +1,6 @@
 import { runEngine } from "./runEngine.js";
 
-export function* friendsRotator(friends = []) {
+function* friendsRotator(friends = []) {
   if (!Array.isArray(friends) || friends.length === 0) {
     while (true) {
       yield null;
