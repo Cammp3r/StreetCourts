@@ -1,27 +1,16 @@
 import './App.css';
-import { useState, useEffect, useRef } from 'react';
-import { arrayCycler, runEngine, colorCycle, courtRecommender } from 'streetcourts-lib';
+import { useState, useEffect } from 'react';
+import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
-import { COURTS, COURT_DETAIL, REAL_DB_USERS } from './data/mockData';
-import { task4 } from './utils/biDirectionalPriorityQueue';
-
-
+import { COURTS, REAL_DB_USERS } from './data/mockData';
+import { PriorityQueue } from './utils/priorityQueue';
 
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
-const runTask4 = useRef(false);
-
-
- useEffect(() => {
-    if (runTask4.current) return;
-    runTask4.current = true;
-
-    task4();
-  }, []);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
@@ -47,15 +36,48 @@ useEffect(() => {
 
 
 useEffect(() => {
-  const courtsGen = courtRecommender(COURTS); // нескінченний генератор майданчиків
+  if (!Array.isArray(COURTS) || COURTS.length === 0) return;
 
-  // раз на 5 секунд беремо наступну площадку — без таймауту, працює постійно
-  const stopRecommend = runEngine(courtsGen, (court) => {
-    if (court) setRecommendedCourt(court);
-  }, 5000);
+  const courtsWithAddress = COURTS.filter(
+    (court) => court?.address && court.address !== 'Київ (адреса невідома)'
+  );
+
+  if (courtsWithAddress.length === 0) return;
+
+  const buildQueue = () => {
+    const q = new PriorityQueue();
+    courtsWithAddress.forEach((court) => {
+      q.enqueue(court, court.popularity || 50);
+    });
+    return q;
+  };
+
+  let priorityQueue = buildQueue();
+
+  function* recommendationGenerator() {
+    while (true) {
+      const next = priorityQueue.dequeue();
+      if (!next) {
+        priorityQueue = buildQueue();
+        continue;
+      }
+      yield next;
+    }
+  }
+
+  const courtsGen = recommendationGenerator();
+
+  const stopRecommend = runEngine(
+    courtsGen,
+    (court) => {
+      if (court) setRecommendedCourt(court);
+    },
+    5000
+  );
 
   return () => {
-    stopRecommend();  };
+    stopRecommend();
+  };
 }, []);
 
   return (
@@ -97,7 +119,7 @@ useEffect(() => {
         <Sidebar courts={COURTS} />
 
         {/* права частина карта */}
-        <MapView detail={COURT_DETAIL} />
+        <MapView />
 
       </div>
     </div>
