@@ -6,6 +6,7 @@ import {
   getCourtStatusText,
   getCourtTypeLabel,
 } from "../utils/courtPresentation";
+import { MiniCourtCalendar } from './MiniCourtCalendar';
 
 export function CourtCardMini({ court }) {
   const image = getCourtImage(court);
@@ -15,22 +16,26 @@ export function CourtCardMini({ court }) {
   const statusText = getCourtStatusText(court);
 
   return (
-    <Link to={`/courts/${court.id}`} className={`court-card-mini${court.selected ? ' selected' : ''}`}>
-      <img src={image} alt={court?.name || 'Court'} className="mini-img" />
-      <div className="mini-info">
-        <span className={badgeClassName}>{typeLabel}</span>
-        <div className="court-name">{court.name}</div>
-        <div className="court-address">{court.address}</div>
-        {court.popularity && (
-          <div style={{ fontSize: '12px', color: '#868e96', marginBottom: '4px' }}>
-            Популярність: {court.popularity}%
+    <div className={`court-card-mini${court.selected ? ' selected' : ''}`}>
+      <Link to={`/courts/${court.id}`} className="court-card-mini-link">
+        <img src={image} alt={court?.name || 'Court'} className="mini-img" />
+        <div className="mini-info">
+          <span className={badgeClassName}>{typeLabel}</span>
+          <div className="court-name">{court.name}</div>
+          <div className="court-address">{court.address}</div>
+          {court.popularity && (
+            <div style={{ fontSize: '12px', color: '#868e96', marginBottom: '4px' }}>
+              Популярність: {court.popularity}%
+            </div>
+          )}
+          <div className="live-indicator">
+            <span className={statusDotClassName}></span>
+            {statusText}
           </div>
-        )}
-        <div className="live-indicator">
-          <span className={statusDotClassName}></span>
-          {statusText}
         </div>
-      </div>
-    </Link>
+      </Link>
+
+      <MiniCourtCalendar courtId={court.id} />
+    </div>
   );
 }
