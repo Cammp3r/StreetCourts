@@ -160,15 +160,12 @@ body {
 }
 
 .court-card-mini {
-  display: flex;
   background-color: var(--bg-tertiary);
   border-radius: 12px;
   margin-bottom: 1rem;
   overflow: hidden;
-  cursor: pointer;
   transition: transform 0.2s, border-color 0.2s;
   border: 1px solid transparent;
-  text-decoration: none;
   color: inherit;
 }
 
@@ -181,6 +178,12 @@ body {
   border-color: var(--accent-orange); /* приклад для баскетболу */
 }
 
+.court-card-mini-link {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+}
+
 .mini-img {
   width: 100px;
   height: 100px;
@@ -190,6 +193,109 @@ body {
 .mini-info {
   padding: 12px;
   flex-grow: 1;
+}
+
+.mini-calendar {
+  border-top: 1px solid var(--border-color);
+  padding: 10px 12px 12px;
+}
+
+.mini-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.mini-calendar-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.mini-calendar-total {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.mini-calendar-days {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.mini-day-btn {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 5px 4px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.2;
+}
+
+.mini-day-btn.active {
+  border-color: var(--accent-blue);
+  background-color: rgba(59, 130, 246, 0.15);
+  color: var(--text-primary);
+}
+
+.mini-calendar-times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.mini-time-btn {
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 4px 8px;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+
+.mini-time-btn.active {
+  border-color: var(--accent-green);
+  background-color: rgba(34, 197, 94, 0.15);
+  color: var(--text-primary);
+}
+
+.mini-calendar-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.mini-slot-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.mini-register-btn {
+  border: none;
+  border-radius: 8px;
+  background-color: var(--accent-blue);
+  color: black;
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.mini-register-btn:hover {
+  filter: brightness(0.95);
 }
 
 .court-type-badge {
@@ -712,4 +818,19 @@ body {
   background: var(--accent-blue);
   color: black;
   border: none;
+}
+
+@media (max-width: 520px) {
+  .mini-calendar-days {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mini-calendar-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mini-register-btn {
+    width: 100%;
+  }
 }
