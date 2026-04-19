@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom";
 import { UserProfilePage } from "../pages/UserProfile";
 import { CourtPage } from "../pages/CourtPage";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
   return (
@@ -12,6 +13,7 @@ export function Navbar() {
             Карта
           </Link>
           <Link to="/profile">Мій профіль</Link>
+          <ThemeToggle />
         </div>
       </nav>
 

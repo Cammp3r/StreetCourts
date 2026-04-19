@@ -13,6 +13,23 @@
   --accent-blue: #3b82f6; /* інтерфейсні елементи */
   --danger: #ef4444;
   --success: #22c55e;
+  --border-color: #333;
+}
+
+/* світла тема */
+[data-theme="light"] {
+  --bg-main: #ffffff; /* основний фон */
+  --bg-secondary: #f8f9fa; /* фон карток і сайдбарів */
+  --bg-tertiary: #e9ecef; /* фон полів вводу */
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --accent-orange: #ff6b00; /* баскет */
+  --accent-green: #00d26a; /* футбол */
+  --accent-yellow: #ffd300; /* волейбол */
+  --accent-blue: #3b82f6; /* інтерфейсні елементи */
+  --danger: #dc3545;
+  --success: #28a745;
+  --border-color: #dee2e6;
 }
 
 * {
@@ -44,7 +61,7 @@ body {
   align-items: center;
   padding: 1rem 2rem;
   background-color: var(--bg-secondary);
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -71,6 +88,27 @@ body {
   color: var(--text-primary);
 }
 
+/* кнопка переключення теми */
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
 /* головний контейнер */
 .main-container {
   display: flex;
@@ -84,14 +122,14 @@ body {
   width: 400px;
   background-color: var(--bg-secondary);
   overflow-y: auto;
-  border-right: 1px solid #333;
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
 }
 
 .sidebar-header {
   padding: 1.5rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* фільтри */
@@ -104,7 +142,7 @@ body {
 .filter-btn {
   padding: 8px 16px;
   border-radius: 20px;
-  border: 1px solid #444;
+  border: 1px solid var(--border-color);
   background: transparent;
   color: var(--text-secondary);
   cursor: pointer;
@@ -197,7 +235,7 @@ body {
   height: clamp(360px, 70vh, 740px);
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid #333;
+  border: 1px solid var(--border-color);
   background-color: var(--bg-secondary);
 }
 
