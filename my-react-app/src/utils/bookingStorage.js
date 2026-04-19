@@ -1,3 +1,5 @@
+import { MaxPriorityQueue } from './maxPriorityQueue';
+
 const BOOKINGS_STORAGE_KEY = 'streetcourts-bookings-v1';
 
 export const DEFAULT_TIME_SLOTS = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
@@ -80,4 +82,34 @@ export function registerToSlot(courtId, day, timeSlot) {
 
   window.localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(nextBookings));
   return nextCount;
+}
+
+export function getRecommendedTimeSlots(courtId, day, limit = 3) {
+  if (!courtId || !day) return [];
+
+  const queue = new MaxPriorityQueue();
+
+  DEFAULT_TIME_SLOTS.forEach((timeSlot) => {
+    const currentCount = getSlotBookingsCount(courtId, day, timeSlot);
+    const hour = Number(timeSlot.split(':')[0]) || 0;
+
+    let timePreference = 0;
+    if (hour >= 18) timePreference = 8;
+    else if (hour >= 14) timePreference = 5;
+    else if (hour >= 10) timePreference = 3;
+    else timePreference = 1;
+
+    const loadBoost = currentCount * 14;
+    const priority = 100 + timePreference + loadBoost;
+
+    queue.enqueue({ timeSlot, currentCount }, priority);
+  });
+
+  const result = [];
+  while (queue.size() > 0 && result.length < limit) {
+    const next = queue.dequeue();
+    if (next) result.push(next);
+  }
+
+  return result;
 }
