@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CircleMarker, MapContainer, TileLayer, useMap } from 'react-leaflet';
+import { useTheme } from '../contexts/ThemeContext';
 
 
 function RecenterOnPosition({ position, zoom }) {
@@ -13,8 +14,9 @@ function RecenterOnPosition({ position, zoom }) {
   return null;
 }
 
-export function MapView() {
-  const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); //Kiyv
+export function MapView({ detail }) {
+  const { theme } = useTheme();
+  const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); // Kyiv
   const [userPosition, setUserPosition] = useState(null);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ export function MapView() {
         setUserPosition([pos.coords.latitude, pos.coords.longitude]);
       },
       () => {
+        // Якщо доступ заборонений/помилка — лишаємо fallbackCenter
       },
       {
         enableHighAccuracy: true,
@@ -39,6 +42,11 @@ export function MapView() {
   const center = userPosition ?? fallbackCenter;
   const zoom = userPosition ? 15 : 12;
 
+  // Dynamic tile layer based on theme
+  const tileLayerUrl = theme === 'dark'
+    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+    : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+
   return (
     
     <div className="map-container">
@@ -46,7 +54,7 @@ export function MapView() {
         <MapContainer center={center} zoom={zoom} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
           
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+            url={tileLayerUrl}
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
 
