@@ -6,7 +6,9 @@ import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
 import { COURTS, REAL_DB_USERS } from './data/mockData';
-import { PriorityQueue } from './utils/priorityQueue';
+import { MaxPriorityQueue } from './utils/maxPriorityQueue';
+import { getCourtBookingsCount } from './utils/bookingStorage';
+import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
 
 function App() { 
 const [borderColor, setBorderColor] = useState("#333");
@@ -44,10 +46,23 @@ useEffect(() => {
 
   if (courtsWithAddress.length === 0) return;
 
+  const calculatePriority = (court) => {
+    const popularityScore = Number(court?.popularity) || 0;
+    const bookingScore = Math.min(getCourtBookingsCount(court.id), 40);
+    const statusClass = getCourtStatusDotClassName(court);
+
+    let loadBoost = 10;
+    if (statusClass.includes('busy')) loadBoost = 28;
+    if (statusClass.includes('medium')) loadBoost = 18;
+    if (statusClass.includes('free')) loadBoost = 6;
+
+    return popularityScore + bookingScore + loadBoost;
+  };
+
   const buildQueue = () => {
-    const q = new PriorityQueue();
+    const q = new MaxPriorityQueue();
     courtsWithAddress.forEach((court) => {
-      q.enqueue(court, court.popularity || 50);
+      q.enqueue(court, calculatePriority(court));
     });
     return q;
   };
@@ -70,7 +85,12 @@ useEffect(() => {
   const stopRecommend = runEngine(
     courtsGen,
     (court) => {
-      if (court) setRecommendedCourt(court);
+      if (court) {
+        setRecommendedCourt({
+          ...court,
+          statusText: getCourtStatusText(court),
+        });
+      }
     },
     5000
   );
