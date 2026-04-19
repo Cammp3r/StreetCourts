@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import {
   DEFAULT_TIME_SLOTS,
   getCourtBookingsCount,
+  getRecommendedTimeSlots,
   getSlotBookingsCount,
   getUpcomingDays,
   registerToSlot,
@@ -21,6 +22,11 @@ export function MiniCourtCalendar({ courtId }) {
   const selectedSlotCount = useMemo(
     () => getSlotBookingsCount(courtId, selectedDay, selectedTime),
     [courtId, selectedDay, selectedTime, refreshTick]
+  );
+
+  const recommendedSlots = useMemo(
+    () => getRecommendedTimeSlots(courtId, selectedDay, 3),
+    [courtId, selectedDay, refreshTick]
   );
 
   const handleRegister = () => {
@@ -61,6 +67,22 @@ export function MiniCourtCalendar({ courtId }) {
             {timeSlot}
           </button>
         ))}
+      </div>
+
+      <div className="mini-recommended-wrap">
+        <div className="mini-recommended-title">Рекомендовані слоти:</div>
+        <div className="mini-recommended-list">
+          {recommendedSlots.map((slot) => (
+            <button
+              key={slot.timeSlot}
+              type="button"
+              className={`mini-recommended-chip ${selectedTime === slot.timeSlot ? 'active' : ''}`}
+              onClick={() => setSelectedTime(slot.timeSlot)}
+            >
+              {slot.timeSlot} ({slot.currentCount})
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="mini-calendar-footer">
