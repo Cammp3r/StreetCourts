@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
 import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
+import { createCourtComment, fetchCourtComments } from '../utils/commentsApi';
 import {
   getCourtImage,
   getCourtStatusDotClassName,
@@ -9,28 +10,6 @@ import {
   getCourtTypeLabel,
 } from '../utils/courtPresentation';
 
-
-
-function loadComments(courtId) {
-  if (!courtId) return [];
-  try {
-    const raw = localStorage.getItem(`court_comments_${courtId}`);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveComments(courtId, comments) {
-  if (!courtId) return;
-  try {
-    localStorage.setItem(`court_comments_${courtId}`, JSON.stringify(comments));
-  } catch {
-    return;
-  }
-}
 
 export function CourtPage() {
   const { courtId } = useParams();
@@ -40,9 +19,11 @@ export function CourtPage() {
     [courtId]
   );
 
-  const [comments, setComments] = useState(() => loadComments(courtId));
+  const [comments, setComments] = useState([]);
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
+  const [commentsLoading, setCommentsLoading] = useState(false);
+  const [commentsError, setCommentsError] = useState('');
 
   const image = getCourtImage(court);
   const typeLabel = getCourtTypeLabel(court);
@@ -50,7 +31,44 @@ export function CourtPage() {
   const statusText = getCourtStatusText(court);
 
   useEffect(() => {
-    setComments(loadComments(courtId));
+    if (!courtId) {
+      setComments([]);
+      setCommentsError('');
+      setCommentsLoading(false);
+      return undefined;
+    }
+
+    const controller = new AbortController();
+
+    const loadCourtComments = async () => {
+      setCommentsLoading(true);
+      setCommentsError('');
+
+      try {
+        const nextComments = await fetchCourtComments(courtId, {
+          signal: controller.signal,
+        });
+
+        if (!controller.signal.aborted) {
+          setComments(nextComments);
+        }
+      } catch {
+        if (!controller.signal.aborted) {
+          setComments([]);
+          setCommentsError('Не вдалося завантажити коментарі з JSON-бази.');
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setCommentsLoading(false);
+        }
+      }
+    };
+
+    loadCourtComments();
+
+    return () => {
+      controller.abort();
+    };
   }, [courtId]);
 
   if (!court) {
@@ -73,19 +91,25 @@ export function CourtPage() {
 
     if (!memoizedIsCommentLongEnough(trimmedText, comments)) return;
 
-    const newComment = {
-      id: Date.now(),
-      author: trimmedAuthor || 'Анонім',
-      text: trimmedText,
-      createdAt: new Date().toISOString(),
+    const saveComment = async () => {
+      try {
+        const savedComment = await createCourtComment(court.id, {
+          author: trimmedAuthor || 'Анонім',
+          text: trimmedText,
+        });
+
+        if (savedComment) {
+          setComments((currentComments) => [savedComment, ...currentComments]);
+          setText('');
+          setAuthor('');
+          setCommentsError('');
+        }
+      } catch {
+        setCommentsError('Не вдалося зберегти коментар у JSON-базі.');
+      }
     };
 
-    const nextComments = [newComment, ...comments];
-    setComments(nextComments);
-    saveComments(court.id, nextComments);
-
-    setText('');
-    setAuthor('');
+    saveComment();
   };
 
   return (
@@ -134,7 +158,11 @@ export function CourtPage() {
           </form>
 
           <div className="court-comments-list">
-            {comments.length === 0 ? (
+            {commentsLoading ? (
+              <p className="court-empty">Завантажуємо коментарі...</p>
+            ) : commentsError ? (
+              <p className="court-empty">{commentsError}</p>
+            ) : comments.length === 0 ? (
               <p className="court-empty">Поки що немає жодного коментаря. Будьте першими!</p>
             ) : (
               comments.map((comment) => (
