@@ -71,7 +71,7 @@ export function CourtPage() {
     const trimmedText = text.trim();
     const trimmedAuthor = author.trim();
 
-    if (!memoizedIsCommentLongEnough(trimmedText)) return;
+    if (!memoizedIsCommentLongEnough(trimmedText, comments)) return;
 
     const newComment = {
       id: Date.now(),
