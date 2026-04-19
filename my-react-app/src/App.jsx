@@ -51,12 +51,12 @@ useEffect(() => {
     const bookingScore = Math.min(getCourtBookingsCount(court.id), 40);
     const statusClass = getCourtStatusDotClassName(court);
 
-    let availabilityBoost = 8;
-    if (statusClass.includes('free')) availabilityBoost = 25;
-    if (statusClass.includes('medium')) availabilityBoost = 14;
-    if (statusClass.includes('busy')) availabilityBoost = 4;
+    let loadBoost = 10;
+    if (statusClass.includes('busy')) loadBoost = 28;
+    if (statusClass.includes('medium')) loadBoost = 18;
+    if (statusClass.includes('free')) loadBoost = 6;
 
-    return popularityScore + bookingScore + availabilityBoost;
+    return popularityScore + bookingScore + loadBoost;
   };
 
   const buildQueue = () => {
