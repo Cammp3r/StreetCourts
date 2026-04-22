@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useRef } from 'react';
 import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
 import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync } from '../utils/asyncFilter';
+import { streamArrayChunks } from '../utils/streams';
 
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
@@ -31,11 +32,13 @@ export function Sidebar({ courts }) {
   const [streetSearch, setStreetSearch] = useState('');
   const [filteredByStreet, setFilteredByStreet] = useState([]);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [chunkedVisibleCourts, setChunkedVisibleCourts] = useState([]);
   
   // AbortControllers для скасування операцій
   const popularityAbortController = useRef(null);
   const popularityFilterAbortController = useRef(null);
   const streetAbortController = useRef(null);
+  const visibleCourtsStreamAbortController = useRef(null);
 
   // Функція для скасування всіх операцій
   const cancelAllOperations = () => {
@@ -200,6 +203,45 @@ export function Sidebar({ courts }) {
     [filteredByStreet, activeSport]
   );
 
+  useEffect(() => {
+    if (visibleCourtsStreamAbortController.current) {
+      visibleCourtsStreamAbortController.current.abort();
+    }
+
+    visibleCourtsStreamAbortController.current = new AbortController();
+    const signal = visibleCourtsStreamAbortController.current.signal;
+
+    setChunkedVisibleCourts([]);
+
+    const isDev = import.meta.env.DEV;
+    const streamChunkSize = isDev ? 8 : 25;
+    const streamYieldDelayMs = isDev ? 16 : 0;
+
+    const run = async () => {
+      try {
+        for await (const chunk of streamArrayChunks(visibleCourts, {
+          chunkSize: streamChunkSize,
+          signal,
+          strategy: 'animationFrame',
+          yieldDelayMs: streamYieldDelayMs,
+        })) {
+          if (signal.aborted) return;
+          setChunkedVisibleCourts((current) => current.concat(chunk));
+        }
+      } catch (error) {
+        console.error('Error streaming courts:', error);
+      }
+    };
+
+    run();
+
+    return () => {
+      if (visibleCourtsStreamAbortController.current) {
+        visibleCourtsStreamAbortController.current.abort();
+      }
+    };
+  }, [visibleCourts]);
+
   return (
     <div className="sidebar">
       <div className="sidebar-header">
@@ -262,7 +304,7 @@ export function Sidebar({ courts }) {
       </div>
 
       <div className="courts-list">
-        {visibleCourts.map((court) => (
+        {chunkedVisibleCourts.map((court) => (
           <CourtCardMini key={court.id} court={court} />
         ))}
       </div>
