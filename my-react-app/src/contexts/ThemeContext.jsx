@@ -1,17 +1,17 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('dark');
-
-  useEffect(() => {
-    // Завантажити тему з localStorage при монтуванні
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setTheme(savedTheme);
+  const [theme, setTheme] = useState(() => {
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme || 'dark';
+    } catch {
+      return 'dark';
     }
-  }, []);
+  });
 
   useEffect(() => {
     // Застосувати тему до кореневого документу
