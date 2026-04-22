@@ -164,6 +164,38 @@ const server = http.createServer((request, response) => {
   });
 });
 
+async function isExistingApiHealthy() {
+  try {
+    const response = await fetch(`http://localhost:${PORT}/api/health`);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+server.on('error', (error) => {
+  if (error?.code === 'EADDRINUSE') {
+    (async () => {
+      const healthy = await isExistingApiHealthy();
+      if (healthy) {
+        console.log(
+          `Comments JSON API already running on http://localhost:${PORT} (skipping new instance).`
+        );
+        process.exit(0);
+      }
+
+      console.error(
+        `Port ${PORT} is already in use, and no healthy Comments API was detected on /api/health.`
+      );
+      process.exit(1);
+    })();
+    return;
+  }
+
+  console.error(error);
+  process.exit(1);
+});
+
 server.listen(PORT, () => {
   console.log(`Comments JSON API listening on http://localhost:${PORT}`);
 });
