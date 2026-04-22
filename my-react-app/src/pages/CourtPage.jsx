@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
 import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
 import { createCourtComment, fetchCourtComments } from '../utils/commentsApi';
+import { findCommentByAuthorAsync, findCommentByContentCallback } from '../utils/asyncCommentSearch';
 import {
   getCourtImage,
   getCourtStatusDotClassName,
@@ -24,6 +25,10 @@ export function CourtPage() {
   const [text, setText] = useState('');
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [commentsError, setCommentsError] = useState('');
+  const [searchAuthor, setSearchAuthor] = useState('');
+  const [searchContent, setSearchContent] = useState('');
+  const [foundComment, setFoundComment] = useState(null);
+  const [searchMessage, setSearchMessage] = useState('');
 
   const image = getCourtImage(court);
   const typeLabel = getCourtTypeLabel(court);
@@ -70,6 +75,63 @@ export function CourtPage() {
       controller.abort();
     };
   }, [courtId]);
+
+  const handleSearchByAuthor = async (e) => {
+    e.preventDefault();
+    if (!searchAuthor.trim()) {
+      setFoundComment(null);
+      setSearchMessage('');
+      return;
+    }
+
+    try {
+      const result = await findCommentByAuthorAsync(comments, searchAuthor);
+      if (result) {
+        setFoundComment(result);
+        setSearchMessage(`✓ Знайдено коментар від ${result.author}`);
+      } else {
+        setFoundComment(null);
+        setSearchMessage(`✗ Коментарів від "${searchAuthor}" не знайдено`);
+      }
+    } catch (error) {
+      setSearchMessage(`Помилка пошуку: ${error.message}`);
+    }
+  };
+
+  const handleSearchByContent = (e) => {
+    e.preventDefault();
+    if (!searchContent.trim()) {
+      setFoundComment(null);
+      setSearchMessage('');
+      return;
+    }
+
+    findCommentByContentCallback(
+      comments,
+      searchContent,
+      (error, result) => {
+        if (error) {
+          setSearchMessage(`Помилка пошуку: ${error.message}`);
+          return;
+        }
+
+        if (result) {
+          setFoundComment(result);
+          setSearchMessage(`✓ Знайдено коментар з текстом "${searchContent}"`);
+        } else {
+          setFoundComment(null);
+          setSearchMessage(`✗ Коментарів з "${searchContent}" не знайдено`);
+        }
+      }
+    );
+  };
+
+  const clearSearch = () => {
+    setFoundComment(null);
+    setSearchMessage('');
+    setSearchAuthor('');
+    setSearchContent('');
+  };
 
   if (!court) {
     return (
@@ -130,6 +192,71 @@ export function CourtPage() {
 
         <section className="court-comments-section">
           <h2 className="court-section-title">Коментарі до майданчика</h2>
+
+          <div className="court-search-section">
+            <div className="court-search-row">
+              <form className="court-search-form" onSubmit={handleSearchByAuthor}>
+                <input
+                  type="text"
+                  placeholder="Пошук за іменем автора..."
+                  value={searchAuthor}
+                  onChange={(e) => setSearchAuthor(e.target.value)}
+                  className="court-search-input"
+                />
+                <button type="submit" className="court-search-btn">
+                  Пошук автора
+                </button>
+              </form>
+            </div>
+
+            <div className="court-search-row">
+              <form className="court-search-form" onSubmit={handleSearchByContent}>
+                <input
+                  type="text"
+                  placeholder="Пошук за змістом коментаря..."
+                  value={searchContent}
+                  onChange={(e) => setSearchContent(e.target.value)}
+                  className="court-search-input"
+                />
+                <button type="submit" className="court-search-btn">
+                  Пошук за текстом
+                </button>
+              </form>
+            </div>
+
+            {searchMessage && (
+              <div className="court-search-message">
+                <p>{searchMessage}</p>
+                {foundComment && (
+                  <button className="court-clear-search-btn" onClick={clearSearch}>
+                    Очистити пошук
+                  </button>
+                )}
+              </div>
+            )}
+
+            {foundComment && (
+              <div className="court-found-comment">
+                <article className="court-comment-card">
+                  <div className="court-comment-header">
+                    <div className="court-comment-author">{foundComment.author}</div>
+                    {foundComment.createdAt ? (
+                      <div className="court-comment-date">
+                        {new Date(foundComment.createdAt).toLocaleString('uk-UA', {
+                          day: '2-digit',
+                          month: '2-digit',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </div>
+                    ) : null}
+                  </div>
+                  <p className="court-comment-text">{foundComment.text}</p>
+                </article>
+              </div>
+            )}
+          </div>
 
           <form className="court-comment-form" onSubmit={handleSubmit}>
             <div className="court-comment-row">
