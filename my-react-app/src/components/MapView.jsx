@@ -14,7 +14,7 @@ function RecenterOnPosition({ position, zoom }) {
   return null;
 }
 
-export function MapView({ detail }) {
+export function MapView() {
   const { theme } = useTheme();
   const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); // Kyiv
   const [userPosition, setUserPosition] = useState(null);
@@ -26,9 +26,7 @@ export function MapView({ detail }) {
       (pos) => {
         setUserPosition([pos.coords.latitude, pos.coords.longitude]);
       },
-      () => {
-        // Якщо доступ заборонений/помилка — лишаємо fallbackCenter
-      },
+      () => {},
       {
         enableHighAccuracy: true,
         maximumAge: 10_000,
@@ -42,7 +40,6 @@ export function MapView({ detail }) {
   const center = userPosition ?? fallbackCenter;
   const zoom = userPosition ? 15 : 12;
 
-  // Dynamic tile layer based on theme
   const tileLayerUrl = theme === 'dark'
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
