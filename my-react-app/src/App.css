@@ -50,6 +50,17 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.app.app--court-page {
+  height: auto;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.app.app--court-page .main-container {
+  display: none;
 }
 
 /* компоненти інтерфейсу */

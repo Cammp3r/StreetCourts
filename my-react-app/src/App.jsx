@@ -1,5 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
 import { LastCheckinBanner } from './components/LastCheckinBanner';
@@ -11,8 +12,11 @@ import { getCourtBookingsCount } from './utils/bookingStorage';
 import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
 
 function App() { 
+const location = useLocation();
+const isCourtPage = location.pathname.startsWith('/courts/');
 const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
+const [selectedCourtId, setSelectedCourtId] = useState(null);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
@@ -103,7 +107,7 @@ useEffect(() => {
   return (
     
     
-    <div className="app">
+    <div className={`app${isCourtPage ? ' app--court-page' : ''}`}>
       {/* навігація */}
       <Navbar />
 
@@ -113,7 +117,7 @@ useEffect(() => {
       <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
 
       {/* рекомендована площадка, що змінюється раз на 5 секунд */}
-      {recommendedCourt && (
+      {recommendedCourt && !isCourtPage && (
         <div style={{
           marginTop: '10px',
           padding: '10px 12px',
@@ -136,10 +140,22 @@ useEffect(() => {
       <div className="main-container">
         
         {/* лівий сайдбар */}
-        <Sidebar courts={COURTS} />
+        {!isCourtPage && (
+          <Sidebar
+            courts={COURTS}
+            selectedCourtId={selectedCourtId}
+            onSelectCourt={(court) => setSelectedCourtId(court?.id ?? null)}
+          />
+        )}
 
         {/* права частина карта */}
-        <MapView />
+        {!isCourtPage && (
+          <MapView
+            courts={COURTS}
+            selectedCourtId={selectedCourtId}
+            onSelectCourt={(court) => setSelectedCourtId(court?.id ?? null)}
+          />
+        )}
 
       </div>
     </div>
