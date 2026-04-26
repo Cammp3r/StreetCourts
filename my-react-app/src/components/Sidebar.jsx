@@ -24,7 +24,7 @@ const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
   maxSize: 10,
 });
 
-export function Sidebar({ courts }) {
+export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
   const [activeSport, setActiveSport] = useState('basketball');
   const [courtsWithPopularity, setCourtsWithPopularity] = useState([]);
   const [popularityThreshold, setPopularityThreshold] = useState('');
@@ -305,7 +305,12 @@ export function Sidebar({ courts }) {
 
       <div className="courts-list">
         {chunkedVisibleCourts.map((court) => (
-          <CourtCardMini key={court.id} court={court} />
+          <CourtCardMini
+            key={court.id}
+            court={court}
+            isSelected={court.id === selectedCourtId}
+            onSelect={onSelectCourt}
+          />
         ))}
       </div>
     </div>
