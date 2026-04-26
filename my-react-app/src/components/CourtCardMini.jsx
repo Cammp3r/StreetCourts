@@ -8,16 +8,24 @@ import {
 } from "../utils/courtPresentation";
 import { MiniCourtCalendar } from './MiniCourtCalendar';
 
-export function CourtCardMini({ court }) {
+export function CourtCardMini({ court, isSelected = false, onSelect }) {
   const image = getCourtImage(court);
   const typeLabel = getCourtTypeLabel(court);
   const badgeClassName = getCourtBadgeClassName(court);
   const statusDotClassName = getCourtStatusDotClassName(court);
   const statusText = getCourtStatusText(court);
 
+  const handleSelect = () => {
+    onSelect?.(court);
+  };
+
   return (
-    <div className={`court-card-mini${court.selected ? ' selected' : ''}`}>
-      <Link to={`/courts/${court.id}`} className="court-card-mini-link">
+    <div className={`court-card-mini${isSelected ? ' selected' : ''}`}>
+      <Link
+        to={`/courts/${court.id}`}
+        className="court-card-mini-link"
+        onClick={handleSelect}
+      >
         <img src={image} alt={court?.name || 'Court'} className="mini-img" />
         <div className="mini-info">
           <span className={badgeClassName}>{typeLabel}</span>
