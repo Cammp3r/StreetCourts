@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
 import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
-import { createCourtComment, fetchCourtComments } from '../utils/commentsApi';
+import { createCourtComment, streamCourtComments } from '../utils/commentsApi';
 import { fetchCourtById } from '../utils/courtsApi';
 import { findCommentByAuthorAsync, findCommentByContentCallback } from '../utils/asyncCommentSearch';
 import {
@@ -103,19 +103,18 @@ export function CourtPage() {
     const loadCourtComments = async () => {
       setCommentsLoading(true);
       setCommentsError('');
+      setComments([]);
 
       try {
-        const nextComments = await fetchCourtComments(courtId, {
-          signal: controller.signal,
-        });
-
-        if (!controller.signal.aborted) {
-          setComments(nextComments);
+        for await (const comment of streamCourtComments(courtId, { signal: controller.signal })) {
+          if (controller.signal.aborted) return;
+          setComments((current) => current.concat(comment));
         }
-      } catch {
+      } catch (error) {
         if (!controller.signal.aborted) {
           setComments([]);
           setCommentsError('Не вдалося завантажити коментарі з JSON-бази.');
+          console.error('Failed to stream comments:', error);
         }
       } finally {
         if (!controller.signal.aborted) {
