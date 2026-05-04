@@ -8,7 +8,7 @@ import {
   registerToSlot,
 } from '../utils/bookingStorage';
 
-export function MiniCourtCalendar({ courtId }) {
+export function MiniCourtCalendar({ courtId, onRegister }) {
   const days = useMemo(() => getUpcomingDays(7), []);
   const [selectedDay, setSelectedDay] = useState(days[0]?.value || '');
   const [selectedTime, setSelectedTime] = useState(DEFAULT_TIME_SLOTS[0]);
@@ -24,6 +24,9 @@ export function MiniCourtCalendar({ courtId }) {
     if (!selectedDay || !selectedTime) return;
     registerToSlot(courtId, selectedDay, selectedTime);
     setRefreshTick((current) => current + 1);
+    if (onRegister) {
+      onRegister({ courtId, selectedDay, selectedTime });
+    } // зробити звук повідомлення коли натискаєш на кнопку
   };
 
   return (
