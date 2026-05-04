@@ -1141,6 +1141,30 @@ body {
   border-color: #555;
 }
 
+.street-search-filter select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.street-search-filter select:focus {
+  outline: none;
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background-color: var(--bg-tertiary);
+}
+
+.street-search-filter select:hover {
+  border-color: #555;
+}
+
 @media (max-width: 520px) {
   .mini-calendar-days {
     grid-template-columns: repeat(3, minmax(0, 1fr));
