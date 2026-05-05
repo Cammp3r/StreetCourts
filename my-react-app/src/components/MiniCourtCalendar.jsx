@@ -7,6 +7,9 @@ import {
   getUpcomingDays,
   registerToSlot,
 } from '../utils/bookingStorage';
+import { eventEmitter } from '../utils/EventEmtiter';
+
+const COURT_REGISTERED_EVENT_PREFIX = 'court:registered';
 
 export function MiniCourtCalendar({ courtId, onRegister }) {
   const days = useMemo(() => getUpcomingDays(7), []);
@@ -26,7 +29,14 @@ export function MiniCourtCalendar({ courtId, onRegister }) {
     setRefreshTick((current) => current + 1);
     if (onRegister) {
       onRegister({ courtId, selectedDay, selectedTime });
-    } // зробити звук повідомлення коли натискаєш на кнопку
+    }
+
+    eventEmitter.emit(`${COURT_REGISTERED_EVENT_PREFIX}:${courtId}`, {
+      courtId,
+      selectedDay,
+      selectedTime,
+      message: 'Користувач успішно зареєструвався',
+    });
   };
 
   return (
