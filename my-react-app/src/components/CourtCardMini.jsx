@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getCourtBadgeClassName,
   getCourtImage,
@@ -7,13 +8,47 @@ import {
   getCourtTypeLabel,
 } from "../utils/courtPresentation";
 import { MiniCourtCalendar } from './MiniCourtCalendar';
+import { eventEmitter } from '../utils/EventEmtiter';
+
+const COURT_REGISTERED_EVENT_PREFIX = 'court:registered';
 
 export function CourtCardMini({ court, isSelected = false, onSelect }) {
+  const [statusMessage, setStatusMessage] = useState('');
+  const messageTimerRef = useRef(null);
   const image = getCourtImage(court);
   const typeLabel = getCourtTypeLabel(court);
   const badgeClassName = getCourtBadgeClassName(court);
   const statusDotClassName = getCourtStatusDotClassName(court);
   const statusText = getCourtStatusText(court);
+
+  useEffect(() => {
+    if (!court?.id) return undefined;
+
+    const eventName = `${COURT_REGISTERED_EVENT_PREFIX}:${court.id}`;
+
+    const handleRegister = (payload) => {
+      if (messageTimerRef.current) {
+        window.clearTimeout(messageTimerRef.current);
+      }
+
+      setStatusMessage(payload?.message || 'Користувач успішно зареєструвався');
+
+      messageTimerRef.current = window.setTimeout(() => {
+        setStatusMessage('');
+        messageTimerRef.current = null;
+      }, 2500);
+    };
+
+    eventEmitter.setListener(eventName, handleRegister);
+
+    return () => {
+      eventEmitter.clearListener(eventName);
+
+      if (messageTimerRef.current) {
+        window.clearTimeout(messageTimerRef.current);
+      }
+    };
+  }, [court?.id]);
 
   const handleSelect = () => {
     onSelect?.(court);
@@ -44,6 +79,12 @@ export function CourtCardMini({ court, isSelected = false, onSelect }) {
       </Link>
 
       <MiniCourtCalendar courtId={court.id} />
+
+      {statusMessage ? (
+        <div className="court-register-success" role="status" aria-live="polite">
+          {statusMessage}
+        </div>
+      ) : null}
     </div>
   );
 }

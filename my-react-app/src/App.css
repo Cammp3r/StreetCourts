@@ -341,6 +341,17 @@ body {
   filter: brightness(0.95);
 }
 
+.court-register-success {
+  margin-top: 10px;
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: rgba(34, 197, 94, 0.14);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: var(--success);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .court-type-badge {
   font-size: 0.75rem;
   font-weight: 700;
