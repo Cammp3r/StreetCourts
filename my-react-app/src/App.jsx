@@ -117,22 +117,18 @@ useEffect(() => {
       <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
 
       {/* рекомендована площадка, що змінюється раз на 5 секунд */}
-      {recommendedCourt && !isCourtPage && (
-        <div style={{
-          marginTop: '10px',
-          padding: '10px 12px',
-          borderRadius: '8px',
-          backgroundColor: 'var(--bg-secondary)',
-          border: '1px solid var(--border-color)',
-          color: 'var(--text-primary)',
-          maxWidth: '360px'
-        }}>
-          <div style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '4px' }}>
-             Рекомендована площадка 
-          </div>
-          <div style={{ fontSize: '16px', fontWeight: 'bold' }}>{recommendedCourt.name}</div>
-          <div style={{ fontSize: '13px', color: 'var(--text-secondary)' }}>{recommendedCourt.address}</div>
-          <div style={{ fontSize: '12px', marginTop: '4px', color: 'var(--text-secondary)' }}>{recommendedCourt.statusText}</div>
+      {!isCourtPage && (
+        <div className="recommended-court-banner">
+          {recommendedCourt ? (
+            <>
+              <div className="recommended-label">Рекомендована площадка</div>
+              <div className="recommended-name">{recommendedCourt.name}</div>
+              <div className="recommended-address">{recommendedCourt.address}</div>
+              <div className="recommended-status">{recommendedCourt.statusText}</div>
+            </>
+          ) : (
+            <div className="recommended-placeholder">Завантаження рекомендованої площадки...</div>
+          )}
         </div>
       )}
 
