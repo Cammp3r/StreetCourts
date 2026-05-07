@@ -63,6 +63,56 @@ body {
   display: none;
 }
 
+.app.app--court-page .recommended-court-banner {
+  display: none;
+}
+
+/* рекомендована площадка банер */
+.recommended-court-banner {
+  height: 90px;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.recommended-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.recommended-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--text-primary);
+}
+
+.recommended-address {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.recommended-status {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.recommended-placeholder {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-style: italic;
+  text-align: center;
+}
+
 /* компоненти інтерфейсу */
 
 /* навігація */
@@ -886,5 +936,489 @@ body {
 
   .mini-register-btn {
     width: 100%;
+  }
+}
+
+/* адаптивність для планшетів і мобільних */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 350px;
+  }
+
+  .map-container {
+    padding: 12px;
+  }
+
+  .map-window {
+    height: clamp(320px, 65vh, 600px);
+  }
+
+  .navbar {
+    padding: 0.75rem 1.5rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-menu a {
+    margin-left: 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* адаптивність для мобільних */
+@media (max-width: 768px) {
+  /* navbar */
+  .navbar {
+    padding: 0.6rem 1rem;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav-menu a {
+    margin-left: 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .theme-toggle {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+  }
+
+  /* sidebar */
+  .sidebar {
+    width: 280px;
+  }
+
+  .sidebar-header {
+    padding: 1rem;
+  }
+
+  .sidebar-header h2 {
+    font-size: 1.1rem;
+  }
+
+  .filters {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    flex: 1;
+    min-width: 80px;
+  }
+
+  /* map */
+  .map-container {
+    padding: 8px;
+    align-items: stretch;
+  }
+
+  .map-window {
+    height: clamp(300px, 55vh, 500px);
+    border-radius: 12px;
+    max-width: 100%;
+  }
+
+  /* банер */
+  .recommended-court-banner {
+    height: 80px;
+    padding: 6px 10px;
+  }
+
+  .recommended-name {
+    font-size: 14px;
+  }
+
+  .recommended-address {
+    font-size: 11px;
+  }
+
+  /* court page */
+  .court-page {
+    padding: 1rem;
+  }
+
+  .court-page-inner {
+    max-width: 100%;
+  }
+
+  .court-page-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .court-page-img {
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+  }
+
+  .court-page-title {
+    font-size: 1.3rem;
+  }
+
+  .court-page-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .court-comments-section {
+    padding: 1rem;
+  }
+
+  .court-section-title {
+    font-size: 1.1rem;
+  }
+
+  .court-input,
+  .court-textarea {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.7rem;
+  }
+
+  .court-submit-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  /* profile */
+  .profile-sidebar {
+    width: 250px;
+  }
+
+  .profile-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  .profile-user-name {
+    font-size: 1rem;
+  }
+
+  .profile-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-content-inner {
+    padding: 12px;
+  }
+
+  .profile-page-title {
+    font-size: 1.2rem;
+  }
+
+  .profile-chip {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  /* cards */
+  .court-card-mini {
+    margin-bottom: 0.75rem;
+  }
+
+  .mini-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .mini-info {
+    padding: 10px;
+  }
+
+  .court-name {
+    font-size: 0.95rem;
+  }
+
+  .court-address {
+    font-size: 0.8rem;
+  }
+
+  .court-type-badge {
+    font-size: 0.7rem;
+  }
+
+  /* sort buttons */
+  .sort-filters {
+    gap: 8px;
+  }
+
+  .sort-btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  /* mini calendar */
+  .mini-calendar-title {
+    font-size: 0.7rem;
+  }
+
+  .mini-calendar-total {
+    font-size: 0.75rem;
+  }
+
+  .mini-day-btn {
+    padding: 4px 3px;
+    font-size: 0.7rem;
+  }
+
+  .mini-time-btn,
+  .mini-recommended-chip {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
+
+  .mini-register-btn {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
+/* адаптивність для малих мобільних */
+@media (max-width: 480px) {
+  /* navbar */
+  .navbar {
+    padding: 0.5rem 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 0.9rem;
+  }
+
+  .nav-menu {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .nav-menu a {
+    margin-left: 0;
+    font-size: 0.75rem;
+  }
+
+  .theme-toggle {
+    margin-left: 0;
+    font-size: 0.95rem;
+  }
+
+  /* мобільний макет: карта зверху, список знизу */
+  .main-container {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: 100%;
+    height: 35vh;
+    max-height: 300px;
+    border-right: none;
+    border-top: 1px solid var(--border-color);
+    order: 2;
+  }
+
+  .sidebar-header {
+    padding: 0.75rem;
+  }
+
+  .sidebar-header h2 {
+    font-size: 0.95rem;
+  }
+
+  /* map */
+  .map-container {
+    padding: 4px;
+    order: 1;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .map-window {
+    height: 100%;
+    border-radius: 8px;
+    max-width: 100%;
+  }
+
+  /* банер */
+  .recommended-court-banner {
+    height: 75px;
+    padding: 4px 8px;
+  }
+
+  .recommended-label {
+    font-size: 10px;
+  }
+
+  .recommended-name {
+    font-size: 13px;
+  }
+
+  .recommended-address {
+    font-size: 10px;
+  }
+
+  .recommended-status {
+    font-size: 10px;
+  }
+
+  /* court page */
+  .court-page {
+    padding: 0.75rem;
+  }
+
+  .court-page-header {
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .court-page-img {
+    height: 200px;
+  }
+
+  .court-page-title {
+    font-size: 1.1rem;
+  }
+
+  .court-page-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .court-comments-section {
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .court-section-title {
+    font-size: 1rem;
+  }
+
+  .court-comment-card {
+    padding: 0.7rem;
+  }
+
+  /* profile */
+  .profile-sidebar {
+    width: 100%;
+    max-width: 100%;
+    border-right: none;
+  }
+
+  .profile-content {
+    max-width: 100%;
+  }
+
+  .profile-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .profile-user-name {
+    font-size: 0.95rem;
+  }
+
+  .profile-user-handle {
+    font-size: 0.8rem;
+  }
+
+  .profile-stats {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .profile-stat-value {
+    font-size: 1rem;
+  }
+
+  .profile-stat-label {
+    font-size: 0.8rem;
+  }
+
+  /* cards */
+  .mini-img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .mini-info {
+    padding: 8px;
+  }
+
+  .court-name {
+    font-size: 0.9rem;
+  }
+
+  .court-address {
+    font-size: 0.75rem;
+  }
+
+  .live-indicator {
+    font-size: 0.75rem;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    margin-right: 4px;
+  }
+
+  /* buttons */
+  .filter-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+    flex: 1;
+  }
+
+  .sort-btn {
+    padding: 5px 10px;
+    font-size: 0.75rem;
+  }
+
+  /* mini calendar */
+  .mini-calendar-days {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mini-day-btn {
+    padding: 3px 2px;
+    font-size: 0.65rem;
+    border-radius: 4px;
+  }
+
+  .mini-time-btn,
+  .mini-recommended-chip {
+    font-size: 0.7rem;
+    padding: 5px 6px;
+  }
+
+  .mini-calendar-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mini-register-btn {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .mini-recommended-wrap {
+    margin-bottom: 8px;
+  }
+
+  .mini-recommended-title {
+    font-size: 0.75rem;
+  }
+
+  .mini-recommended-list {
+    gap: 4px;
   }
 }
