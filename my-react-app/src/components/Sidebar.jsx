@@ -283,7 +283,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
           </button>
         </div>
 
-        <div className="popularity-filter">
+        <div className="street-search-filter">
           <label htmlFor="popularity-input">Кількість людей: </label>
           <input
             id="popularity-input"
