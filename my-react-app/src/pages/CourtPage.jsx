@@ -15,6 +15,15 @@ import {
 export function CourtPage() {
   const { courtId } = useParams();
 
+  const formatCommentDate = (createdAt) =>
+    new Date(createdAt).toLocaleString('uk-UA', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+
   const court = useMemo(
     () => COURTS.find((item) => item.id === courtId),
     [courtId]
@@ -242,13 +251,7 @@ export function CourtPage() {
                     <div className="court-comment-author">{foundComment.author}</div>
                     {foundComment.createdAt ? (
                       <div className="court-comment-date">
-                        {new Date(foundComment.createdAt).toLocaleString('uk-UA', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                        {formatCommentDate(foundComment.createdAt)}
                       </div>
                     ) : null}
                   </div>
@@ -298,13 +301,7 @@ export function CourtPage() {
                     <div className="court-comment-author">{comment.author}</div>
                     {comment.createdAt ? (
                       <div className="court-comment-date">
-                        {new Date(comment.createdAt).toLocaleString('uk-UA', {
-                          day: '2-digit',
-                          month: '2-digit',
-                          year: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit',
-                        })}
+                        {formatCommentDate(comment.createdAt)}
                       </div>
                     ) : null}
                   </div>

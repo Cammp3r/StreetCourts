@@ -56,6 +56,10 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
       streetAbortController.current.abort();
       streetAbortController.current = null;
     }
+    if (visibleCourtsStreamAbortController.current) {
+      visibleCourtsStreamAbortController.current.abort();
+      visibleCourtsStreamAbortController.current = null;
+    }
     setIsFiltering(false);
   };
 
@@ -81,9 +85,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
           setCourtsWithPopularity(courtsWithPop);
         }
       } catch (error) {
-        if (error.name === 'AbortError') {
-          console.log('Popularity loading cancelled');
-        } else {
+        if (error.name !== 'AbortError') {
           console.error('Error loading popularity:', error);
         }
       } finally {
@@ -131,9 +133,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
           setFilteredByPopularity(filtered);
         }
       } catch (error) {
-        if (error.name === 'AbortError') {
-          console.log('Popularity filtering cancelled');
-        } else {
+        if (error.name !== 'AbortError') {
           console.error('Error filtering by popularity:', error);
         }
       } finally {
@@ -179,9 +179,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
           setFilteredByStreet(filtered);
         }
       } catch (error) {
-        if (error.name === 'AbortError') {
-          console.log('Street filtering cancelled');
-        } else {
+        if (error.name !== 'AbortError') {
           console.error('Error filtering by street:', error);
         }
       } finally {
@@ -200,24 +198,24 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
     };
   }, [streetSearch, filteredByCourtsPopularity]);
 
- const visibleCourts = useMemo(() => {
-  const base = memoizedFilterCourtsBySport(filteredByStreet, activeSport);
+  const visibleCourts = useMemo(() => {
+    const base = memoizedFilterCourtsBySport(filteredByStreet, activeSport);
 
-  const queue = new PriorityQueue();
-  base.forEach((court) => {
-    const registeredCount = Number(getCourtBookingsCount(court?.id)) || 0;
-    queue.enqueue(court, registeredCount);
-  });
+    const queue = new PriorityQueue();
+    base.forEach((court) => {
+      const registeredCount = Number(getCourtBookingsCount(court?.id)) || 0;
+      queue.enqueue(court, registeredCount);
+    });
 
-  const sorted = [];
-  while (true) {
-    const next = queue.dequeue();
-    if (!next) break;
-    sorted.push(next);
-  }
+    const sorted = [];
+    while (true) {
+      const next = queue.dequeue();
+      if (!next) break;
+      sorted.push(next);
+    }
 
-  return sorted;
-}, [filteredByStreet, activeSport]);
+    return sorted;
+  }, [filteredByStreet, activeSport]);
 
   useEffect(() => {
     if (visibleCourtsStreamAbortController.current) {
