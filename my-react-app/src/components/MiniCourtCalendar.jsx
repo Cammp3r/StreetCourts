@@ -17,11 +17,17 @@ export function MiniCourtCalendar({ courtId, onRegister }) {
   const [selectedTime, setSelectedTime] = useState(DEFAULT_TIME_SLOTS[0]);
   const [refreshTick, setRefreshTick] = useState(0);
 
-  void refreshTick;
+  const totalRegistered = useMemo(() => getCourtBookingsCount(courtId), [courtId, refreshTick]);
 
-  const totalRegistered = getCourtBookingsCount(courtId);
-  const selectedSlotCount = getSlotBookingsCount(courtId, selectedDay, selectedTime);
-  const recommendedSlots = getRecommendedTimeSlots(courtId, selectedDay, 3);
+  const selectedSlotCount = useMemo(() => {
+    if (!courtId || !selectedDay || !selectedTime) return 0;
+    return getSlotBookingsCount(courtId, selectedDay, selectedTime);
+  }, [courtId, selectedDay, selectedTime, refreshTick]);
+
+  const recommendedSlots = useMemo(() => {
+    if (!courtId || !selectedDay) return [];
+    return getRecommendedTimeSlots(courtId, selectedDay, 3);
+  }, [courtId, selectedDay, refreshTick]);
 
   const handleRegister = () => {
     if (!selectedDay || !selectedTime) return;
