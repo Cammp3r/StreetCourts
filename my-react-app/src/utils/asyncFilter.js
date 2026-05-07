@@ -1,16 +1,9 @@
-function createAbortError() {
-  try {
-    return new DOMException('The operation was aborted.', 'AbortError');
-  } catch {
-    const error = new Error('The operation was aborted.');
-    error.name = 'AbortError';
-    return error;
-  }
-}
-
-function isAbortError(error) {
-  return error?.name === 'AbortError';
-}
+import {
+  abortableDelay,
+  isAbortError,
+  throwIfAborted,
+  yieldToEventLoop,
+} from './abortUtils';
 
 function toCourtsArray(courts) {
   return Array.isArray(courts) ? courts : [];
@@ -20,47 +13,6 @@ function toPositiveInt(value, fallback) {
   const parsed = Number.parseInt(value, 10);
   if (!Number.isFinite(parsed) || parsed <= 0) return fallback;
   return parsed;
-}
-
-function throwIfAborted(signal) {
-  if (signal?.aborted) {
-    throw createAbortError();
-  }
-}
-
-function abortableDelay(delayMs, options = {}) {
-  const { signal } = options;
-  if (!delayMs || delayMs <= 0) {
-    return Promise.resolve();
-  }
-
-  return new Promise((resolve, reject) => {
-    if (signal?.aborted) {
-      reject(createAbortError());
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      cleanup();
-      resolve();
-    }, delayMs);
-
-    const onAbort = () => {
-      cleanup();
-      reject(createAbortError());
-    };
-
-    const cleanup = () => {
-      clearTimeout(timeoutId);
-      signal?.removeEventListener('abort', onAbort);
-    };
-
-    signal?.addEventListener('abort', onAbort, { once: true });
-  });
-}
-
-async function yieldToEventLoop(delayMs = 0) {
-  await new Promise((resolve) => setTimeout(resolve, delayMs));
 }
 
 async function maybeYield(iteration, options = {}) {
