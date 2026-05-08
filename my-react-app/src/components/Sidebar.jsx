@@ -3,6 +3,7 @@ import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
 import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync } from '../utils/asyncFilter';
 import { streamArrayChunks } from '../utils/streams';
+import { getCourtBookingsCount } from '../utils/bookingStorage';
 import { PriorityQueue } from '../utils/priorityQueue';
 
 function filterCourtsBySport(courts, sport) {
@@ -202,8 +203,11 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
 
     const queue = new PriorityQueue();
     base.forEach((court) => {
-      const popularity = Number(court?.popularity) || 0;
-      queue.enqueue(court, popularity);
+      const popularity = Number(court?.popularity);
+      const priority = Number.isFinite(popularity)
+        ? popularity
+        : (Number(getCourtBookingsCount(court?.id)) || 0);
+      queue.enqueue(court, priority);
     });
 
     const sorted = [];
