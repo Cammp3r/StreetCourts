@@ -10,6 +10,7 @@ import { COURTS, REAL_DB_USERS } from './data/mockData';
 import { MaxPriorityQueue } from './utils/maxPriorityQueue';
 import { getCourtBookingsCount } from './utils/bookingStorage';
 import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
+import { fetchCourts } from './utils/courtsApi';
 
 function App() { 
 const location = useLocation();
@@ -17,6 +18,7 @@ const isCourtPage = location.pathname.startsWith('/courts/');
 const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
 const [selectedCourtId, setSelectedCourtId] = useState(null);
+const [courts, setCourts] = useState(COURTS);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
@@ -40,11 +42,35 @@ useEffect(() => {
   };
 }, []);
 
+useEffect(() => {
+  let isMounted = true;
+
+  const loadCourts = async () => {
+    try {
+      const nextCourts = await fetchCourts();
+      if (isMounted && Array.isArray(nextCourts) && nextCourts.length > 0) {
+        setCourts(nextCourts);
+      }
+    } catch (error) {
+      console.error('Failed to load courts from API, falling back to local data:', error);
+      if (isMounted) {
+        setCourts(COURTS);
+      }
+    }
+  };
+
+  loadCourts();
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+
 
 useEffect(() => {
-  if (!Array.isArray(COURTS) || COURTS.length === 0) return;
+  if (!Array.isArray(courts) || courts.length === 0) return;
 
-  const courtsWithAddress = COURTS.filter(
+  const courtsWithAddress = courts.filter(
     (court) => court?.address && court.address !== 'Київ (адреса невідома)'
   );
 
@@ -102,7 +128,7 @@ useEffect(() => {
   return () => {
     stopRecommend();
   };
-}, []);
+}, [courts]);
 
   return (
     
@@ -138,7 +164,7 @@ useEffect(() => {
         {/* лівий сайдбар */}
         {!isCourtPage && (
           <Sidebar
-            courts={COURTS}
+            courts={courts}
             selectedCourtId={selectedCourtId}
             onSelectCourt={(court) => setSelectedCourtId(court?.id ?? null)}
           />
@@ -147,7 +173,7 @@ useEffect(() => {
         {/* права частина карта */}
         {!isCourtPage && (
           <MapView
-            courts={COURTS}
+            courts={courts}
             selectedCourtId={selectedCourtId}
             onSelectCourt={(court) => setSelectedCourtId(court?.id ?? null)}
           />
