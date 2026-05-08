@@ -3,6 +3,7 @@ import { CourtCardMini } from './CourtCardMini';
 import { memoize } from '../utils/memoize';
 import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync } from '../utils/asyncFilter';
 import { streamArrayChunks } from '../utils/streams';
+import { getCourtBookingsCount } from '../utils/bookingStorage';
 
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
@@ -199,11 +200,20 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
   const visibleCourts = useMemo(() => {
     const base = memoizedFilterCourtsBySport(filteredByStreet, activeSport);
 
-    return base.slice().sort((a, b) => {
-      const aPopularity = Number(a?.popularity) || 0;
-      const bPopularity = Number(b?.popularity) || 0;
-      return bPopularity - aPopularity;
-    });
+    return base
+      .map((court, index) => {
+        const popularity = Number(court?.popularity);
+        const priority = Number.isFinite(popularity)
+          ? popularity
+          : (Number(getCourtBookingsCount(court?.id)) || 0);
+
+        return { court, priority, index };
+      })
+      .sort((a, b) => {
+        if (b.priority !== a.priority) return b.priority - a.priority;
+        return a.index - b.index;
+      })
+      .map(({ court }) => court);
   }, [filteredByStreet, activeSport]);
 
   useEffect(() => {
