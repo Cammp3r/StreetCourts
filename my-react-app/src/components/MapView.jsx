@@ -54,13 +54,27 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
 
     const watchId = navigator.geolocation.watchPosition(
       (pos) => {
+        console.log('Geolocation success:', {
+          accuracy: pos.coords.accuracy,
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+          timestamp: new Date(pos.timestamp).toLocaleTimeString()
+        });
         setUserPosition([pos.coords.latitude, pos.coords.longitude]);
       },
-      () => {},
+      (error) => {
+        console.error('Geolocation error:', {
+          code: error.code,
+          message: error.message,
+          PERMISSION_DENIED: 1,
+          POSITION_UNAVAILABLE: 2,
+          TIMEOUT: 3
+        });
+      },
       {
         enableHighAccuracy: true,
-        maximumAge: 10_000,
-        timeout: 15_000,
+        maximumAge: 0, // Всегда запрашивать свежую позицию, не кешировать
+        timeout: 10_000, // 10 секунд для GPS
       }
     );
 

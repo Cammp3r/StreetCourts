@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
 import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
 import { createCourtComment, fetchCourtComments } from '../utils/commentsApi';
+import { fetchCourtById } from '../utils/courtsApi';
 import { findCommentByAuthorAsync, findCommentByContentCallback } from '../utils/asyncCommentSearch';
 import {
   getCourtImage,
@@ -14,6 +15,9 @@ import {
 
 export function CourtPage() {
   const { courtId } = useParams();
+  const [court, setCourt] = useState(null);
+  const [courtLoading, setCourtLoading] = useState(false);
+  const [courtError, setCourtError] = useState('');
 
   const formatCommentDate = (createdAt) =>
     new Date(createdAt).toLocaleString('uk-UA', {
@@ -23,11 +27,6 @@ export function CourtPage() {
       hour: '2-digit',
       minute: '2-digit',
     });
-
-  const court = useMemo(
-    () => COURTS.find((item) => item.id === courtId),
-    [courtId]
-  );
 
   const [comments, setComments] = useState([]);
   const [author, setAuthor] = useState('');
@@ -43,6 +42,53 @@ export function CourtPage() {
   const typeLabel = getCourtTypeLabel(court);
   const statusDotClassName = getCourtStatusDotClassName(court);
   const statusText = getCourtStatusText(court);
+
+  useEffect(() => {
+    if (!courtId) {
+      setCourt(null);
+      setCourtError('');
+      setCourtLoading(false);
+      return undefined;
+    }
+
+    const controller = new AbortController();
+
+    const loadCourt = async () => {
+      setCourtLoading(true);
+      setCourtError('');
+
+      try {
+        const nextCourt = await fetchCourtById(courtId, { signal: controller.signal });
+
+        if (!controller.signal.aborted) {
+          if (nextCourt) {
+            setCourt(nextCourt);
+          } else {
+            const fallbackCourt = COURTS.find((item) => item.id === courtId) ?? null;
+            setCourt(fallbackCourt);
+            if (!fallbackCourt) {
+              setCourtError('Майданчик не знайдено');
+            }
+          }
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          const fallbackCourt = COURTS.find((item) => item.id === courtId) ?? null;
+          setCourt(fallbackCourt);
+          setCourtError(fallbackCourt ? '' : 'Не вдалося завантажити майданчик з API');
+          console.error('Failed to load court from API:', error);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setCourtLoading(false);
+        }
+      }
+    };
+
+    loadCourt();
+
+    return () => controller.abort();
+  }, [courtId]);
 
   useEffect(() => {
     if (!courtId) {
@@ -146,9 +192,9 @@ export function CourtPage() {
     return (
       <div className="court-page">
         <div className="court-page-inner">
-          <h2 className="court-page-title">Майданчик не знайдено</h2>
+          <h2 className="court-page-title">{courtLoading ? 'Завантаження...' : 'Майданчик не знайдено'}</h2>
           <p className="court-page-subtitle">
-            Можливо, посилання застаріло або майданчик було видалено.
+            {courtError || 'Можливо, посилання застаріло або майданчик було видалено.'}
           </p>
         </div>
       </div>
