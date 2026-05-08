@@ -39,6 +39,11 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
   const [renderedCourts, setRenderedCourts] = useState([]);
   const courtsStreamAbortController = useRef(null);
 
+  const streamConfig = useMemo(() => ({
+    dev: { chunkSize: 5, yieldDelayMs: 16 },
+    prod: { chunkSize: 35, yieldDelayMs: 0 },
+  }), []);
+
   const courtsWithCoords = useMemo(() => {
     if (!Array.isArray(courts)) return [];
     return courts.filter((court) => (
@@ -93,18 +98,17 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
     const signal = courtsStreamAbortController.current.signal;
 
     const isDev = import.meta.env.DEV;
-    const streamChunkSize = isDev ? 5 : 35;
-    const streamYieldDelayMs = isDev ? 16 : 0;
+    const config = isDev ? streamConfig.dev : streamConfig.prod;
 
     setRenderedCourts([]);
 
     const streamMarkers = async () => {
       try {
         for await (const chunk of streamArrayChunks(courtsWithCoords, {
-          chunkSize: streamChunkSize,
+          chunkSize: config.chunkSize,
           signal,
           strategy: 'animationFrame',
-          yieldDelayMs: streamYieldDelayMs,
+          yieldDelayMs: config.yieldDelayMs,
         })) {
           if (signal.aborted) return;
           setRenderedCourts((prev) => prev.concat(chunk));
@@ -122,7 +126,7 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
         courtsStreamAbortController.current.abort();
       }
     };
-  }, [courtsWithCoords]);
+  }, [courtsWithCoords, streamConfig]);
 
   const center = userPosition ?? fallbackCenter;
   const zoom = userPosition ? 15 : 12;
