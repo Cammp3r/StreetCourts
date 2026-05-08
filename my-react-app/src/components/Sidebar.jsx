@@ -27,6 +27,7 @@ const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
 
 export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
   const [activeSport, setActiveSport] = useState('basketball');
+  const [sortMode, setSortMode] = useState('registered');
   const [courtsWithPopularity, setCourtsWithPopularity] = useState([]);
   const [popularityThreshold, setPopularityThreshold] = useState('');
   const [filteredByCourtsPopularity, setFilteredByPopularity] = useState([]);
@@ -202,10 +203,12 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
 
     return base
       .map((court, index) => {
+        const registeredCount = Number(getCourtBookingsCount(court?.id)) || 0;
         const popularity = Number(court?.popularity);
-        const priority = Number.isFinite(popularity)
-          ? popularity
-          : (Number(getCourtBookingsCount(court?.id)) || 0);
+
+        const priority = sortMode === 'registered'
+          ? registeredCount
+          : (Number.isFinite(popularity) ? popularity : registeredCount);
 
         return { court, priority, index };
       })
@@ -214,7 +217,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
         return a.index - b.index;
       })
       .map(({ court }) => court);
-  }, [filteredByStreet, activeSport]);
+  }, [filteredByStreet, activeSport, sortMode]);
 
   useEffect(() => {
     if (visibleCourtsStreamAbortController.current) {
@@ -293,6 +296,7 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
           />
         </div>
 
+      
         <div className="street-search-filter">
           <label htmlFor="street-search">Пошук по вулиці: </label>
           <input
@@ -302,6 +306,17 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
             value={streetSearch}
             onChange={(e) => setStreetSearch(e.target.value)}
           />
+        </div>
+  <div className="street-search-filter">
+          <label htmlFor="sort-mode">Сортування: </label>
+          <select
+            id="sort-mode"
+            value={sortMode}
+            onChange={(e) => setSortMode(e.target.value)}
+          >
+            <option value="registered">За зареєстрованими людьми</option>
+            <option value="popularity">За популярністю</option>
+          </select>
         </div>
 
         {isFiltering && (
