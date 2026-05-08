@@ -6,9 +6,10 @@
   "author": "geoge",
   "type": "module",
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail -n VITE,COMMENTS -c cyan,magenta \"vite\" \"node scripts/comments-db-server.mjs\"",
+    "dev": "concurrently --kill-others-on-fail -n VITE,COMMENTS,COURTS -c cyan,magenta,green \"vite\" \"node scripts/comments-db-server.mjs\" \"node scripts/courts-api-server.mjs\"",
     "dev:vite": "vite",
     "dev:comments": "node scripts/comments-db-server.mjs",
+    "dev:courts": "node scripts/courts-api-server.mjs",
     "build": "vite build",
     "lint": "eslint .",
     "fetch:courts:kyiv": "node scripts/fetch-osm-basketball-courts-kyiv.mjs --out src/data/courts.kyiv.osm.json --limit 200",
