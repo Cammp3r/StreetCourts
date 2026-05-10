@@ -219,6 +219,12 @@ export function CourtPage() {
           setText('');
           setAuthor('');
           setCommentsError('');
+
+          commentEmitter.emit({
+            courtId: court.id,
+            comment: savedComment,
+            message: 'Коментар успішно надіслано',
+          });
         }
       } catch {
         setCommentsError('Не вдалося зберегти коментар у JSON-базі.');
