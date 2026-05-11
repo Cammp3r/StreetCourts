@@ -11,3 +11,37 @@ StreetCourts — навчальний вебзастосунок на React + Vi
 - Запустити застосунок разом з JSON API для коментарів: `npm run dev`
 - Запустити тільки Vite: `npm run dev:vite`
 - Запустити тільки сервер коментарів: `npm run dev:comments`
+
+## Task 8: Authentication Proxy для API майданчиків
+
+Утиліта auth proxy підключена до API майданчиків у `src/utils/courtsApi.js`.
+
+Підтримувані методи:
+
+- `JWT`
+- `OAUTH`
+- `API_KEY`
+
+Налаштування через `.env`:
+
+- `VITE_COURTS_API_AUTH_METHOD` (`JWT`, `OAUTH`, `API_KEY`)
+- `VITE_COURTS_API_TOKEN` (для `JWT`/`OAUTH`)
+- `VITE_COURTS_API_TOKEN_TYPE` (за замовчуванням `Bearer`)
+- `VITE_COURTS_API_AUTH_HEADER` (за замовчуванням `Authorization`)
+- `VITE_COURTS_API_KEY` (для `API_KEY`)
+- `VITE_COURTS_API_KEY_HEADER` (за замовчуванням `x-api-key`)
+- `VITE_COURTS_API_KEY_QUERY_PARAM` (опційно, якщо API key треба передавати як query param)
+- `VITE_COURTS_API_REFRESH_URL` (опційно, endpoint для auto-refresh токена при `401`)
+- `VITE_COURTS_API_RATE_LIMIT_REQUESTS` (опційно, ліміт запитів за вікно)
+- `VITE_COURTS_API_RATE_LIMIT_WINDOW_MS` (опційно, тривалість вікна в мс)
+- `VITE_COURTS_API_LOGGING` (`false`, щоб вимкнути логування)
+
+Динамічна зміна стратегії під час runtime:
+
+- `configureCourtsApiAuth(strategy)`
+- `setCourtsApiAuthMethod(method, credential, options)`
+
+Метрики проксі:
+
+- `getCourtsApiProxyMetrics()`
+- `resetCourtsApiProxyMetrics()`
