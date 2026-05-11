@@ -5,6 +5,9 @@ import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
 import { createCourtComment, streamCourtComments } from '../utils/commentsApi';
 import { fetchCourtById } from '../utils/courtsApi';
 import { findCommentByAuthorAsync, findCommentByContentCallback } from '../utils/asyncCommentSearch';
+import { commentEmitter } from '../utils/commentEmitter';
+import { CommentActivityBanner } from '../components/CommentActivityBanner';
+import { CommentEventCounter } from '../components/CommentEventCounter';
 import {
   getCourtImage,
   getCourtStatusDotClassName,
@@ -252,6 +255,9 @@ export function CourtPage() {
 
         <section className="court-comments-section">
           <h2 className="court-section-title">Коментарі до майданчика</h2>
+
+          <CommentEventCounter courtId={court.id} />
+          <CommentActivityBanner courtId={court.id} />
 
           <div className="court-search-section">
             <div className="court-search-row">
