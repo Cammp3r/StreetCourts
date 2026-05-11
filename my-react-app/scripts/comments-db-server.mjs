@@ -1,5 +1,6 @@
 import http from 'node:http';
 import fs from 'node:fs/promises';
+import { createReadStream, createWriteStream } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -7,6 +8,7 @@ const PORT = Number(process.env.COMMENTS_API_PORT || 3001);
 const ROOT_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DB_DIR = path.join(ROOT_DIR, 'data');
 const DB_PATH = path.join(DB_DIR, 'comments.db.json');
+const NDJSON_DIR = path.join(DB_DIR, 'comments-ndjson');
 
 async function ensureDbFile() {
   await fs.mkdir(DB_DIR, { recursive: true });
@@ -110,9 +112,60 @@ function getCourtIdFromPath(pathname) {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+function getCourtIdFromStreamPath(pathname) {
+  const match = pathname.match(/^\/api\/courts\/([^/]+)\/comments\/stream$/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function safeCourtFileName(courtId) {
+  return String(courtId).replace(/[^a-z0-9_-]/gi, '_');
+}
+
+function courtNdjsonPath(courtId) {
+  return path.join(NDJSON_DIR, `${safeCourtFileName(courtId)}.ndjson`);
+}
+
+async function ensureCourtNdjson(courtId) {
+  await fs.mkdir(NDJSON_DIR, { recursive: true });
+  const filePath = courtNdjsonPath(courtId);
+
+  try {
+    await fs.access(filePath);
+    return filePath;
+  } catch {
+    // Bootstrap from JSON DB (small/legacy path). After that, streaming uses NDJSON.
+    const db = await readDb();
+    const comments = Array.isArray(db.courts[courtId]) ? db.courts[courtId] : [];
+    const payload = comments.length
+      ? `${comments.map((item) => JSON.stringify(item)).join('\n')}\n`
+      : '';
+    await fs.writeFile(filePath, payload, 'utf8');
+    return filePath;
+  }
+}
+
+async function prependNdjsonLine(filePath, line) {
+  const tempPath = `${filePath}.tmp`;
+
+  await new Promise((resolve, reject) => {
+    const writer = createWriteStream(tempPath, { encoding: 'utf8' });
+    writer.on('error', reject);
+    writer.write(`${line}\n`);
+
+    const reader = createReadStream(filePath);
+    reader.on('error', reject);
+    writer.on('finish', resolve);
+
+    reader.pipe(writer);
+  });
+
+  await fs.rename(tempPath, filePath);
+}
+
 async function handleRequest(request, response) {
   const url = new URL(request.url, `http://${request.headers.host}`);
   const courtId = getCourtIdFromPath(url.pathname);
+  const streamCourtId = getCourtIdFromStreamPath(url.pathname);
 
   if (request.method === 'GET' && url.pathname === '/') {
     sendText(
@@ -130,6 +183,30 @@ async function handleRequest(request, response) {
     return;
   }
 
+  if (request.method === 'GET' && streamCourtId) {
+    const filePath = await ensureCourtNdjson(streamCourtId);
+
+    response.writeHead(200, {
+      'Content-Type': 'application/x-ndjson; charset=utf-8',
+      'Cache-Control': 'no-cache',
+    });
+
+    const readStream = createReadStream(filePath);
+    request.on('close', () => readStream.destroy());
+    readStream.on('error', (error) => {
+      console.error(error);
+      // If something fails mid-stream, just end the response.
+      try {
+        response.end();
+      } catch {
+        // ignore
+      }
+    });
+
+    readStream.pipe(response);
+    return;
+  }
+
   if (request.method === 'POST' && courtId) {
     const payload = await parseJsonBody(request);
     const comment = normalizeComment(payload);
@@ -144,6 +221,9 @@ async function handleRequest(request, response) {
 
     db.courts[courtId] = nextComments;
     await writeDb(db);
+
+    const filePath = await ensureCourtNdjson(courtId);
+    await prependNdjsonLine(filePath, JSON.stringify(comment));
 
     sendJson(response, 201, { courtId, comment, comments: nextComments });
     return;
