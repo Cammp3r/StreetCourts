@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
@@ -11,6 +11,19 @@ import { MaxPriorityQueue } from './utils/maxPriorityQueue';
 import { getCourtBookingsCount } from './utils/bookingStorage';
 import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
 import { fetchCourts } from './utils/courtsApi';
+
+function decodeJwtPayload(token) {
+  const payloadPart = String(token || '').split('.')[1];
+  if (!payloadPart) {
+    throw new Error('Invalid token payload');
+  }
+
+  const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
+  const paddedBase64 = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
+  const binary = atob(paddedBase64);
+  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
+  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
+}
 
 function App() { 
 const location = useLocation();
@@ -30,6 +43,12 @@ useEffect(() => {
 }, []);
  const [activeUser, setActiveUser] = useState('Завантаження...');
   const [user, setUser] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+
+  const profileStorageKey = useMemo(() => {
+    const profileId = user?.id || user?.email || user?.name;
+    return profileId ? `sc_profile:${profileId}` : null;
+  }, [user?.email, user?.id, user?.name]);
 
 useEffect(() => {
   // генератор імен
@@ -44,7 +63,57 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
+  if (!profileStorageKey || !user) {
+    setProfileData(null);
+    return;
+  }
+
   try {
+    const rawProfile = localStorage.getItem(profileStorageKey);
+    if (!rawProfile) {
+      setProfileData(null);
+      return;
+    }
+
+    const storedProfile = JSON.parse(rawProfile);
+    setProfileData(storedProfile && typeof storedProfile === 'object' ? storedProfile : null);
+  } catch (error) {
+    console.warn('Failed to load profile data', error);
+    setProfileData(null);
+  }
+}, [profileStorageKey, user]);
+
+const mergedUser = useMemo(() => {
+  if (!user) return null;
+
+  return {
+    ...user,
+    ...(profileData || {}),
+    favoriteSports: profileData?.favoriteSports || user.favoriteSports,
+    favoriteSport: profileData?.favoriteSport || user.favoriteSport,
+    age: profileData?.age || user.age,
+    heightCm: profileData?.heightCm || user.heightCm,
+    weightKg: profileData?.weightKg || user.weightKg,
+    bio: profileData?.bio || user.bio,
+  };
+}, [profileData, user]);
+
+const handleProfileSave = (nextProfile) => {
+  if (!profileStorageKey) return;
+
+  const payload = {
+    ...(profileData || {}),
+    ...nextProfile,
+    updatedAt: new Date().toISOString(),
+  };
+
+  setProfileData(payload);
+  localStorage.setItem(profileStorageKey, JSON.stringify(payload));
+};
+
+useEffect(() => {
+  try {
+    
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
     if (token) {
@@ -57,8 +126,8 @@ useEffect(() => {
     const stored = localStorage.getItem('sc_token');
     if (stored) {
       try {
-        const payload = JSON.parse(atob(stored.split('.')[1]));
-        setUser(payload.user);
+        const payload = decodeJwtPayload(stored);
+        setUser(payload.user || null);
       } catch (e) {
         console.warn('Failed to parse stored token', e);
       }
@@ -162,7 +231,7 @@ useEffect(() => {
     
     <div className={`app${isCourtPage ? ' app--court-page' : ''}`}>
       {/* навігація */}
-      <Navbar user={user} setUser={setUser} />
+      <Navbar user={mergedUser} setUser={setUser} onSaveProfile={handleProfileSave} />
 
       
 
