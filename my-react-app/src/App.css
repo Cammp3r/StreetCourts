@@ -149,6 +149,41 @@ body {
   color: var(--text-primary);
 }
 
+/* navbar profile (avatar + name) */
+.nav-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 1rem;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+.nav-profile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+}
+.nav-profile-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--text-primary);
+  background-color: rgba(59, 130, 246, 0.12);
+  border: 1px solid var(--border-color);
+}
+.nav-profile-name {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
 /* ╨║╨╜╨╛╨┐╨║╨░ ╨┐╨╡╤А╨╡╨║╨╗╤О╤З╨╡╨╜╨╜╤П ╤В╨╡╨╝╨╕ */
 .theme-toggle {
   background: none;
