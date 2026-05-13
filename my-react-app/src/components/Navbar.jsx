@@ -1,17 +1,23 @@
 import { Routes, Route, Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { UserProfilePage } from "../pages/UserProfile";
 import { CourtPage } from "../pages/CourtPage";
 import { ThemeToggle } from "./ThemeToggle";
 
-export function Navbar({ user, setUser }) {
-  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem('sc_token')));
+export function Navbar({ user, setUser, onSaveProfile }) {
+  const loggedIn = Boolean(user || localStorage.getItem('sc_token'));
 
-  useEffect(() => {
-    const onStorage = () => setLoggedIn(Boolean(localStorage.getItem('sc_token')));
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
+  const initials = useMemo(() => {
+    const name = String(user?.name || '');
+    return name
+      .trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => Array.from(part)[0] || '')
+      .slice(0, 2)
+      .join('')
+      .toUpperCase();
+  }, [user?.name]);
 
   const handleLogin = () => {
     const authBase = import.meta.env.VITE_AUTH_BASE || 'http://localhost:4000';
@@ -20,7 +26,6 @@ export function Navbar({ user, setUser }) {
 
   const handleLogout = () => {
     localStorage.removeItem('sc_token');
-    setLoggedIn(false);
     if (setUser) setUser(null);
   };
 
@@ -37,7 +42,7 @@ export function Navbar({ user, setUser }) {
               {user.picture ? (
                 <img src={user.picture} alt={user.name} className="nav-profile-avatar" />
               ) : (
-                <div className="nav-profile-initials">{(user.name||'').split(' ').map(p=>p[0]).slice(0,2).join('').toUpperCase()}</div>
+                <div className="nav-profile-initials">{initials}</div>
               )}
               <span className="nav-profile-name">{user.name}</span>
             </Link>
@@ -55,7 +60,7 @@ export function Navbar({ user, setUser }) {
 
       <Routes>
         <Route path="/" element={<></>} />
-        <Route path="/profile" element={<UserProfilePage user={user} />} />
+        <Route path="/profile" element={<UserProfilePage user={user} onSaveProfile={onSaveProfile} />} />
         <Route path="/courts/:courtId" element={<CourtPage />} />
         <Route path="*" element={<></>} />
       </Routes>
