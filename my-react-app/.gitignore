@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local secrets/config
+.env
+.env.*
+!.env.example
+
+# Local comment storage
+data/comments.db.json
+data/comments-ndjson/
