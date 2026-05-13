@@ -67,6 +67,7 @@ useEffect(() => {
 }, []);
 
 
+
 useEffect(() => {
   if (!Array.isArray(courts) || courts.length === 0) return;
 
@@ -140,7 +141,7 @@ useEffect(() => {
       
 
       {/* live рамка тих хто чекіниться */}
-      <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />
+      {!isCourtPage && <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />}
 
       {/* рекомендована площадка, що змінюється раз на 5 секунд */}
       {!isCourtPage && (
