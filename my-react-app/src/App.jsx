@@ -29,6 +29,7 @@ useEffect(() => {
   };
 }, []);
  const [activeUser, setActiveUser] = useState('Завантаження...');
+  const [user, setUser] = useState(null);
 
 useEffect(() => {
   // генератор імен
@@ -40,6 +41,31 @@ useEffect(() => {
   return () => {
     names();
   };
+}, []);
+
+useEffect(() => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem('sc_token', token);
+      params.delete('token');
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState({}, '', newUrl);
+    }
+
+    const stored = localStorage.getItem('sc_token');
+    if (stored) {
+      try {
+        const payload = JSON.parse(atob(stored.split('.')[1]));
+        setUser(payload.user);
+      } catch (e) {
+        console.warn('Failed to parse stored token', e);
+      }
+    }
+  } catch (e) {
+    console.warn('Auth token handling error', e);
+  }
 }, []);
 
 useEffect(() => {
@@ -136,7 +162,7 @@ useEffect(() => {
     
     <div className={`app${isCourtPage ? ' app--court-page' : ''}`}>
       {/* навігація */}
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
 
       
 
