@@ -47,7 +47,23 @@ const DEFAULT_USER = {
 };
 
 export function UserProfilePage({ user }) {
-  const resolvedUser = useMemo(() => user ?? DEFAULT_USER, [user]);
+  const resolvedUser = useMemo(() => {
+    if (!user) return DEFAULT_USER;
+    return {
+      ...DEFAULT_USER,
+      ...user,
+      stats: {
+        ...DEFAULT_USER.stats,
+        ...(user.stats || {}),
+      },
+      favoriteSports: user.favoriteSports || DEFAULT_USER.favoriteSports,
+      recentCheckins: user.recentCheckins || DEFAULT_USER.recentCheckins,
+      favoriteCourts: user.favoriteCourts || DEFAULT_USER.favoriteCourts,
+      handle: user.handle || DEFAULT_USER.handle,
+      city: user.city || DEFAULT_USER.city,
+      bio: user.bio || DEFAULT_USER.bio,
+    };
+  }, [user]);
 
   const [currentFriend, setCurrentFriend] = useState(FRIENDS[0] || null);
 
@@ -83,9 +99,11 @@ export function UserProfilePage({ user }) {
         <aside className="profile-sidebar">
           <div className="profile-sidebar-header">
             <div className="profile-user">
-              <div className="profile-avatar" aria-hidden="true">
-                {initials}
-              </div>
+              {resolvedUser.picture ? (
+                <img src={resolvedUser.picture} alt={resolvedUser.name} className="profile-avatar-img" />
+              ) : (
+                <div className="profile-avatar" aria-hidden="true">{initials}</div>
+              )}
 
               <div className="profile-user-meta">
                 <div className="profile-user-name">{resolvedUser.name}</div>
