@@ -8,8 +8,9 @@ const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-jwt-secret';
 const PORT = process.env.PORT || 4000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
-const SERVER_ORIGIN = process.env.SERVER_ORIGIN || `http://localhost:${PORT}`;
+const FRONTEND_URL = (process.env.FRONTEND_URL || 'http://localhost:5173').replace(/\/+$/, '');
+const rawServerOrigin = process.env.SERVER_ORIGIN;
+const SERVER_ORIGIN = rawServerOrigin ? rawServerOrigin.replace(/\/+$/, '') : `http://localhost:${PORT}`;
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
   console.warn('Warning: GOOGLE_CLIENT_ID or GOOGLE_CLIENT_SECRET not set in env');
