@@ -5,26 +5,49 @@ import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQuery
 import { streamArrayChunks } from '../utils/streams';
 import { getCourtBookingsCount } from '../utils/bookingStorage';
 
+const SPORT_FILTERS = {
+  basketball: {
+    label: 'Баскетбол',
+    matches: ['basketball', 'Баскетбол'],
+  },
+  football: {
+    label: 'Футбол',
+    matches: ['football', 'Футбол'],
+  },
+  volleyball: {
+    label: 'Волейбол',
+    matches: ['volleyball', 'Волейбол'],
+  },
+};
+
+function getCourtsCacheKey(courts) {
+  if (!Array.isArray(courts)) return '';
+
+  return courts.map((court) => `${court?.id}:${court?.sport}:${court?.typeLabel}:${court?.address}`).join('|');
+}
+
+function hasKnownAddress(court) {
+  return court?.address && court.address !== 'Київ (адреса невідома)';
+}
+
+function courtMatchesSport(court, sportFilter) {
+  return sportFilter.matches.includes(court?.sport) || sportFilter.matches.includes(court?.typeLabel);
+}
+
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
-  
-  let filtered = courts;
-  
-  if (sport !== 'all') {
-    if (sport === 'basketball') {
-      filtered = courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
-    } else if (sport === 'football') {
-      filtered = courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
-    } else if (sport === 'volleyball') {
-      filtered = courts.filter((court) => court?.sport === 'volleyball' || court?.typeLabel === 'Волейбол');
-    }
-  }
 
-  return filtered.filter((court) => court?.address && court.address !== 'Київ (адреса невідома)');
+  const sportFilter = SPORT_FILTERS[sport];
+  const filtered = sportFilter
+    ? courts.filter((court) => courtMatchesSport(court, sportFilter))
+    : courts;
+
+  return filtered.filter(hasKnownAddress);
 }
 
 const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
   maxSize: 10,
+  keyFn: (courts, sport) => `${sport}:${getCourtsCacheKey(courts)}`,
 });
 
 export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
