@@ -15,6 +15,8 @@ function filterCourtsBySport(courts, sport) {
       filtered = courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
     } else if (sport === 'football') {
       filtered = courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
+    } else if (sport === 'volleyball') {
+      filtered = courts.filter((court) => court?.sport === 'volleyball' || court?.typeLabel === 'Волейбол');
     }
   }
 
@@ -276,10 +278,16 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
             ⚽ Футбол
           </button>
           <button
+            className={`filter-btn ${activeSport === 'volleyball' ? 'active-volleyball' : ''}`}
+            onClick={() => setActiveSport('volleyball')}
+          >
+            🏐 Волейбол
+          </button>
+          <button
             className={`filter-btn ${activeSport === 'all' ? 'active-all' : ''}`}
             onClick={() => setActiveSport('all')}
           >
-            🏐 Волей
+            Усі
           </button>
         </div>
 

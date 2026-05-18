@@ -248,6 +248,8 @@ body {
 
 .filter-btn.active-basketball { background: var(--accent-orange); color: black; border:none;}
 .filter-btn.active-football { background: var(--accent-green); color: black; border:none;}
+.filter-btn.active-volleyball { background: var(--accent-yellow); color: black; border:none;}
+.filter-btn.active-all { background: var(--accent-blue); color: black; border:none;}
 
 /* ╤Б╨┐╨╕╤Б╨╛╨║ ╨║╨░╤А╤В╨╛╨║ ╤Г ╤Б╨░╨╣╨┤╨▒╨░╤А╤Ц */
 .courts-list {
@@ -446,6 +448,7 @@ body {
 }
 .badge-basket { color: var(--accent-orange); }
 .badge-foot { color: var(--accent-green); }
+.badge-volley { color: var(--accent-yellow); }
 
 .court-name { font-weight: 700; margin-bottom: 4px; }
 .court-address { font-size: 0.85rem; color: var(--text-secondary); }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-05T21:36:12.366Z",
+  "generatedAt": "2026-05-18T16:32:34.133Z",
   "bbox": {
     "south": 50.3,
     "west": 30.3,
@@ -15,424 +15,1113 @@
   },
   "courts": [
     {
+      "id": "osm-node-7430742479",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольне поле",
+      "address": "Волейбольне поле",
+      "lat": 50.3002985,
+      "lon": 30.3562302
+    },
+    {
       "id": "osm-node-3618169900",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "провулок Будівельників • Селище будівельників • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4522263,
       "lon": 30.6110894
     },
     {
+      "id": "osm-node-2870503439",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4739218,
+      "lon": 30.3310529
+    },
+    {
       "id": "osm-node-11085125416",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Подільський провулок • Куренівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4918271,
       "lon": 30.4551855
     },
     {
+      "id": "osm-node-8927382995",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.434825,
+      "lon": 30.4243561
+    },
+    {
       "id": "osm-node-4811899808",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Юрія Іллєнка • Кмитів Яр • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4659552,
       "lon": 30.4768961
     },
     {
+      "id": "osm-way-794458738",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3002955,
+      "lon": 30.3562442
+    },
+    {
       "id": "osm-node-11250848783",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Каунаська вулиця • Дарницький масив • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4355984,
       "lon": 30.6234568
     },
     {
+      "id": "osm-way-103195824",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4071101,
+      "lon": 30.4009491
+    },
+    {
       "id": "osm-node-11288732227",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Каунаська вулиця • Дарницький масив • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4364648,
       "lon": 30.6230687
     },
     {
+      "id": "osm-way-103195823",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4075804,
+      "lon": 30.3990772
+    },
+    {
       "id": "osm-way-264451360",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольне поле",
       "address": "Баскетбольне поле",
       "lat": 50.3002135,
       "lon": 30.3562116
     },
     {
+      "id": "osm-way-1280155834",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Поле",
+      "address": "Поле",
+      "lat": 50.4327135,
+      "lon": 30.3798825
+    },
+    {
       "id": "osm-way-819935506",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Механізаторів • Тарасівка",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3437235,
       "lon": 30.3107902
     },
     {
+      "id": "osm-way-504496399",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4585881,
+      "lon": 30.3369023
+    },
+    {
       "id": "osm-way-854539137",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Південна вулиця • Юрівка",
+      "address": "Київ (адреса невідома)",
       "lat": 50.33234,
       "lon": 30.3869986
     },
     {
+      "id": "osm-way-498122855",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4624364,
+      "lon": 30.3800724
+    },
+    {
       "id": "osm-way-1195599759",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Юності • Чабани",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3379811,
       "lon": 30.4222874
     },
     {
+      "id": "osm-way-1377302121",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4771691,
+      "lon": 30.3622927
+    },
+    {
       "id": "osm-way-1052271740",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Підбірний провулок • Бугаївка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3292711,
       "lon": 30.5615528
     },
     {
+      "id": "osm-way-163133004",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3661747,
+      "lon": 30.4477605
+    },
+    {
       "id": "osm-way-882198098",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Центральна вулиця, 138а • Святопетрівське",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3782669,
       "lon": 30.3237885
     },
     {
+      "id": "osm-way-1414253065",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3717257,
+      "lon": 30.4400181
+    },
+    {
       "id": "osm-way-865412115",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3693319,
       "lon": 30.3565214
     },
     {
+      "id": "osm-way-969777302",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3730881,
+      "lon": 30.4500574
+    },
+    {
       "id": "osm-way-839613300",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Польова вулиця • Крюківщина",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3760282,
       "lon": 30.3696121
     },
     {
+      "id": "osm-way-316548787",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3841117,
+      "lon": 30.4485129
+    },
+    {
       "id": "osm-way-299715829",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Освіти • Південна сторона • Вишневе",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3811011,
       "lon": 30.3721835
     },
     {
+      "id": "osm-way-255679385",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3835733,
+      "lon": 30.4739743
+    },
+    {
       "id": "osm-way-321453579",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Лесі Українки • Північна сторона • Вишневе",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3890035,
       "lon": 30.367185
     },
     {
+      "id": "osm-way-320391668",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3834691,
+      "lon": 30.474058
+    },
+    {
       "id": "osm-way-321453584",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3890159,
       "lon": 30.3652126
     },
     {
+      "id": "osm-way-41055413",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3876631,
+      "lon": 30.4757815
+    },
+    {
       "id": "osm-way-348412084",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4267961,
       "lon": 30.3677212
     },
     {
+      "id": "osm-way-793585399",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3821995,
+      "lon": 30.4974956
+    },
+    {
       "id": "osm-way-825199193",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Зодчих • Борщагівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4178157,
       "lon": 30.3793873
     },
     {
+      "id": "osm-way-178554298",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3931387,
+      "lon": 30.4936112
+    },
+    {
       "id": "osm-way-859047489",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Литвиненко-Вольгемут • Борщагівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4213329,
       "lon": 30.3761864
     },
     {
+      "id": "osm-way-187495310",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3938325,
+      "lon": 30.4957991
+    },
+    {
       "id": "osm-way-825199365",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Зодчих • Борщагівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4133763,
       "lon": 30.3899304
     },
     {
+      "id": "osm-way-178217238",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3937871,
+      "lon": 30.5056849
+    },
+    {
       "id": "osm-way-825199366",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4131093,
       "lon": 30.3899701
     },
     {
+      "id": "osm-way-962845096",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4348323,
+      "lon": 30.424365
+    },
+    {
       "id": "osm-way-1255898945",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4130593,
       "lon": 30.3992664
     },
     {
+      "id": "osm-way-921707784",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4479333,
+      "lon": 30.4387839
+    },
+    {
       "id": "osm-way-237369548",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4186579,
       "lon": 30.3944001
     },
     {
+      "id": "osm-way-186132113",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4475996,
+      "lon": 30.4519277
+    },
+    {
       "id": "osm-way-827392477",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Василя Доманицького • Борщагівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4252982,
       "lon": 30.389218
     },
     {
+      "id": "osm-way-372791735",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4176419,
+      "lon": 30.4644008
+    },
+    {
       "id": "osm-way-827392500",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4224428,
       "lon": 30.3885469
     },
     {
+      "id": "osm-way-1208575387",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.415041,
+      "lon": 30.4688589
+    },
+    {
       "id": "osm-way-827392501",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4224905,
       "lon": 30.3883517
     },
     {
+      "id": "osm-way-855183289",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.436775,
+      "lon": 30.4776822
+    },
+    {
       "id": "osm-way-237368574",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4144024,
       "lon": 30.4008421
     },
     {
+      "id": "osm-way-853246123",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3634815,
+      "lon": 30.5577765
+    },
+    {
       "id": "osm-way-648526139",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Леся Курбаса • Борщагівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4279545,
       "lon": 30.3748104
     },
     {
+      "id": "osm-way-436222553",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3687258,
+      "lon": 30.5539604
+    },
+    {
       "id": "osm-way-988519587",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4333892,
       "lon": 30.379453
     },
     {
+      "id": "osm-way-822866000",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.415252,
+      "lon": 30.5332998
+    },
+    {
       "id": "osm-way-421145956",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Анатолія Петрицького • Святошин • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4516404,
       "lon": 30.3790873
     },
     {
+      "id": "osm-way-1389266430",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4135762,
+      "lon": 30.6165975
+    },
+    {
       "id": "osm-way-854415326",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Леся Курбаса • Перемога • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4307708,
       "lon": 30.3927333
     },
     {
+      "id": "osm-way-639846068",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4258752,
+      "lon": 30.6075038
+    },
+    {
       "id": "osm-way-421145967",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4524687,
       "lon": 30.3858685
     },
     {
+      "id": "osm-way-139407224",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4731199,
+      "lon": 30.4203228
+    },
+    {
       "id": "osm-way-901686753",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Святошинський провулок • Скарбовий ліс • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4499235,
       "lon": 30.3850268
     },
     {
+      "id": "osm-way-65464831",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5039107,
+      "lon": 30.4445238
+    },
+    {
       "id": "osm-way-615455232",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Володимира Наумовича • Мовчуни • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4629663,
       "lon": 30.3287863
     },
     {
+      "id": "osm-way-295651714",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4552231,
+      "lon": 30.4822751
+    },
+    {
       "id": "osm-way-404976449",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4624032,
       "lon": 30.3416466
     },
     {
+      "id": "osm-way-395542243",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5036032,
+      "lon": 30.5105396
+    },
+    {
       "id": "osm-way-368305079",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Авіаконструкторська вулиця • Авіамістечко • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.459924,
       "lon": 30.3853093
     },
     {
+      "id": "osm-way-1083998538",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5064104,
+      "lon": 30.4310935
+    },
+    {
       "id": "osm-way-1236320646",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Стрийська вулиця • Рубежівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4559835,
       "lon": 30.3988024
     },
     {
+      "id": "osm-way-1089009233",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5063609,
+      "lon": 30.4316375
+    },
+    {
       "id": "osm-way-104221594",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Ґалаґанівська вулиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4576006,
       "lon": 30.40245
     },
     {
+      "id": "osm-way-590948726",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5199385,
+      "lon": 30.4597395
+    },
+    {
       "id": "osm-way-684714919",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "4-та Садова вулиця • Берковець • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4762062,
       "lon": 30.3944174
     },
     {
+      "id": "osm-way-541863641",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5069508,
+      "lon": 30.4998469
+    },
+    {
       "id": "osm-way-432708515",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4782535,
       "lon": 30.4067692
     },
     {
+      "id": "osm-way-544758425",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5197985,
+      "lon": 30.4887382
+    },
+    {
       "id": "osm-way-374336207",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Квітки Цісик • Пуща-Водиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.5451135,
       "lon": 30.3492363
     },
     {
+      "id": "osm-way-164153894",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4611544,
+      "lon": 30.536668
+    },
+    {
       "id": "osm-way-1338263154",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Європейського Союзу • Виноградар • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.5109164,
       "lon": 30.4054037
     },
     {
+      "id": "osm-way-164153901",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4614789,
+      "lon": 30.5364085
+    },
+    {
       "id": "osm-way-694131645",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Одеський провулок • Гатне",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3499189,
       "lon": 30.4244581
     },
     {
+      "id": "osm-way-945363280",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5023153,
+      "lon": 30.6084091
+    },
+    {
       "id": "osm-way-1492545707",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3552562,
       "lon": 30.4401595
     },
     {
+      "id": "osm-way-347657629",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5066816,
+      "lon": 30.514279
+    },
+    {
       "id": "osm-way-886531721",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3516643,
       "lon": 30.4527374
     },
     {
+      "id": "osm-way-325172208",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5158084,
+      "lon": 30.6116922
+    },
+    {
       "id": "osm-way-875173272",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3565208,
       "lon": 30.4549196
     },
     {
+      "id": "osm-way-833486724",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.3509796,
+      "lon": 30.6357442
+    },
+    {
       "id": "osm-way-1414253063",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3717297,
       "lon": 30.4406497
     },
     {
+      "id": "osm-way-97205244",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4225673,
+      "lon": 30.6641507
+    },
+    {
       "id": "osm-way-844367892",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3658262,
       "lon": 30.4487011
     },
     {
+      "id": "osm-way-104642029",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4224349,
+      "lon": 30.6637741
+    },
+    {
       "id": "osm-way-139081339",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Академіка Глушкова • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3649164,
       "lon": 30.4551022
     },
     {
+      "id": "osm-way-229136458",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4234333,
+      "lon": 30.661943
+    },
+    {
       "id": "osm-way-139102628",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3653192,
       "lon": 30.4602704
     },
     {
+      "id": "osm-way-252342272",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.4148462,
+      "lon": 30.6756474
+    },
+    {
       "id": "osm-way-844953286",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Паркова вулиця • Новосілки",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3640067,
       "lon": 30.45867
     },
     {
+      "id": "osm-way-368965762",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5120111,
+      "lon": 30.6190784
+    },
+    {
       "id": "osm-way-1188631385",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3662416,
       "lon": 30.4566392
     },
     {
+      "id": "osm-way-176878256",
+      "sport": "volleyball",
+      "typeLabel": "Волейбол",
+      "badgeClassName": "court-type-badge badge-volley",
+      "image": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80",
+      "name": "Волейбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.527157,
+      "lon": 30.6240972
+    },
+    {
       "id": "osm-way-1496323748",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.362494,
@@ -441,38 +1130,48 @@
     {
       "id": "osm-way-759172583",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "бульвар Тадея Рильського • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3729375,
       "lon": 30.450272
     },
     {
       "id": "osm-way-48388845",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Академіка Глушкова • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3692937,
       "lon": 30.4555728
     },
     {
       "id": "osm-way-319549064",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Василя Касіяна • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3777034,
       "lon": 30.4546402
     },
     {
       "id": "osm-way-110234203",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Самійла Кішки • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3809537,
       "lon": 30.4600881
     },
     {
       "id": "osm-way-320166844",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3839572,
@@ -481,6 +1180,8 @@
     {
       "id": "osm-way-514012292",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3929999,
@@ -489,6 +1190,8 @@
     {
       "id": "osm-way-369877072",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3627786,
@@ -497,30 +1200,48 @@
     {
       "id": "osm-way-1043253697",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Академіка Глушкова • Теремки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3731044,
       "lon": 30.4659273
     },
     {
       "id": "osm-way-993602910",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Академіка Глушкова • ВДНГ • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3741401,
       "lon": 30.475189
     },
     {
       "id": "osm-way-1148968553",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.374086,
       "lon": 30.4754823
     },
     {
+      "id": "osm-way-1513211691",
+      "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
+      "name": "Prostir Hall",
+      "address": "Prostir Hall",
+      "lat": 50.37254,
+      "lon": 30.4768546
+    },
+    {
       "id": "osm-way-566936456",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3523476,
@@ -529,6 +1250,8 @@
     {
       "id": "osm-way-496322862",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3866401,
@@ -537,14 +1260,18 @@
     {
       "id": "osm-way-516833973",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Зої Бутенко • Голосіїв • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3873971,
       "lon": 30.4871635
     },
     {
       "id": "osm-way-1193989330",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3959725,
@@ -553,6 +1280,8 @@
     {
       "id": "osm-way-41055410",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3877104,
@@ -561,6 +1290,8 @@
     {
       "id": "osm-way-516833974",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3875701,
@@ -569,6 +1300,8 @@
     {
       "id": "osm-way-643008721",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3823876,
@@ -577,22 +1310,28 @@
     {
       "id": "osm-way-1029425029",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Зої Бутенко • Голосіїв • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3890807,
       "lon": 30.4906291
     },
     {
       "id": "osm-way-1487138860",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Святослава Хороброго • Садове • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4142693,
       "lon": 30.4564234
     },
     {
       "id": "osm-way-349157168",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4254161,
@@ -601,6 +1340,8 @@
     {
       "id": "osm-way-678959170",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4212163,
@@ -609,6 +1350,8 @@
     {
       "id": "osm-way-854017611",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4263069,
@@ -617,6 +1360,8 @@
     {
       "id": "osm-way-312340454",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4295239,
@@ -625,6 +1370,8 @@
     {
       "id": "osm-way-312340458",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4296705,
@@ -633,14 +1380,18 @@
     {
       "id": "osm-way-362311154",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Чернишевського • Відрадний • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4307799,
       "lon": 30.4328305
     },
     {
       "id": "osm-way-375692568",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4431016,
@@ -649,30 +1400,38 @@
     {
       "id": "osm-way-925623637",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Ушинського • Чоколівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4279984,
       "lon": 30.4438577
     },
     {
       "id": "osm-way-402792631",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Авіаконструктора Антонова • Чоколівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.432701,
       "lon": 30.4536372
     },
     {
       "id": "osm-way-127755536",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Івана Світличного • Караваєві Дачі • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4367537,
       "lon": 30.4534468
     },
     {
       "id": "osm-way-1005584917",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4429695,
@@ -681,14 +1440,18 @@
     {
       "id": "osm-way-1083428112",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Польова вулиця • Казенні дачі • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4457072,
       "lon": 30.4521875
     },
     {
       "id": "osm-way-346019303",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4490413,
@@ -697,14 +1460,18 @@
     {
       "id": "osm-way-235861061",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Яблунева вулиця • Совки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4048004,
       "lon": 30.4856361
     },
     {
       "id": "osm-way-513816864",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4150617,
@@ -713,6 +1480,8 @@
     {
       "id": "osm-way-552821871",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4201518,
@@ -721,46 +1490,58 @@
     {
       "id": "osm-way-925623638",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Олексіївська вулиця • Олександрівська Слобідка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4243088,
       "lon": 30.4764332
     },
     {
       "id": "osm-way-629502039",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Римська вулиця • Деміївка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4040746,
       "lon": 30.5113322
     },
     {
       "id": "osm-way-402136058",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Фрометівська вулиця • Деміївка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4103815,
       "lon": 30.5123245
     },
     {
       "id": "osm-way-687121707",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Соломʼянська вулиця • Олександрівська Слобідка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.421116,
       "lon": 30.4897511
     },
     {
       "id": "osm-way-690196593",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Дениса Монастирського • Богданів яр • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4340447,
       "lon": 30.4726674
     },
     {
       "id": "osm-way-1178695259",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4307573,
@@ -769,6 +1550,8 @@
     {
       "id": "osm-way-1176142463",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4487108,
@@ -777,6 +1560,8 @@
     {
       "id": "osm-way-1180450103",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4488169,
@@ -785,6 +1570,8 @@
     {
       "id": "osm-way-477949686",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4504723,
@@ -793,6 +1580,8 @@
     {
       "id": "osm-way-1039666916",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4373137,
@@ -801,6 +1590,8 @@
     {
       "id": "osm-way-33729652",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4388045,
@@ -809,22 +1600,28 @@
     {
       "id": "osm-way-181672490",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Жилянська вулиця • Нова Забудова • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4349786,
       "lon": 30.5042037
     },
     {
       "id": "osm-way-131245829",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Павлівська вулиця • Лукʼянівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4522754,
       "lon": 30.4930216
     },
     {
       "id": "osm-way-891733675",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4468837,
@@ -833,14 +1630,18 @@
     {
       "id": "osm-way-581929429",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Шкільна вулиця • Деміївка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4005875,
       "lon": 30.5171419
     },
     {
       "id": "osm-way-341614099",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.3965047,
@@ -849,14 +1650,18 @@
     {
       "id": "osm-way-1149614349",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Іжкарська вулиця • 11-й мікрорайон Позняків • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.3974855,
       "lon": 30.6129433
     },
     {
       "id": "osm-way-1043856480",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.404438,
@@ -865,14 +1670,18 @@
     {
       "id": "osm-way-1246969200",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Голосіївська вулиця • Деміївка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4009132,
       "lon": 30.5196168
     },
     {
       "id": "osm-way-319686500",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4115571,
@@ -881,6 +1690,8 @@
     {
       "id": "osm-way-383281381",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4160884,
@@ -889,6 +1700,8 @@
     {
       "id": "osm-way-421476656",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4195686,
@@ -897,6 +1710,8 @@
     {
       "id": "osm-way-693889631",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.414492,
@@ -905,174 +1720,218 @@
     {
       "id": "osm-way-192061351",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "бульвар Лесі Українки • Царське Село • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4237794,
       "lon": 30.5451798
     },
     {
       "id": "osm-way-192061352",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "бульвар Лесі Українки • Царське Село • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4238695,
       "lon": 30.5453497
     },
     {
       "id": "osm-way-284392319",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Василя Тютюнника • Клов • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4292168,
       "lon": 30.5208411
     },
     {
       "id": "osm-way-261140267",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Богдана Хмельницького • Центр • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4466642,
       "lon": 30.515054
     },
     {
       "id": "osm-way-33631554",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Виноградний провулок • Левашовська Гора • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4419924,
       "lon": 30.5357658
     },
     {
       "id": "osm-way-1182136290",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Причальна вулиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4133039,
       "lon": 30.5987472
     },
     {
       "id": "osm-way-1182136291",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Причальна вулиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4133402,
       "lon": 30.5985344
     },
     {
       "id": "osm-way-358100505",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Анни Ахматової • 9-й мікрорайон Позняків • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4047681,
       "lon": 30.6181706
     },
     {
       "id": "osm-way-110342971",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Урлівська вулиця • 3-й мікрорайон Позняків • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4081677,
       "lon": 30.6170788
     },
     {
       "id": "osm-way-1389266429",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Здолбунівська вулиця • Позняки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4130901,
       "lon": 30.6159142
     },
     {
       "id": "osm-way-821623061",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Березняківська вулиця • Березняки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4227075,
       "lon": 30.5952814
     },
     {
       "id": "osm-way-753943146",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "проспект Павла Тичини • Березняки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4267691,
       "lon": 30.6059188
     },
     {
       "id": "osm-way-333164595",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Березняківська вулиця • Березняки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.426019,
       "lon": 30.6113321
     },
     {
       "id": "osm-way-700800884",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Русанівський бульвар • Русанівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.439835,
       "lon": 30.5938171
     },
     {
       "id": "osm-way-954722032",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Ентузіастів • Русанівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4396737,
       "lon": 30.6035678
     },
     {
       "id": "osm-way-793650313",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "бульвар Ігоря Шамо • Русанівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4359646,
       "lon": 30.5976095
     },
     {
       "id": "osm-way-351976604",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Березняківська вулиця • Березняки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4351693,
       "lon": 30.6117615
     },
     {
       "id": "osm-way-926165978",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Вифлеємська вулиця • Дарницький масив • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4363168,
       "lon": 30.6150633
     },
     {
       "id": "osm-way-303486826",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "бульвар Ігоря Шамо • Русанівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4412792,
       "lon": 30.5955184
     },
     {
       "id": "osm-way-1189827644",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Миколи Шпака • Васильчики • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.459793,
       "lon": 30.432158
     },
     {
       "id": "osm-way-487996257",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Ружинська вулиця • Вовча Гора • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.469256,
       "lon": 30.4123246
     },
     {
       "id": "osm-way-170633261",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4668884,
@@ -1081,14 +1940,18 @@
     {
       "id": "osm-way-683762595",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Ружинська вулиця, 30-32 • Нивки • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4693147,
       "lon": 30.4170449
     },
     {
       "id": "osm-way-182750039",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4739824,
@@ -1097,6 +1960,8 @@
     {
       "id": "osm-way-173535701",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4655746,
@@ -1105,14 +1970,18 @@
     {
       "id": "osm-way-302375064",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Дегтярівська вулиця • Шулявка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4631464,
       "lon": 30.4443446
     },
     {
       "id": "osm-way-164393530",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4725714,
@@ -1121,14 +1990,18 @@
     {
       "id": "osm-way-899803689",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Щусєва • Дорогожичі • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4752903,
       "lon": 30.4414328
     },
     {
       "id": "osm-way-1094646440",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4846263,
@@ -1137,30 +2010,48 @@
     {
       "id": "osm-way-435216976",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Сирецька вулиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.487785,
       "lon": 30.4229137
     },
     {
       "id": "osm-way-1184338404",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.505392,
       "lon": 30.4102331
     },
     {
+      "id": "osm-way-1504310206",
+      "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
+      "name": "Баскетбольний майданчик",
+      "address": "Київ (адреса невідома)",
+      "lat": 50.5000656,
+      "lon": 30.4318097
+    },
+    {
       "id": "osm-way-435229630",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "Білицька вулиця • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4917997,
       "lon": 30.4358256
     },
     {
       "id": "osm-way-298294286",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
       "address": "Київ (адреса невідома)",
       "lat": 50.4816666,
@@ -1169,450 +2060,12 @@
     {
       "id": "osm-way-854017610",
       "sport": "basketball",
+      "typeLabel": "Баскетбол",
+      "badgeClassName": "court-type-badge badge-basket",
       "name": "Баскетбольний майданчик",
-      "address": "вулиця Богдана Гаврилишина • Лукʼянівка • Київ",
+      "address": "Київ (адреса невідома)",
       "lat": 50.4530494,
       "lon": 30.4674935
-    },
-    {
-      "id": "osm-way-468709014",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4613417,
-      "lon": 30.4777522
-    },
-    {
-      "id": "osm-way-331569814",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4705817,
-      "lon": 30.4715637
-    },
-    {
-      "id": "osm-way-445118344",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "вулиця Юрія Іллєнка • Загорівщина • Київ",
-      "lat": 50.4711581,
-      "lon": 30.467918
-    },
-    {
-      "id": "osm-way-1232042724",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Половецька вулиця • Кмитів Яр • Київ",
-      "lat": 50.4686019,
-      "lon": 30.4847057
-    },
-    {
-      "id": "osm-way-243361221",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Овруцька вулиця • Загорівщина • Київ",
-      "lat": 50.4731838,
-      "lon": 30.4771906
-    },
-    {
-      "id": "osm-way-349929976",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Межигірська вулиця • Поділ • Київ",
-      "lat": 50.4700889,
-      "lon": 30.5108209
-    },
-    {
-      "id": "osm-way-543527641",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4706585,
-      "lon": 30.5077983
-    },
-    {
-      "id": "osm-way-848795430",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Введенська вулиця • Поділ • Київ",
-      "lat": 50.4731833,
-      "lon": 30.5128007
-    },
-    {
-      "id": "osm-way-1427605380",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Копилівська вулиця • Куренівка • Київ",
-      "lat": 50.4867393,
-      "lon": 30.4680949
-    },
-    {
-      "id": "osm-way-1137874014",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4975095,
-      "lon": 30.4670389
-    },
-    {
-      "id": "osm-way-778546446",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Оболонський проспект • Почайна • Київ",
-      "lat": 50.4979807,
-      "lon": 30.4971302
-    },
-    {
-      "id": "osm-way-543250332",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4976676,
-      "lon": 30.5099895
-    },
-    {
-      "id": "osm-way-104584269",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5014719,
-      "lon": 30.5120967
-    },
-    {
-      "id": "osm-way-395542242",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5036049,
-      "lon": 30.5100611
-    },
-    {
-      "id": "osm-way-1275003716",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5000639,
-      "lon": 30.5097915
-    },
-    {
-      "id": "osm-way-1353673468",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5069031,
-      "lon": 30.4189341
-    },
-    {
-      "id": "osm-way-1212502161",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "проспект Георгія Гонгадзе • 2-й мікрорайон Виноградаря • Київ",
-      "lat": 50.5144714,
-      "lon": 30.4194041
-    },
-    {
-      "id": "osm-way-1353673475",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5133247,
-      "lon": 30.4172328
-    },
-    {
-      "id": "osm-way-157676188",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5150435,
-      "lon": 30.425633
-    },
-    {
-      "id": "osm-way-439847987",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5161305,
-      "lon": 30.4304359
-    },
-    {
-      "id": "osm-way-439847988",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5162907,
-      "lon": 30.4287596
-    },
-    {
-      "id": "osm-way-1013893355",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Западинська вулиця • Западинка • Київ",
-      "lat": 50.5081847,
-      "lon": 30.440842
-    },
-    {
-      "id": "osm-way-146942311",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Автозаводська вулиця • Пріорка • Київ",
-      "lat": 50.5126726,
-      "lon": 30.4553521
-    },
-    {
-      "id": "osm-way-590948727",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Полярна вулиця • Мінський масив • Київ",
-      "lat": 50.5198849,
-      "lon": 30.4599757
-    },
-    {
-      "id": "osm-way-369591708",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5146916,
-      "lon": 30.4636376
-    },
-    {
-      "id": "osm-way-473874184",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5126847,
-      "lon": 30.4867902
-    },
-    {
-      "id": "osm-way-80346651",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5106414,
-      "lon": 30.494047
-    },
-    {
-      "id": "osm-way-80346654",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Оболонський проспект • Оболонь • Київ",
-      "lat": 50.5089081,
-      "lon": 30.4967622
-    },
-    {
-      "id": "osm-way-472521103",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5162939,
-      "lon": 30.5005724
-    },
-    {
-      "id": "osm-way-518330020",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5074715,
-      "lon": 30.5041471
-    },
-    {
-      "id": "osm-way-539302645",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5057535,
-      "lon": 30.5034987
-    },
-    {
-      "id": "osm-way-1094456182",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5084142,
-      "lon": 30.5032231
-    },
-    {
-      "id": "osm-way-548881542",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Оболонська набережна • Оболонь • Київ",
-      "lat": 50.5078863,
-      "lon": 30.5113422
-    },
-    {
-      "id": "osm-way-349215699",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5171077,
-      "lon": 30.5059449
-    },
-    {
-      "id": "osm-way-628241814",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Прирічна вулиця • Оболонь • Київ",
-      "lat": 50.5135954,
-      "lon": 30.5117243
-    },
-    {
-      "id": "osm-way-605019488",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5208597,
-      "lon": 30.4903868
-    },
-    {
-      "id": "osm-way-1265555630",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.523101,
-      "lon": 30.4906896
-    },
-    {
-      "id": "osm-way-443476853",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5264016,
-      "lon": 30.4917326
-    },
-    {
-      "id": "osm-way-477175212",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "вулиця Героїв Дніпра • Оболонь • Київ",
-      "lat": 50.5188743,
-      "lon": 30.5062924
-    },
-    {
-      "id": "osm-way-478666145",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.524649,
-      "lon": 30.5036542
-    },
-    {
-      "id": "osm-way-614499547",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.5216501,
-      "lon": 30.5110216
-    },
-    {
-      "id": "osm-way-1476121334",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4571586,
-      "lon": 30.5189468
-    },
-    {
-      "id": "osm-way-152286773",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4671304,
-      "lon": 30.5183978
-    },
-    {
-      "id": "osm-way-567065922",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.491813,
-      "lon": 30.5190767
-    },
-    {
-      "id": "osm-way-601364013",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4920405,
-      "lon": 30.5144043
-    },
-    {
-      "id": "osm-way-601166701",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4918789,
-      "lon": 30.5285037
-    },
-    {
-      "id": "osm-way-272698694",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4943345,
-      "lon": 30.5158248
-    },
-    {
-      "id": "osm-way-383985681",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4971929,
-      "lon": 30.5164693
-    },
-    {
-      "id": "osm-way-601389948",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4936835,
-      "lon": 30.519171
-    },
-    {
-      "id": "osm-way-383995593",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4949409,
-      "lon": 30.5220126
-    },
-    {
-      "id": "osm-way-384023283",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4929476,
-      "lon": 30.5240672
-    },
-    {
-      "id": "osm-way-796565714",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4972864,
-      "lon": 30.5251249
-    },
-    {
-      "id": "osm-way-383993469",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4972609,
-      "lon": 30.5199506
-    },
-    {
-      "id": "osm-way-339214724",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4992792,
-      "lon": 30.5179819
-    },
-    {
-      "id": "osm-way-383982973",
-      "sport": "basketball",
-      "name": "Баскетбольний майданчик",
-      "address": "Київ (адреса невідома)",
-      "lat": 50.4993317,
-      "lon": 30.5139668
     }
   ]
 }
