@@ -1,5 +1,7 @@
 const DEFAULT_IMAGE =
   'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80';
+const VOLLEYBALL_IMAGE =
+  'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80';
 
 const DEFAULT_STATUS_TEXT = 'Зараз: Невідомо (OSM)';
 const DEFAULT_STATUS_DOT_CLASS = 'dot free';
@@ -32,11 +34,13 @@ export function getCourtBadgeClassName(court) {
 
   const sport = normalizeSport(court);
   if (sport === 'football') return 'court-type-badge badge-foot';
+  if (sport === 'volleyball') return 'court-type-badge badge-volley';
   return 'court-type-badge badge-basket';
 }
 
 export function getCourtImage(court) {
   if (typeof court?.image === 'string' && court.image.trim()) return court.image;
+  if (normalizeSport(court) === 'volleyball') return VOLLEYBALL_IMAGE;
   return DEFAULT_IMAGE;
 }
 

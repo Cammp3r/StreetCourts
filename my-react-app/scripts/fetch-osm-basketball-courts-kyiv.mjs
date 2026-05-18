@@ -23,6 +23,21 @@ const DEFAULTS = {
   statusText: 'Зараз: Невідомо (OSM)',
 };
 
+const SPORT_DEFAULTS = {
+  basketball: {
+    typeLabel: 'Баскетбол',
+    badgeClassName: 'court-type-badge badge-basket',
+    fallbackName: 'Баскетбольний майданчик',
+  },
+  volleyball: {
+    typeLabel: 'Волейбол',
+    badgeClassName: 'court-type-badge badge-volley',
+    fallbackName: 'Волейбольний майданчик',
+    image:
+      'https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=200&q=80',
+  },
+};
+
 function parseArgs(argv) {
   const args = {};
   for (let i = 0; i < argv.length; i += 1) {
@@ -69,6 +84,7 @@ function buildOverpassQuery({ south, west, north, east }) {
 [out:json][timeout:90];
 (
   nwr["leisure"="pitch"]["sport"="basketball"](${bbox});
+  nwr["leisure"="pitch"]["sport"="volleyball"](${bbox});
 );
 out tags center qt;
 `;
@@ -129,9 +145,15 @@ function pickLatLon(element) {
   return null;
 }
 
-function pickName(tags) {
-  if (!tags) return 'Баскетбольний майданчик';
-  return tags['name:uk'] || tags['name'] || 'Баскетбольний майданчик';
+function pickSport(tags) {
+  const sport = String(tags?.sport ?? '').toLowerCase();
+  return sport === 'volleyball' ? 'volleyball' : 'basketball';
+}
+
+function pickName(tags, sport) {
+  const defaults = SPORT_DEFAULTS[sport] ?? SPORT_DEFAULTS.basketball;
+  if (!tags) return defaults.fallbackName;
+  return tags['name:uk'] || tags['name'] || defaults.fallbackName;
 }
 
 function buildAddress(tags) {
@@ -207,6 +229,8 @@ async function normalizeToCourt(element) {
   if (!pos) return null;
 
   const tags = element.tags ?? {};
+  const sport = pickSport(tags);
+  const defaults = SPORT_DEFAULTS[sport] ?? SPORT_DEFAULTS.basketball;
 
   let address = buildAddress(tags);
 
@@ -219,8 +243,11 @@ async function normalizeToCourt(element) {
 
   return {
     id: `osm-${element.type}-${element.id}`,
-    sport: 'basketball',
-    name: pickName(tags),
+    sport,
+    typeLabel: defaults.typeLabel,
+    badgeClassName: defaults.badgeClassName,
+    ...(defaults.image ? { image: defaults.image } : {}),
+    name: pickName(tags, sport),
     address,
     lat: pos.lat,
     lon: pos.lon,
@@ -236,6 +263,31 @@ function dedupeById(items) {
     seen.add(item.id);
     out.push(item);
   }
+  return out;
+}
+
+function limitCourtsBySport(courts, limit) {
+  if (limit === undefined || courts.length <= limit) return courts;
+
+  const grouped = new Map();
+  for (const court of courts) {
+    const sport = court?.sport || 'basketball';
+    if (!grouped.has(sport)) grouped.set(sport, []);
+    grouped.get(sport).push(court);
+  }
+
+  const groups = [...grouped.values()];
+  const out = [];
+  let index = 0;
+
+  while (out.length < limit && groups.some((group) => index < group.length)) {
+    for (const group of groups) {
+      if (out.length >= limit) break;
+      if (index < group.length) out.push(group[index]);
+    }
+    index += 1;
+  }
+
   return out;
 }
 
@@ -255,7 +307,7 @@ async function main() {
 
   const courtsWithNulls = await Promise.all(elements.map(normalizeToCourt));
   let courts = dedupeById(courtsWithNulls);
-  if (limit !== undefined) courts = courts.slice(0, limit);
+  courts = limitCourtsBySport(courts, limit);
 
   const payload = {
     generatedAt: new Date().toISOString(),
@@ -268,7 +320,7 @@ async function main() {
   await fs.mkdir(path.dirname(resolvedOut), { recursive: true });
   await fs.writeFile(resolvedOut, JSON.stringify(payload, null, 2), 'utf8');
 
-  process.stdout.write(`Saved ${courts.length} Kyiv basketball courts -> ${outPath}\n`);
+  process.stdout.write(`Saved ${courts.length} Kyiv basketball/volleyball courts -> ${outPath}\n`);
 }
 
 main().catch((err) => {

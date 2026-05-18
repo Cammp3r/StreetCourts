@@ -4,25 +4,51 @@ import { memoize } from '../utils/memoize';
 import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync } from '../utils/asyncFilter';
 import { streamArrayChunks } from '../utils/streams';
 import { getCourtBookingsCount } from '../utils/bookingStorage';
+import { memoizedFilterVolleyballCourtsForRender } from '../utils/volleyballRenderMemoize';
+
+const SPORT_FILTERS = {
+  basketball: {
+    label: 'Баскетбол',
+    matches: ['basketball', 'Баскетбол'],
+  },
+  football: {
+    label: 'Футбол',
+    matches: ['football', 'Футбол'],
+  },
+  volleyball: {
+    label: 'Волейбол',
+    matches: ['volleyball', 'Волейбол'],
+  },
+};
+
+function getCourtsCacheKey(courts) {
+  if (!Array.isArray(courts)) return '';
+
+  return courts.map((court) => `${court?.id}:${court?.sport}:${court?.typeLabel}:${court?.address}`).join('|');
+}
+
+function hasKnownAddress(court) {
+  return court?.address && court.address !== 'Київ (адреса невідома)';
+}
+
+function courtMatchesSport(court, sportFilter) {
+  return sportFilter.matches.includes(court?.sport) || sportFilter.matches.includes(court?.typeLabel);
+}
 
 function filterCourtsBySport(courts, sport) {
   if (!Array.isArray(courts)) return [];
-  
-  let filtered = courts;
-  
-  if (sport !== 'all') {
-    if (sport === 'basketball') {
-      filtered = courts.filter((court) => court?.sport === 'basketball' || court?.typeLabel === 'Баскетбол');
-    } else if (sport === 'football') {
-      filtered = courts.filter((court) => court?.sport === 'football' || court?.typeLabel === 'Футбол');
-    }
-  }
 
-  return filtered.filter((court) => court?.address && court.address !== 'Київ (адреса невідома)');
+  const sportFilter = SPORT_FILTERS[sport];
+  const filtered = sportFilter
+    ? courts.filter((court) => courtMatchesSport(court, sportFilter))
+    : courts;
+
+  return filtered.filter(hasKnownAddress);
 }
 
 const memoizedFilterCourtsBySport = memoize(filterCourtsBySport, {
   maxSize: 10,
+  keyFn: (courts, sport) => `${sport}:${getCourtsCacheKey(courts)}`,
 });
 
 export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
@@ -199,7 +225,9 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
   }, [streetSearch, filteredByCourtsPopularity]);
 
   const visibleCourts = useMemo(() => {
-    const base = memoizedFilterCourtsBySport(filteredByStreet, activeSport);
+    const base = activeSport === 'volleyball'
+      ? memoizedFilterVolleyballCourtsForRender(filteredByStreet)
+      : memoizedFilterCourtsBySport(filteredByStreet, activeSport);
 
     return base
       .map((court, index) => {
@@ -276,10 +304,16 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
             ⚽ Футбол
           </button>
           <button
+            className={`filter-btn ${activeSport === 'volleyball' ? 'active-volleyball' : ''}`}
+            onClick={() => setActiveSport('volleyball')}
+          >
+            🏐 Волейбол
+          </button>
+          <button
             className={`filter-btn ${activeSport === 'all' ? 'active-all' : ''}`}
             onClick={() => setActiveSport('all')}
           >
-            🏐 Волей
+            Усі
           </button>
         </div>
 
