@@ -4,6 +4,7 @@ import { memoize } from '../utils/memoize';
 import { filterAlphabetically, addPopularityToCourtsBatch, filterPopularityQueryAsync } from '../utils/asyncFilter';
 import { streamArrayChunks } from '../utils/streams';
 import { getCourtBookingsCount } from '../utils/bookingStorage';
+import { memoizedFilterVolleyballCourtsForRender } from '../utils/volleyballRenderMemoize';
 
 const SPORT_FILTERS = {
   basketball: {
@@ -224,7 +225,9 @@ export function Sidebar({ courts, selectedCourtId, onSelectCourt }) {
   }, [streetSearch, filteredByCourtsPopularity]);
 
   const visibleCourts = useMemo(() => {
-    const base = memoizedFilterCourtsBySport(filteredByStreet, activeSport);
+    const base = activeSport === 'volleyball'
+      ? memoizedFilterVolleyballCourtsForRender(filteredByStreet)
+      : memoizedFilterCourtsBySport(filteredByStreet, activeSport);
 
     return base
       .map((court, index) => {
