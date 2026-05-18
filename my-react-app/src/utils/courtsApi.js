@@ -1,5 +1,5 @@
 import { AUTH_METHODS, createAuthProxy } from './proxy';
-import { logResult } from './logDecorator';
+import { logWithDetails } from './logDecorator';
 
 const API_BASE = import.meta.env.VITE_COURTS_API_URL || 'http://localhost:3002/api';
 
@@ -110,7 +110,7 @@ async function readJson(response) {
   return JSON.parse(text);
 }
 
-export const fetchCourts = logResult(async function fetchCourts({ signal } = {}) {
+export const fetchCourts = logWithDetails(async function fetchCourts({ signal } = {}) {
   ensureProxyConfigured();
   const response = await courtsApiProxy.get(`${API_BASE}/courts`, { signal });
 
@@ -120,9 +120,9 @@ export const fetchCourts = logResult(async function fetchCourts({ signal } = {})
 
   const data = await readJson(response);
   return Array.isArray(data?.courts) ? data.courts : [];
-});
+}, { label: 'fetchCourts' });
 
-export async function fetchCourtById(courtId, { signal } = {}) {
+export const fetchCourtById = logWithDetails(async function fetchCourtById(courtId, { signal } = {}) {
   if (!courtId) return null;
 
   ensureProxyConfigured();
@@ -137,4 +137,4 @@ export async function fetchCourtById(courtId, { signal } = {}) {
 
   const data = await readJson(response);
   return data?.court ?? null;
-}
+}, { label: 'fetchCourtById' });
