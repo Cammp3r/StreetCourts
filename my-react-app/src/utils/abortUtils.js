@@ -17,8 +17,9 @@ export function throwIfAborted(signal) {
     throw createAbortError();
   }
 }
+import { log } from './log';
 
-export function abortableDelay(delayMs, options = {}) {
+export const abortableDelay = log({ level: 'DEBUG', label: 'abortableDelay', includeArgs: true })(function abortableDelay(delayMs, options = {}) {
   const { signal } = options;
   if (!delayMs || delayMs <= 0) {
     return Promise.resolve();
@@ -47,7 +48,7 @@ export function abortableDelay(delayMs, options = {}) {
 
     signal?.addEventListener('abort', onAbort, { once: true });
   });
-}
+});
 
 export async function yieldToEventLoop(delayMs = 0) {
   await new Promise((resolve) => setTimeout(resolve, delayMs));
