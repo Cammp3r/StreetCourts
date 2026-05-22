@@ -108,7 +108,12 @@ export function createFileTransport(filePath) {
       throw new Error('File path is required for file logging');
     }
 
-    const fs = await import('node:fs/promises');
+    if (typeof window !== 'undefined') {
+      throw new Error('File logging is only available in Node.js');
+    }
+
+    const importNodeModule = new Function('moduleName', 'return import(moduleName)');
+    const fs = await importNodeModule('node:fs/promises');
     await fs.appendFile(filePath, `${formattedMessage}\n`, 'utf8');
   };
 }
@@ -286,4 +291,3 @@ export function createLogger(defaultOptions = {}) {
     },
   };
 }
-
