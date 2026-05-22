@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   DEFAULT_TIME_SLOTS,
   getCourtBookingsCount,
@@ -7,15 +7,23 @@ import {
   getUpcomingDays,
   registerToSlot,
 } from '../utils/bookingStorage';
-import { eventEmitter } from '../utils/EventEmtiter';
-
-const COURT_REGISTERED_EVENT_PREFIX = 'court:registered';
+import { bookingEvents } from '../utils/bookingEvents';
 
 export function MiniCourtCalendar({ courtId, onRegister }) {
   const days = useMemo(() => getUpcomingDays(7), []);
   const [selectedDay, setSelectedDay] = useState(days[0]?.value || '');
   const [selectedTime, setSelectedTime] = useState(DEFAULT_TIME_SLOTS[0]);
   const [refreshTick, setRefreshTick] = useState(0);
+
+  useEffect(() => {
+    const unsubscribe = bookingEvents.subscribe((message) => {
+      if (message.type === 'booking:registered' && message.courtId === courtId) {
+        setRefreshTick((current) => current + 1);
+      }
+    });
+
+    return unsubscribe;
+  }, [courtId]);
 
   const totalRegistered = useMemo(() => {
     void refreshTick;
@@ -37,17 +45,9 @@ export function MiniCourtCalendar({ courtId, onRegister }) {
   const handleRegister = () => {
     if (!selectedDay || !selectedTime) return;
     registerToSlot(courtId, selectedDay, selectedTime);
-    setRefreshTick((current) => current + 1);
     if (onRegister) {
       onRegister({ courtId, selectedDay, selectedTime });
     }
-
-    eventEmitter.emit(`${COURT_REGISTERED_EVENT_PREFIX}:${courtId}`, {
-      courtId,
-      selectedDay,
-      selectedTime,
-      message: 'Користувач успішно зареєструвався',
-    });
   };
 
   return (

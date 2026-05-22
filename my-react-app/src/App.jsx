@@ -9,6 +9,7 @@ import { MapView } from './components/MapView';
 import { COURTS, REAL_DB_USERS } from './data/mockData';
 import { MaxPriorityQueue } from './utils/maxPriorityQueue';
 import { getCourtBookingsCount } from './utils/bookingStorage';
+import { bookingEvents } from './utils/bookingEvents';
 import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
 import { fetchCourts } from './utils/courtsApi';
 
@@ -32,6 +33,7 @@ const [borderColor, setBorderColor] = useState("#333");
 const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
 const [selectedCourtId, setSelectedCourtId] = useState(null);
 const [courts, setCourts] = useState(COURTS);
+const [bookingVersion, setBookingVersion] = useState(0);
 
 useEffect(() => {
   const colorGen = colorCycle(["red", "green", "blue"]);
@@ -164,6 +166,16 @@ useEffect(() => {
 
 
 useEffect(() => {
+  const unsubscribe = bookingEvents.subscribe((message) => {
+    if (message.type === 'booking:registered') {
+      setBookingVersion((current) => current + 1);
+    }
+  });
+
+  return unsubscribe;
+}, []);
+
+useEffect(() => {
   if (!Array.isArray(courts) || courts.length === 0) return;
 
   const courtsWithAddress = courts.filter(
@@ -224,7 +236,7 @@ useEffect(() => {
   return () => {
     stopRecommend();
   };
-}, [courts]);
+}, [bookingVersion, courts]);
 
   return (
     
