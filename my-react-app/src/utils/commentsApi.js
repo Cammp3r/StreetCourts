@@ -100,7 +100,7 @@ export const createCourtComment = log({
   level: 'INFO',
   label: 'createCourtComment',
   structured: true,
-  condition: (entry) => entry.phase === 'error' || entry.phase === 'output',
+  condition: (entry) => ['input', 'output', 'error'].includes(entry.phase),
 })(async function createCourtComment(courtId, { author, text }, { signal } = {}) {
   if (!courtId) {
     throw new Error('Не вказано майданчик');
