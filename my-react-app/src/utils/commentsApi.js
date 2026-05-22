@@ -1,3 +1,5 @@
+import { log } from './configurableLogDecorator';
+
 const API_BASE = '/api';
 
 async function readJson(response) {
@@ -94,7 +96,12 @@ export async function* streamCourtComments(courtId, { signal } = {}) {
   yield* streamNdjson(response.body, { signal });
 }
 
-export async function createCourtComment(courtId, { author, text }, { signal } = {}) {
+export const createCourtComment = log({
+  level: 'INFO',
+  label: 'createCourtComment',
+  structured: true,
+  condition: (entry) => ['input', 'output', 'error'].includes(entry.phase),
+})(async function createCourtComment(courtId, { author, text }, { signal } = {}) {
   if (!courtId) {
     throw new Error('Не вказано майданчик');
   }
@@ -114,4 +121,4 @@ export async function createCourtComment(courtId, { author, text }, { signal } =
 
   const data = await readJson(response);
   return data?.comment ?? null;
-}
+});
