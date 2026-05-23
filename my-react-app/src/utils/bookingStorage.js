@@ -1,4 +1,5 @@
 import { MaxPriorityQueue } from './maxPriorityQueue';
+import { bookingEvents } from './bookingEvents';
 
 const BOOKINGS_STORAGE_KEY = 'streetcourts-bookings-v1';
 
@@ -145,6 +146,16 @@ export function registerToSlot(courtId, day, timeSlot) {
   };
 
   window.localStorage.setItem(BOOKINGS_STORAGE_KEY, JSON.stringify(nextBookings));
+  bookingEvents.publish({
+    type: 'booking:registered',
+    courtId,
+    day,
+    timeSlot,
+    previousCount: currentCount,
+    nextCount,
+    totalCount: getCourtBookingsCount(courtId),
+    message: 'Користувач успішно зареєструвався',
+  });
   return nextCount;
 }
 
