@@ -8,9 +8,7 @@ import {
   getCourtTypeLabel,
 } from "../utils/courtPresentation";
 import { MiniCourtCalendar } from './MiniCourtCalendar';
-import { eventEmitter } from '../utils/EventEmtiter';
-
-const COURT_REGISTERED_EVENT_PREFIX = 'court:registered';
+import { bookingEvents } from '../utils/bookingEvents';
 
 export function CourtCardMini({ court, isSelected = false, onSelect }) {
   const [statusMessage, setStatusMessage] = useState('');
@@ -24,25 +22,23 @@ export function CourtCardMini({ court, isSelected = false, onSelect }) {
   useEffect(() => {
     if (!court?.id) return undefined;
 
-    const eventName = `${COURT_REGISTERED_EVENT_PREFIX}:${court.id}`;
+    const unsubscribe = bookingEvents.subscribe((message) => {
+      if (message.type !== 'booking:registered' || message.courtId !== court.id) return;
 
-    const handleRegister = (payload) => {
       if (messageTimerRef.current) {
         window.clearTimeout(messageTimerRef.current);
       }
 
-      setStatusMessage(payload?.message || 'Користувач успішно зареєструвався');
+      setStatusMessage(message.message || 'Користувач успішно зареєструвався');
 
       messageTimerRef.current = window.setTimeout(() => {
         setStatusMessage('');
         messageTimerRef.current = null;
       }, 2500);
-    };
-
-    eventEmitter.setListener(eventName, handleRegister);
+    });
 
     return () => {
-      eventEmitter.clearListener(eventName);
+      unsubscribe();
 
       if (messageTimerRef.current) {
         window.clearTimeout(messageTimerRef.current);
