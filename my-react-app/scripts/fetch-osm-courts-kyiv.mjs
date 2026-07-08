@@ -14,11 +14,34 @@ const OVERPASS_ENDPOINTS = [
   'https://overpass.nchc.org.tw/api/interpreter',
 ];
 
-const DEFAULTS = {
-  typeLabel: 'Баскетбол',
-  badgeClassName: 'court-type-badge badge-basket',
-  image:
-    'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80',
+const OSM_SPORT_TO_INTERNAL = {
+  basketball: 'basketball',
+  soccer: 'football',
+  volleyball: 'volleyball',
+};
+
+const SPORT_DEFAULTS = {
+  basketball: {
+    typeLabel: 'Баскетбол',
+    badgeClassName: 'court-type-badge badge-basket',
+    image: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=200&q=80',
+    fallbackName: 'Баскетбольний майданчик',
+  },
+  football: {
+    typeLabel: 'Футбол',
+    badgeClassName: 'court-type-badge badge-foot',
+    image: 'https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?auto=format&fit=crop&w=200&q=80',
+    fallbackName: 'Футбольний майданчик',
+  },
+  volleyball: {
+    typeLabel: 'Волейбол',
+    badgeClassName: 'court-type-badge badge-volley',
+    image: 'https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=200&q=80',
+    fallbackName: 'Волейбольний майданчик',
+  },
+};
+
+const STATUS_DEFAULTS = {
   statusDotClassName: 'dot free',
   statusText: 'Зараз: Невідомо (OSM)',
 };
@@ -64,11 +87,13 @@ function buildUserAgent() {
 
 function buildOverpassQuery({ south, west, north, east }) {
   const bbox = `${south},${west},${north},${east}`;
+  const sports = Object.keys(OSM_SPORT_TO_INTERNAL);
+  const clauses = sports.map((sport) => `  nwr["leisure"="pitch"]["sport"="${sport}"](${bbox});`).join('\n');
 
   return `
 [out:json][timeout:90];
 (
-  nwr["leisure"="pitch"]["sport"="basketball"](${bbox});
+${clauses}
 );
 out tags center qt;
 `;
@@ -129,9 +154,10 @@ function pickLatLon(element) {
   return null;
 }
 
-function pickName(tags) {
-  if (!tags) return 'Баскетбольний майданчик';
-  return tags['name:uk'] || tags['name'] || 'Баскетбольний майданчик';
+function pickName(tags, sport) {
+  const fallbackName = SPORT_DEFAULTS[sport]?.fallbackName || 'Спортивний майданчик';
+  if (!tags) return fallbackName;
+  return tags['name:uk'] || tags['name'] || fallbackName;
 }
 
 function buildAddress(tags) {
@@ -207,6 +233,8 @@ async function normalizeToCourt(element) {
   if (!pos) return null;
 
   const tags = element.tags ?? {};
+  const sport = OSM_SPORT_TO_INTERNAL[tags.sport];
+  if (!sport) return null;
 
   let address = buildAddress(tags);
 
@@ -217,10 +245,15 @@ async function normalizeToCourt(element) {
     }
   }
 
+  const sportDefaults = SPORT_DEFAULTS[sport];
+
   return {
     id: `osm-${element.type}-${element.id}`,
-    sport: 'basketball',
-    name: pickName(tags),
+    sport,
+    typeLabel: sportDefaults.typeLabel,
+    badgeClassName: sportDefaults.badgeClassName,
+    image: sportDefaults.image,
+    name: pickName(tags, sport),
     address,
     lat: pos.lat,
     lon: pos.lon,
@@ -260,7 +293,7 @@ async function main() {
   const payload = {
     generatedAt: new Date().toISOString(),
     bbox,
-    defaults: DEFAULTS,
+    defaults: STATUS_DEFAULTS,
     courts,
   };
 
@@ -268,7 +301,14 @@ async function main() {
   await fs.mkdir(path.dirname(resolvedOut), { recursive: true });
   await fs.writeFile(resolvedOut, JSON.stringify(payload, null, 2), 'utf8');
 
-  process.stdout.write(`Saved ${courts.length} Kyiv basketball courts -> ${outPath}\n`);
+  const bySport = courts.reduce((acc, court) => {
+    acc[court.sport] = (acc[court.sport] || 0) + 1;
+    return acc;
+  }, {});
+
+  process.stdout.write(
+    `Saved ${courts.length} Kyiv courts -> ${outPath} (${JSON.stringify(bySport)})\n`
+  );
 }
 
 main().catch((err) => {

@@ -1,47 +1,36 @@
 ## Про проєкт
 
-StreetCourts — навчальний вебзастосунок на React + Vite для пошуку вуличних спортивних майданчиків у Києві. Данні про баскетбольні поля підтягуються з OpenStreetMap через Overpass API, після чого застосунок показує список майданчиків, сторінку конкретного майданчика.
+StreetCourts — карта вуличних спортивних майданчиків (баскетбол, футбол, волейбол) у Києві. Дані про майданчики підтягуються з OpenStreetMap.
 
-## Проблема яку вирішує цей застосунок
+## Проблема, яку вирішує застосунок
 
-Якщо ти хочешь пограти на площадці в баскетбол волейбол або футбол то доволі часто буває, що немає людей. Завдяки цьому застосунку ти будеш знати на якій площадці є люди і скільки їх.
+Хочеш пограти в баскетбол, футбол чи волейбол на вуличному майданчику — але часто незрозуміло, чи будуть там інші люди. StreetCourts дозволяє зареєструватися на конкретний день і час гри на площадці — цю реєстрацію бачать усі, хто зайде на сторінку майданчика, а також лишати коментарі під кожним майданчиком.
 
 ## Запуск (dev)
 
-- Запустити застосунок разом з JSON API для коментарів: `npm run dev`
+- Запустити все разом (Vite + сервер API + auth-проксі): `npm run dev`
 - Запустити тільки Vite: `npm run dev:vite`
-- Запустити тільки сервер коментарів: `npm run dev:comments`
+- Запустити тільки сервер API (майданчики + коментарі + реєстрації): `npm run dev:server`
+- Запустити тільки auth-проксі (Google OAuth) — див. `AUTHENTICATION.md` для налаштування `.env`: `npm run start:auth`
+- Оновити локальну базу майданчиків Києва з OpenStreetMap (баскетбол/футбол/волейбол): `npm run fetch:courts:kyiv`
 
-## Task 8: Authentication Proxy для API майданчиків
+## Архітектура
 
-Утиліта auth proxy підключена до API майданчиків у `src/utils/courtsApi.js`.
+- `scripts/server.mjs` — один Node-процес: віддає API майданчиків, API коментарів/реєстрацій (зберігання у JSON-файлах у `data/`) і, в проді, статичну збірку фронтенда (`dist/`). Один процес = один origin = не треба налаштовувати CORS між фронтендом і цим API.
+- `scripts/auth-proxy.mjs` — окремий сервіс для Google OAuth (видає підписаний JWT). Окремий, бо містить секрети Google і логіку OAuth-редіректів; фронтенд ходить до нього крос-origin через `fetch('/auth/verify')`, тому CORS-заголовки там теж налаштовані.
 
-Підтримувані методи:
+## Авторизація
 
-- `JWT`
-- `OAUTH`
-- `API_KEY`
+Вхід через Google обробляє `scripts/auth-proxy.mjs`, який видає підписаний JWT. Фронтенд перевіряє токен через `/auth/verify` на бекенді (а не просто розкодовує його на клієнті), тож підроблений токен у `localStorage` не залогінить користувача. Деталі налаштування — у `AUTHENTICATION.md`.
 
-Налаштування через `.env`:
+## Деплой
 
-- `VITE_COURTS_API_AUTH_METHOD` (`JWT`, `OAUTH`, `API_KEY`)
-- `VITE_COURTS_API_TOKEN` (для `JWT`/`OAUTH`)
-- `VITE_COURTS_API_TOKEN_TYPE` (за замовчуванням `Bearer`)
-- `VITE_COURTS_API_AUTH_HEADER` (за замовчуванням `Authorization`)
-- `VITE_COURTS_API_KEY` (для `API_KEY`)
-- `VITE_COURTS_API_KEY_HEADER` (за замовчуванням `x-api-key`)
-- `VITE_COURTS_API_KEY_QUERY_PARAM` (опційно, якщо API key треба передавати як query param)
-- `VITE_COURTS_API_REFRESH_URL` (опційно, endpoint для auto-refresh токена при `401`)
-- `VITE_COURTS_API_RATE_LIMIT_REQUESTS` (опційно, ліміт запитів за вікно)
-- `VITE_COURTS_API_RATE_LIMIT_WINDOW_MS` (опційно, тривалість вікна в мс)
-- `VITE_COURTS_API_LOGGING` (`false`, щоб вимкнути логування)
+1. `npm run build` — збирає фронтенд у `dist/`.
+2. `npm run start` (= `node scripts/server.mjs`) — піднімає постійно працюючий процес, який одночасно віддає збірку і API. **Важливо**: коментарі й реєстрації зберігаються у JSON-файлах на диску (`data/comments.db.json`, `data/checkins.db.json`), тож хостинг має бути з постійним диском і довготривалим процесом (VPS, Render/Railway "Web Service", Fly.io тощо) — а не serverless-функції (Vercel/Netlify Functions), де файлова система ефемерна і дані губляться між запитами.
+3. Окремо задеплойте `node scripts/auth-proxy.mjs` (`npm run start:auth`) для Google-логіну — це може бути другий сервіс на тому ж хостингу з іншим портом/доменом. Налаштуйте `GOOGLE_CLIENT_ID/SECRET`, `JWT_SECRET`, `FRONTEND_URL`, `SERVER_ORIGIN` у `.env` цього сервісу (`AUTHENTICATION.md`), і `VITE_AUTH_BASE` на фронтенді, щоб він знав, куди звертатись.
+4. Без auth-проксі застосунок все одно повністю робочий — реєстрація на гру і коментарі не вимагають входу (гостьове ім'я).
 
-Динамічна зміна стратегії під час runtime:
+## Env-змінні
 
-- `configureCourtsApiAuth(strategy)`
-- `setCourtsApiAuthMethod(method, credential, options)`
-
-Метрики проксі:
-
-- `getCourtsApiProxyMetrics()`
-- `resetCourtsApiProxyMetrics()`
+- `VITE_COURTS_API_URL` — адреса API майданчиків/коментарів/реєстрацій (за замовчуванням `/api`, тобто той самий origin, що й фронтенд)
+- `VITE_AUTH_BASE` — адреса auth-проксі (за замовчуванням `http://localhost:4000`)

@@ -1,59 +1,98 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   DEFAULT_TIME_SLOTS,
-  getCourtBookingsCount,
+  createCheckin,
+  fetchCourtCheckins,
   getRecommendedTimeSlots,
-  getSlotBookingsCount,
   getUpcomingDays,
-  registerToSlot,
-} from '../utils/bookingStorage';
-import { eventEmitter } from '../utils/EventEmtiter';
+  isSlotInFuture,
+} from '../utils/checkinsApi';
 
-const COURT_REGISTERED_EVENT_PREFIX = 'court:registered';
+const GUEST_NAME_STORAGE_KEY = 'sc_checkin_name';
 
-export function MiniCourtCalendar({ courtId, onRegister }) {
+export function MiniCourtCalendar({ courtId, userName }) {
   const days = useMemo(() => getUpcomingDays(7), []);
   const [selectedDay, setSelectedDay] = useState(days[0]?.value || '');
-  const [selectedTime, setSelectedTime] = useState(DEFAULT_TIME_SLOTS[0]);
-  const [refreshTick, setRefreshTick] = useState(0);
+  const [selectedTime, setSelectedTime] = useState('');
+  const [checkins, setCheckins] = useState([]);
+  const [guestName, setGuestName] = useState(
+    () => (typeof window !== 'undefined' && window.localStorage.getItem(GUEST_NAME_STORAGE_KEY)) || ''
+  );
+  const [statusMessage, setStatusMessage] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
 
-  const totalRegistered = useMemo(() => {
-    void refreshTick;
-    return getCourtBookingsCount(courtId);
-  }, [courtId, refreshTick]);
+  const activeName = userName || guestName;
 
-  const selectedSlotCount = useMemo(() => {
-    void refreshTick;
-    if (!courtId || !selectedDay || !selectedTime) return 0;
-    return getSlotBookingsCount(courtId, selectedDay, selectedTime);
-  }, [courtId, selectedDay, selectedTime, refreshTick]);
+  useEffect(() => {
+    if (!courtId) return undefined;
 
-  const recommendedSlots = useMemo(() => {
-    void refreshTick;
-    if (!courtId || !selectedDay) return [];
-    return getRecommendedTimeSlots(courtId, selectedDay, 3);
-  }, [courtId, selectedDay, refreshTick]);
+    const controller = new AbortController();
 
-  const handleRegister = () => {
-    if (!selectedDay || !selectedTime) return;
-    registerToSlot(courtId, selectedDay, selectedTime);
-    setRefreshTick((current) => current + 1);
-    if (onRegister) {
-      onRegister({ courtId, selectedDay, selectedTime });
+    fetchCourtCheckins(courtId, { signal: controller.signal })
+      .then((data) => {
+        if (!controller.signal.aborted) setCheckins(data);
+      })
+      .catch((error) => {
+        if (!controller.signal.aborted) console.error('Failed to load check-ins:', error);
+      });
+
+    return () => controller.abort();
+  }, [courtId]);
+
+  const totalRegistered = checkins.length;
+
+  const availableTimeSlots = useMemo(
+    () => DEFAULT_TIME_SLOTS.filter((timeSlot) => isSlotInFuture(selectedDay, timeSlot)),
+    [selectedDay]
+  );
+
+  useEffect(() => {
+    if (availableTimeSlots.includes(selectedTime)) return;
+    setSelectedTime(availableTimeSlots[0] || '');
+  }, [availableTimeSlots, selectedTime]);
+
+  const namesForSelectedSlot = useMemo(
+    () => checkins.filter((item) => item.day === selectedDay && item.timeSlot === selectedTime).map((item) => item.userName),
+    [checkins, selectedDay, selectedTime]
+  );
+
+  const recommendedSlots = useMemo(
+    () => getRecommendedTimeSlots(checkins, selectedDay, 3),
+    [checkins, selectedDay]
+  );
+
+  const handleRegister = async () => {
+    const trimmedName = activeName.trim();
+    if (!trimmedName || !selectedDay || !selectedTime || isRegistering) return;
+
+    if (!userName) {
+      window.localStorage.setItem(GUEST_NAME_STORAGE_KEY, trimmedName);
+      setGuestName(trimmedName);
     }
 
-    eventEmitter.emit(`${COURT_REGISTERED_EVENT_PREFIX}:${courtId}`, {
-      courtId,
-      selectedDay,
-      selectedTime,
-      message: 'Користувач успішно зареєструвався',
-    });
+    setIsRegistering(true);
+    try {
+      const data = await createCheckin(courtId, {
+        userName: trimmedName,
+        day: selectedDay,
+        timeSlot: selectedTime,
+      });
+
+      setCheckins(data?.checkins || []);
+      setStatusMessage('Ви зареєстровані на гру');
+      window.setTimeout(() => setStatusMessage(''), 2500);
+    } catch (error) {
+      setStatusMessage(error.message || 'Не вдалося зареєструватися');
+      window.setTimeout(() => setStatusMessage(''), 2500);
+    } finally {
+      setIsRegistering(false);
+    }
   };
 
   return (
     <div className="mini-calendar">
       <div className="mini-calendar-header">
-        <div className="mini-calendar-title">Міні-календар</div>
+        <div className="mini-calendar-title">Реєстрація на гру</div>
         <div className="mini-calendar-total">Зареєстровано: {totalRegistered}</div>
       </div>
 
@@ -72,39 +111,68 @@ export function MiniCourtCalendar({ courtId, onRegister }) {
       </div>
 
       <div className="mini-calendar-times">
-        {DEFAULT_TIME_SLOTS.map((timeSlot) => (
-          <button
-            key={timeSlot}
-            type="button"
-            className={`mini-time-btn ${selectedTime === timeSlot ? 'active' : ''}`}
-            onClick={() => setSelectedTime(timeSlot)}
-          >
-            {timeSlot}
-          </button>
-        ))}
+        {availableTimeSlots.length > 0 ? (
+          availableTimeSlots.map((timeSlot) => (
+            <button
+              key={timeSlot}
+              type="button"
+              className={`mini-time-btn ${selectedTime === timeSlot ? 'active' : ''}`}
+              onClick={() => setSelectedTime(timeSlot)}
+            >
+              {timeSlot}
+            </button>
+          ))
+        ) : (
+          <span className="mini-slot-count">На цей день час вже минув, оберіть інший день</span>
+        )}
       </div>
 
-      <div className="mini-recommended-wrap">
-        <div className="mini-recommended-title">Рекомендовані слоти:</div>
-        <div className="mini-recommended-list">
-          {recommendedSlots.map((slot) => (
-            <button
-              key={slot.timeSlot}
-              type="button"
-              className={`mini-recommended-chip ${selectedTime === slot.timeSlot ? 'active' : ''}`}
-              onClick={() => setSelectedTime(slot.timeSlot)}
-            >
-              {slot.timeSlot} ({slot.currentCount})
-            </button>
-          ))}
+      {recommendedSlots.length > 0 && (
+        <div className="mini-recommended-wrap">
+          <div className="mini-recommended-title">Рекомендовані слоти:</div>
+          <div className="mini-recommended-list">
+            {recommendedSlots.map((slot) => (
+              <button
+                key={slot.timeSlot}
+                type="button"
+                className={`mini-recommended-chip ${selectedTime === slot.timeSlot ? 'active' : ''}`}
+                onClick={() => setSelectedTime(slot.timeSlot)}
+              >
+                {slot.timeSlot} ({slot.currentCount})
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="mini-calendar-footer">
-        <div className="mini-slot-count">На цей час: {selectedSlotCount}</div>
-        <button type="button" className="mini-register-btn" onClick={handleRegister}>
-          Зареєструватися
+        <div className="mini-slot-count">
+          На цей час: {namesForSelectedSlot.length}
+          {namesForSelectedSlot.length > 0 && (
+            <span className="mini-slot-names"> — {namesForSelectedSlot.join(', ')}</span>
+          )}
+        </div>
+
+        {!userName && (
+          <input
+            type="text"
+            className="mini-guest-name-input"
+            placeholder="Ваше ім'я"
+            value={guestName}
+            onChange={(event) => setGuestName(event.target.value)}
+          />
+        )}
+
+        <button
+          type="button"
+          className="mini-register-btn"
+          onClick={handleRegister}
+          disabled={isRegistering || !activeName.trim() || !selectedTime}
+        >
+          {isRegistering ? 'Реєстрація...' : 'Зареєструватися'}
         </button>
+
+        {statusMessage && <div className="mini-status-message">{statusMessage}</div>}
       </div>
     </div>
   );

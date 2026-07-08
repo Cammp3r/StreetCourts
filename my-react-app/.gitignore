@@ -31,3 +31,6 @@ dist-ssr
 # Local comment storage
 data/comments.db.json
 data/comments-ndjson/
+
+# Local check-in storage
+data/checkins.db.json

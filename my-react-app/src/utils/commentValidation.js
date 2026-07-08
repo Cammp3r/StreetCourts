@@ -19,6 +19,3 @@ export function canSubmitComment(commentText, existingComments = []) {
   return true;
 }
 
-// Backward-compatible export used by CourtPage.
-export const memoizedIsCommentLongEnough = canSubmitComment;
-

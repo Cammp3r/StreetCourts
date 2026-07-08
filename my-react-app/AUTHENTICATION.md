@@ -30,5 +30,6 @@ npm run dev
 5. Flow (dev): click "Увійти через Google" → Google → callback to proxy → proxy exchanges code, issues JWT and redirects back to `FRONTEND_URL` with `?token=...` → frontend stores the token in `localStorage` and shows user.
 
 Notes:
-- This implementation redirects the JWT in the URL for development simplicity. For production use set an httpOnly Secure cookie in the proxy and verify tokens server-side.
+- This implementation redirects the JWT in the URL for development simplicity. For production use set an httpOnly Secure cookie in the proxy.
+- The frontend verifies the token's signature server-side via `GET /auth/verify` before trusting it (see `App.jsx`) — it does not just decode the JWT payload client-side.
 - Set `VITE_AUTH_BASE` in Vite env if your proxy runs on a different origin.

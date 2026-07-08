@@ -4,7 +4,7 @@ const DEFAULT_IMAGE =
 const DEFAULT_STATUS_TEXT = 'Зараз: Невідомо (OSM)';
 const DEFAULT_STATUS_DOT_CLASS = 'dot free';
 
-function normalizeSport(court) {
+export function normalizeSport(court) {
   const sport = court?.sport;
   if (sport === 'basketball' || sport === 'football' || sport === 'volleyball') return sport;
 
@@ -32,6 +32,7 @@ export function getCourtBadgeClassName(court) {
 
   const sport = normalizeSport(court);
   if (sport === 'football') return 'court-type-badge badge-foot';
+  if (sport === 'volleyball') return 'court-type-badge badge-volley';
   return 'court-type-badge badge-basket';
 }
 

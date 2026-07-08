@@ -18,6 +18,20 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
 
 const app = express();
 
+// The frontend calls /auth/verify via fetch() from a different origin
+// (different port in dev, possibly a different domain in production) —
+// without CORS headers the browser blocks reading the response entirely.
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', FRONTEND_URL);
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+    return;
+  }
+  next();
+});
+
 function buildGoogleAuthUrl(redirectUri, state) {
   const u = new URL('https://accounts.google.com/o/oauth2/v2/auth');
   u.searchParams.set('client_id', CLIENT_ID);

@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { COURTS } from '../data/mockData';
-import { memoizedIsCommentLongEnough } from '../utils/commentValidation';
+import { canSubmitComment } from '../utils/commentValidation';
 import { createCourtComment, streamCourtComments } from '../utils/commentsApi';
 import { fetchCourtById } from '../utils/courtsApi';
-import { findCommentByAuthorAsync, findCommentByContentCallback } from '../utils/asyncCommentSearch';
-import { commentEmitter } from '../utils/commentEmitter';
-import { CommentActivityBanner } from '../components/CommentActivityBanner';
-import { CommentEventCounter } from '../components/CommentEventCounter';
+import { MiniCourtCalendar } from '../components/MiniCourtCalendar';
 import {
   getCourtImage,
   getCourtStatusDotClassName,
@@ -16,7 +13,7 @@ import {
 } from '../utils/courtPresentation';
 
 
-export function CourtPage() {
+export function CourtPage({ user }) {
   const { courtId } = useParams();
   const [court, setCourt] = useState(null);
   const [courtLoading, setCourtLoading] = useState(false);
@@ -36,10 +33,6 @@ export function CourtPage() {
   const [text, setText] = useState('');
   const [commentsLoading, setCommentsLoading] = useState(false);
   const [commentsError, setCommentsError] = useState('');
-  const [searchAuthor, setSearchAuthor] = useState('');
-  const [searchContent, setSearchContent] = useState('');
-  const [foundComment, setFoundComment] = useState(null);
-  const [searchMessage, setSearchMessage] = useState('');
 
   const image = getCourtImage(court);
   const typeLabel = getCourtTypeLabel(court);
@@ -133,63 +126,6 @@ export function CourtPage() {
     };
   }, [courtId]);
 
-  const handleSearchByAuthor = async (e) => {
-    e.preventDefault();
-    if (!searchAuthor.trim()) {
-      setFoundComment(null);
-      setSearchMessage('');
-      return;
-    }
-
-    try {
-      const result = await findCommentByAuthorAsync(comments, searchAuthor);
-      if (result) {
-        setFoundComment(result);
-        setSearchMessage(`✓ Знайдено коментар від ${result.author}`);
-      } else {
-        setFoundComment(null);
-        setSearchMessage(`✗ Коментарів від "${searchAuthor}" не знайдено`);
-      }
-    } catch (error) {
-      setSearchMessage(`Помилка пошуку: ${error.message}`);
-    }
-  };
-
-  const handleSearchByContent = (e) => {
-    e.preventDefault();
-    if (!searchContent.trim()) {
-      setFoundComment(null);
-      setSearchMessage('');
-      return;
-    }
-
-    findCommentByContentCallback(
-      comments,
-      searchContent,
-      (error, result) => {
-        if (error) {
-          setSearchMessage(`Помилка пошуку: ${error.message}`);
-          return;
-        }
-
-        if (result) {
-          setFoundComment(result);
-          setSearchMessage(`✓ Знайдено коментар з текстом "${searchContent}"`);
-        } else {
-          setFoundComment(null);
-          setSearchMessage(`✗ Коментарів з "${searchContent}" не знайдено`);
-        }
-      }
-    );
-  };
-
-  const clearSearch = () => {
-    setFoundComment(null);
-    setSearchMessage('');
-    setSearchAuthor('');
-    setSearchContent('');
-  };
-
   if (!court) {
     return (
       <div className="court-page">
@@ -208,7 +144,7 @@ export function CourtPage() {
     const trimmedText = text.trim();
     const trimmedAuthor = author.trim();
 
-    if (!memoizedIsCommentLongEnough(trimmedText, comments)) return;
+    if (!canSubmitComment(trimmedText, comments)) return;
 
     const saveComment = async () => {
       try {
@@ -222,12 +158,6 @@ export function CourtPage() {
           setText('');
           setAuthor('');
           setCommentsError('');
-
-          commentEmitter.emit({
-            courtId: court.id,
-            comment: savedComment,
-            message: 'Коментар успішно надіслано',
-          });
         }
       } catch {
         setCommentsError('Не вдалося зберегти коментар у JSON-базі.');
@@ -254,69 +184,12 @@ export function CourtPage() {
         </header>
 
         <section className="court-comments-section">
+          <h2 className="court-section-title">Реєстрація на гру</h2>
+          <MiniCourtCalendar courtId={court.id} userName={user?.name} />
+        </section>
+
+        <section className="court-comments-section">
           <h2 className="court-section-title">Коментарі до майданчика</h2>
-
-          <CommentEventCounter courtId={court.id} />
-          <CommentActivityBanner courtId={court.id} />
-
-          <div className="court-search-section">
-            <div className="court-search-row">
-              <form className="court-search-form" onSubmit={handleSearchByAuthor}>
-                <input
-                  type="text"
-                  placeholder="Пошук за іменем автора..."
-                  value={searchAuthor}
-                  onChange={(e) => setSearchAuthor(e.target.value)}
-                  className="court-search-input"
-                />
-                <button type="submit" className="court-search-btn">
-                  Пошук автора
-                </button>
-              </form>
-            </div>
-
-            <div className="court-search-row">
-              <form className="court-search-form" onSubmit={handleSearchByContent}>
-                <input
-                  type="text"
-                  placeholder="Пошук за змістом коментаря..."
-                  value={searchContent}
-                  onChange={(e) => setSearchContent(e.target.value)}
-                  className="court-search-input"
-                />
-                <button type="submit" className="court-search-btn">
-                  Пошук за текстом
-                </button>
-              </form>
-            </div>
-
-            {searchMessage && (
-              <div className="court-search-message">
-                <p>{searchMessage}</p>
-                {foundComment && (
-                  <button className="court-clear-search-btn" onClick={clearSearch}>
-                    Очистити пошук
-                  </button>
-                )}
-              </div>
-            )}
-
-            {foundComment && (
-              <div className="court-found-comment">
-                <article className="court-comment-card">
-                  <div className="court-comment-header">
-                    <div className="court-comment-author">{foundComment.author}</div>
-                    {foundComment.createdAt ? (
-                      <div className="court-comment-date">
-                        {formatCommentDate(foundComment.createdAt)}
-                      </div>
-                    ) : null}
-                  </div>
-                  <p className="court-comment-text">{foundComment.text}</p>
-                </article>
-              </div>
-            )}
-          </div>
 
           <form className="court-comment-form" onSubmit={handleSubmit}>
             <div className="court-comment-row">

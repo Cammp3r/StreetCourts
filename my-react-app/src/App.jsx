@@ -1,47 +1,18 @@
 import './App.css';
 import { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { arrayCycler, runEngine, colorCycle } from 'streetcourts-lib';
 import { Navbar } from './components/Navbar';
-import { LastCheckinBanner } from './components/LastCheckinBanner';
 import { Sidebar } from './components/Sidebar';
 import { MapView } from './components/MapView';
-import { COURTS, REAL_DB_USERS } from './data/mockData';
-import { MaxPriorityQueue } from './utils/maxPriorityQueue';
-import { getCourtBookingsCount } from './utils/bookingStorage';
-import { getCourtStatusDotClassName, getCourtStatusText } from './utils/courtPresentation';
+import { COURTS } from './data/mockData';
 import { fetchCourts } from './utils/courtsApi';
 
-function decodeJwtPayload(token) {
-  const payloadPart = String(token || '').split('.')[1];
-  if (!payloadPart) {
-    throw new Error('Invalid token payload');
-  }
-
-  const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
-  const paddedBase64 = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
-  const binary = atob(paddedBase64);
-  const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0));
-  return JSON.parse(new TextDecoder('utf-8').decode(bytes));
-}
-
-function App() { 
+function App() {
 const location = useLocation();
 const isCourtPage = location.pathname.startsWith('/courts/');
-const [borderColor, setBorderColor] = useState("#333");
-const [recommendedCourt, setRecommendedCourt] = useState(null); // Task1: рекомендована площадка
 const [selectedCourtId, setSelectedCourtId] = useState(null);
 const [courts, setCourts] = useState(COURTS);
 
-useEffect(() => {
-  const colorGen = colorCycle(["red", "green", "blue"]);
-  const stopColors = runEngine(colorGen, setBorderColor, 500 ); 
-
-  return () => {
-    stopColors(); // на всякий випадок очищаємо при анмаунті
-  };
-}, []);
- const [activeUser, setActiveUser] = useState('Завантаження...');
   const [user, setUser] = useState(null);
   const [profileData, setProfileData] = useState(null);
 
@@ -49,18 +20,6 @@ useEffect(() => {
     const profileId = user?.id || user?.email || user?.name;
     return profileId ? `sc_profile:${profileId}` : null;
   }, [user?.email, user?.id, user?.name]);
-
-useEffect(() => {
-  // генератор імен
-  const nameGen = arrayCycler(REAL_DB_USERS);
-
-
-  const names = runEngine(nameGen, setActiveUser, 2000); // міняємо ім'я кожні 2 сек
-
-  return () => {
-    names();
-  };
-}, []);
 
 useEffect(() => {
   if (!profileStorageKey || !user) {
@@ -112,8 +71,9 @@ const handleProfileSave = (nextProfile) => {
 };
 
 useEffect(() => {
-  try {
-    
+  const controller = new AbortController();
+
+  const bootstrapAuth = async () => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
     if (token) {
@@ -124,17 +84,35 @@ useEffect(() => {
     }
 
     const stored = localStorage.getItem('sc_token');
-    if (stored) {
-      try {
-        const payload = decodeJwtPayload(stored);
-        setUser(payload.user || null);
-      } catch (e) {
-        console.warn('Failed to parse stored token', e);
+    if (!stored) return;
+
+    try {
+      const authBase = import.meta.env.VITE_AUTH_BASE || 'http://localhost:4000';
+      const response = await fetch(`${authBase}/auth/verify?token=${encodeURIComponent(stored)}`, {
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        localStorage.removeItem('sc_token');
+        return;
+      }
+
+      const payload = await response.json();
+      if (payload?.ok && payload?.data?.user) {
+        setUser(payload.data.user);
+      } else {
+        localStorage.removeItem('sc_token');
+      }
+    } catch (e) {
+      if (!controller.signal.aborted) {
+        console.warn('Auth verification failed', e);
       }
     }
-  } catch (e) {
-    console.warn('Auth token handling error', e);
-  }
+  };
+
+  bootstrapAuth();
+
+  return () => controller.abort();
 }, []);
 
 useEffect(() => {
@@ -163,106 +141,21 @@ useEffect(() => {
 
 
 
-useEffect(() => {
-  if (!Array.isArray(courts) || courts.length === 0) return;
-
-  const courtsWithAddress = courts.filter(
-    (court) => court?.address && court.address !== 'Київ (адреса невідома)'
-  );
-
-  if (courtsWithAddress.length === 0) return;
-
-  const calculatePriority = (court) => {
-    const popularityScore = Number(court?.popularity) || 0;
-    const bookingScore = Math.min(getCourtBookingsCount(court.id), 40);
-    const statusClass = getCourtStatusDotClassName(court);
-
-    let loadBoost = 10;
-    if (statusClass.includes('busy')) loadBoost = 28;
-    if (statusClass.includes('medium')) loadBoost = 18;
-    if (statusClass.includes('free')) loadBoost = 6;
-
-    return popularityScore + bookingScore + loadBoost;
-  };
-
-  const buildQueue = () => {
-    const q = new MaxPriorityQueue();
-    courtsWithAddress.forEach((court) => {
-      q.enqueue(court, calculatePriority(court));
-    });
-    return q;
-  };
-
-  let priorityQueue = buildQueue();
-
-  function* recommendationGenerator() {
-    while (true) {
-      const next = priorityQueue.dequeue();
-      if (!next) {
-        priorityQueue = buildQueue();
-        continue;
-      }
-      yield next;
-    }
-  }
-
-  const courtsGen = recommendationGenerator();
-
-  const stopRecommend = runEngine(
-    courtsGen,
-    (court) => {
-      if (court) {
-        setRecommendedCourt({
-          ...court,
-          statusText: getCourtStatusText(court),
-        });
-      }
-    },
-    5000
-  );
-
-  return () => {
-    stopRecommend();
-  };
-}, [courts]);
-
   return (
-    
-    
     <div className={`app${isCourtPage ? ' app--court-page' : ''}`}>
       {/* навігація */}
       <Navbar user={mergedUser} setUser={setUser} onSaveProfile={handleProfileSave} />
 
-      
-
-      {/* live рамка тих хто чекіниться */}
-      {!isCourtPage && <LastCheckinBanner activeUser={activeUser} borderColor={borderColor} />}
-
-      {/* рекомендована площадка, що змінюється раз на 5 секунд */}
-      {!isCourtPage && (
-        <div className="recommended-court-banner">
-          {recommendedCourt ? (
-            <>
-              <div className="recommended-label">Рекомендована площадка</div>
-              <div className="recommended-name">{recommendedCourt.name}</div>
-              <div className="recommended-address">{recommendedCourt.address}</div>
-              <div className="recommended-status">{recommendedCourt.statusText}</div>
-            </>
-          ) : (
-            <div className="recommended-placeholder">Завантаження рекомендованої площадки...</div>
-          )}
-        </div>
-      )}
-
       {/* головний контейнер */}
       <div className="main-container">
-        
+
         {/* лівий сайдбар */}
         {!isCourtPage && (
           <Sidebar
             courts={courts}
             selectedCourtId={selectedCourtId}
             onSelectCourt={(court) => setSelectedCourtId(court?.id ?? null)}
+            user={mergedUser}
           />
         )}
 

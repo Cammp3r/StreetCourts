@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CircleMarker, MapContainer, TileLayer, useMap } from 'react-leaflet';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
-import { streamArrayChunks } from '../utils/streams';
 
 
 function RecenterOnPosition({ position, zoom, enabled = true }) {
@@ -36,13 +35,6 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
   const navigate = useNavigate();
   const fallbackCenter = useMemo(() => [50.4501, 30.5234], []); // Kyiv
   const [userPosition, setUserPosition] = useState(null);
-  const [renderedCourts, setRenderedCourts] = useState([]);
-  const courtsStreamAbortController = useRef(null);
-
-  const streamConfig = useMemo(() => ({
-    dev: { chunkSize: 5, yieldDelayMs: 16 },
-    prod: { chunkSize: 35, yieldDelayMs: 0 },
-  }), []);
 
   const courtsWithCoords = useMemo(() => {
     if (!Array.isArray(courts)) return [];
@@ -89,45 +81,6 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
     return () => navigator.geolocation.clearWatch(watchId);
   }, []);
 
-  useEffect(() => {
-    if (courtsStreamAbortController.current) {
-      courtsStreamAbortController.current.abort();
-    }
-
-    courtsStreamAbortController.current = new AbortController();
-    const signal = courtsStreamAbortController.current.signal;
-
-    const isDev = import.meta.env.DEV;
-    const config = isDev ? streamConfig.dev : streamConfig.prod;
-
-    setRenderedCourts([]);
-
-    const streamMarkers = async () => {
-      try {
-        for await (const chunk of streamArrayChunks(courtsWithCoords, {
-          chunkSize: config.chunkSize,
-          signal,
-          strategy: 'animationFrame',
-          yieldDelayMs: config.yieldDelayMs,
-        })) {
-          if (signal.aborted) return;
-          setRenderedCourts((prev) => prev.concat(chunk));
-        }
-      } catch (error) {
-        if (signal.aborted) return;
-        console.error('Error streaming map markers:', error);
-      }
-    };
-
-    streamMarkers();
-
-    return () => {
-      if (courtsStreamAbortController.current) {
-        courtsStreamAbortController.current.abort();
-      }
-    };
-  }, [courtsWithCoords, streamConfig]);
-
   const center = userPosition ?? fallbackCenter;
   const zoom = userPosition ? 15 : 12;
 
@@ -158,7 +111,7 @@ export function MapView({ courts = [], selectedCourtId, onSelectCourt }) {
             />
           ) : null}
 
-          {renderedCourts.map((court) => {
+          {courtsWithCoords.map((court) => {
             const isSelected = court.id === selectedCourtId;
 
             let color = 'var(--accent-orange)';

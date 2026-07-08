@@ -1,5 +1,5 @@
 import { Routes, Route, Link } from "react-router-dom";
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { UserProfilePage } from "../pages/UserProfile";
 import { CourtPage } from "../pages/CourtPage";
 import { ThemeToggle } from "./ThemeToggle";
@@ -61,7 +61,7 @@ export function Navbar({ user, setUser, onSaveProfile }) {
       <Routes>
         <Route path="/" element={<></>} />
         <Route path="/profile" element={<UserProfilePage user={user} onSaveProfile={onSaveProfile} />} />
-        <Route path="/courts/:courtId" element={<CourtPage />} />
+        <Route path="/courts/:courtId" element={<CourtPage user={user} />} />
         <Route path="*" element={<></>} />
       </Routes>
     </div>

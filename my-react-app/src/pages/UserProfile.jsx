@@ -1,52 +1,16 @@
 import { useMemo, useState, useEffect } from 'react';
-import { displayFriendsWithRotation } from 'streetcourts-lib';
-import { FRIENDS } from '../data/mockData';
 
 const DEFAULT_USER = {
-  name: 'Макс',
-  handle: '@max',
+  name: 'Гравець',
+  handle: '',
   city: 'Київ',
-  age: '24',
-  heightCm: '180',
-  weightKg: '78',
-  favoriteSport: '🏀 Баскетбол',
-  favoriteSports: ['🏀 Баскетбол', '⚽ Футбол'],
-  bio: 'Люблю вуличний спорт і нові майданчики. Пишу короткі відгуки після ігор.',
-  stats: {
-    checkins: 18,
-    matches: 42,
-    reviews: 7,
-  },
-  recentCheckins: [
-    {
-      id: 'kpi-1',
-      courtName: 'Поляна КПІ',
-      timeText: 'Сьогодні, 19:00',
-      statusText: 'Зібралось багато людей 🔥',
-    },
-    {
-      id: 'xpark-1',
-      courtName: 'X-Park Arena',
-      timeText: 'Вчора, 18:00',
-      statusText: 'Легка гра, вільне поле',
-    },
-  ],
-  favoriteCourts: [
-    {
-      id: 'kpi',
-      name: 'Поляна КПІ',
-      address: 'вул. Політехнічна, 14',
-      tagClassName: 'profile-tag tag-basket',
-      tagText: '🏀 Баскетбол',
-    },
-    {
-      id: 'xpark',
-      name: 'X-Park Arena',
-      address: 'Парк Муромець',
-      tagClassName: 'profile-tag tag-foot',
-      tagText: '⚽ Футбол',
-    },
-  ],
+  age: '',
+  heightCm: '',
+  weightKg: '',
+  favoriteSport: '',
+  favoriteSports: [],
+  bio: '',
+  recentCheckins: [],
 };
 
 const EMPTY_FORM = {
@@ -68,13 +32,8 @@ export function UserProfilePage({ user, onSaveProfile }) {
     return {
       ...DEFAULT_USER,
       ...user,
-      stats: {
-        ...DEFAULT_USER.stats,
-        ...(user.stats || {}),
-      },
       favoriteSports: user.favoriteSports || (user.favoriteSport ? [user.favoriteSport] : DEFAULT_USER.favoriteSports),
       recentCheckins: user.recentCheckins || DEFAULT_USER.recentCheckins,
-      favoriteCourts: user.favoriteCourts || DEFAULT_USER.favoriteCourts,
       handle: user.handle || DEFAULT_USER.handle,
       city: user.city || DEFAULT_USER.city,
       bio: user.bio || DEFAULT_USER.bio,
@@ -85,7 +44,6 @@ export function UserProfilePage({ user, onSaveProfile }) {
     };
   }, [user]);
 
-  const [currentFriend, setCurrentFriend] = useState(FRIENDS[0] || null);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [saveStatus, setSaveStatus] = useState('');
 
@@ -98,20 +56,6 @@ export function UserProfilePage({ user, onSaveProfile }) {
     const second = parts[1]?.[0] ?? '';
     return (first + second).toUpperCase();
   }, [resolvedUser.name]);
-
-  useEffect(() => {
-    const stopRotation = displayFriendsWithRotation(
-      FRIENDS,
-      (friend) => {
-        setCurrentFriend(friend);
-      },
-      3000
-    );
-
-    return () => {
-      stopRotation();
-    };
-  }, []);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -308,57 +252,21 @@ export function UserProfilePage({ user, onSaveProfile }) {
                 </section>
 
                 <section className="profile-section">
-                  <div className="profile-section-title">Останні чекіни</div>
+                  <div className="profile-section-title">Останні реєстрації на гру</div>
 
-                  <div className="profile-cards">
-                    {resolvedUser.recentCheckins.map((item) => (
-                      <article key={item.id} className="profile-card">
-                        <div className="profile-card-title">{item.courtName}</div>
-                        <div className="profile-card-subtitle">{item.timeText}</div>
-                        <div className="profile-card-text">{item.statusText}</div>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="profile-section">
-                  <div className="profile-section-title">Друзі онлайн</div>
-
-                  {currentFriend ? (
+                  {resolvedUser.recentCheckins.length > 0 ? (
                     <div className="profile-cards">
-                      <article className="profile-card" key={currentFriend.id}>
-                        <div className="profile-card-row">
-                          <div>
-                            <div className="profile-card-title">
-                              {currentFriend.sport} {currentFriend.name}
-                            </div>
-                            <div className="profile-card-subtitle">{currentFriend.handle}</div>
-                            <div className="profile-card-text">{currentFriend.status}</div>
-                          </div>
-                        </div>
-                      </article>
+                      {resolvedUser.recentCheckins.map((item) => (
+                        <article key={item.id} className="profile-card">
+                          <div className="profile-card-title">{item.courtName}</div>
+                          <div className="profile-card-subtitle">{item.timeText}</div>
+                          <div className="profile-card-text">{item.statusText}</div>
+                        </article>
+                      ))}
                     </div>
                   ) : (
-                    <p>Немає друзів онлайн</p>
+                    <p>Поки що немає реєстрацій. Зареєструйтеся на гру на сторінці майданчика.</p>
                   )}
-                </section>
-
-                <section className="profile-section">
-                  <div className="profile-section-title">Улюблені майданчики</div>
-
-                  <div className="profile-cards">
-                    {resolvedUser.favoriteCourts.map((court) => (
-                      <article key={court.id} className="profile-card">
-                        <div className="profile-card-row">
-                          <div>
-                            <div className="profile-card-title">{court.name}</div>
-                            <div className="profile-card-subtitle">{court.address}</div>
-                          </div>
-                          <span className={court.tagClassName}>{court.tagText}</span>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
                 </section>
               </div>
             </main>
